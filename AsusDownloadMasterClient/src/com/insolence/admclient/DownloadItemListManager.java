@@ -65,9 +65,14 @@ public class DownloadItemListManager {
 		return "http://" + _connectionString + "/dm_print_status.cgi?action_mode=All";
 	}
 	
-	private String sendCommandtUrlString(){
+	private String sendCommandUrlString(){
 		return "http://" + _connectionString + "/dm_apply.cgi?action_mode=DM_CTRL&dm_ctrl=%s&task_id=%s&download_type=BT";
 	}
+	
+	private String sendGroupCommandUrlString(){
+		return "http://" + _connectionString + "/dm_apply.cgi?action_mode=DM_CTRL&dm_ctrl=%s&download_type=ALL";
+	}
+	
 	private String uploadFileUrlString(){
 		return "http://" + _connectionString + "/dm_uploadbt.cgi";
 	}
@@ -118,11 +123,27 @@ public class DownloadItemListManager {
 		return downloadItems;		
 	}
 
+	public void SendGroupCommand(String command){
+		try{
+			
+			URL url = new URL(String.format(sendGroupCommandUrlString(), command));
+		    URLConnection con = (HttpURLConnection) url.openConnection();	    
+		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
+			InputStream stream = con.getInputStream();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+		}			
+	}	
 	
 	public void SendCommand(String command, String id){
 		try{
 			
-			URL url = new URL(String.format(sendCommandtUrlString(), command, id));
+			URL url = new URL(String.format(sendCommandUrlString(), command, id));
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
 		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
 			InputStream stream = con.getInputStream();
@@ -187,9 +208,10 @@ public class DownloadItemListManager {
 		
 		ArrayList<DownloadItem> result = new ArrayList<DownloadItem>();
 		
-		Matcher m = Pattern.compile("\\[([^\\[]*)\\]").matcher(data);
+		//Matcher m = Pattern.compile("\\[\"([^(\\[]*)\\]").matcher(data);
+		Matcher m = Pattern.compile("\\[((\"[^,^\"]*\"),)*(\"[^,^\"]*\")\\]").matcher(data);
     	while (m.find()){
-    	    String res = m.toMatchResult().group(1);
+    	    String res = m.toMatchResult().group(0);
     	    Matcher m2 = Pattern.compile("\"([^\"]*)\"").matcher(res);
     	    
     	    int counter = 0;
@@ -241,9 +263,7 @@ public class DownloadItemListManager {
     	    result.add(item);	
     	}
     	
-    	if (result.size() > 0){
-    		downloadItems = result;
-    	}
+    	downloadItems = result;
     	
 	}
 	
