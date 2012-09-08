@@ -2,7 +2,6 @@ package com.insolence.admclient;
 
 import java.io.File;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -84,6 +83,34 @@ public class DownloadItemListActivity extends ListActivity {
                         Preferences.class);
 	        	startActivity(settingsActivity);
 	            return true;
+	        case R.id.pause_all:
+	        	new SendCommandAsyncTask(this, "pause_all").execute();
+	     		Toast.makeText(
+	    				   this,
+	    				   "All downloads are managed to pause.", Toast.LENGTH_SHORT).show();
+	        	return true;
+	        case R.id.resume_all:
+	        	new SendCommandAsyncTask(this, "start_all").execute();
+	     		Toast.makeText(
+	    				   this,
+	    				   "All downloads are managed to start.", Toast.LENGTH_SHORT).show();
+	        	return true;
+	        case R.id.delete_finished:
+	        	final ListActivity current = this;
+				new AlertDialog.Builder(this)
+		           .setMessage("Do you really want to crear all finished downloads?")
+		           .setCancelable(false)
+		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int id) {
+		            	   new SendCommandAsyncTask(current, "clear").execute();	            	   
+		        		   Toast.makeText(
+		        				   current,
+		        				   "All finished downloads are managed to delete.", Toast.LENGTH_SHORT).show();
+		               }
+		           })
+		           .setNegativeButton("No", null)
+		           .show();        	
+	        	return true;
 	        default:
 	            return false;
         }

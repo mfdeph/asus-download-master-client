@@ -11,6 +11,11 @@ public class SendCommandAsyncTask  extends AsyncTask<Void, Void, Void>{
 	private String _command;
 	private String _id;
 	
+	public SendCommandAsyncTask(ListActivity listActivity, String command){
+		_listActivity = listActivity;
+		_command = command;
+		_id = null;
+	}
 	
 	public SendCommandAsyncTask(ListActivity listActivity, String command, String id){
 		_listActivity = listActivity;
@@ -21,7 +26,10 @@ public class SendCommandAsyncTask  extends AsyncTask<Void, Void, Void>{
 
 	@Override
 	protected Void doInBackground(Void... arg0) {
-		DownloadItemListManager.getInstance().SendCommand(_command, _id);
+		if (_id == null)
+			DownloadItemListManager.getInstance().SendGroupCommand(_command);
+		else
+			DownloadItemListManager.getInstance().SendCommand(_command, _id);
 		DownloadItemListManager.getInstance().getDownloadItems(true);
 		return null;
 	}
