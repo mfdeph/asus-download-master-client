@@ -1,9 +1,11 @@
 package com.insolence.admclient;
 
-import android.app.AlertDialog;
-import android.app.ListActivity;
+import java.util.ArrayList;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import android.content.Context;
-import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,13 +15,23 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
+public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem> {
 
-	private Context _context;
+	private SherlockFragmentActivity _context;
 	
-	public DownloadItemListAdapter(Context context) {
-		super(context, R.layout.download_item, DownloadItemListManager.getInstance().getDownloadItems(false));
-		_context = context; 
+	public DownloadItemListAdapter(SherlockFragmentActivity context) {
+		super(context, R.layout.download_item);
+		_context = context;
+	}
+	
+	public void setData(ArrayList<DownloadItem> items) {
+		clear();
+		if (items != null) {
+			items.trimToSize();
+			for (DownloadItem item:items) {
+				add(item);
+			}
+        }
 	}
 	
 	@Override
@@ -37,10 +49,11 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         nameHolder.setText(downloadItem.getName());
         
         ProgressBarTextView advancedTextView = (ProgressBarTextView) v.findViewById(R.id.progress_bar_text_view);
-        advancedTextView.setValue(Math.round(downloadItem.getPercentage()*100));
+        advancedTextView.setValue(Math.round(downloadItem.getPercentage() * 100));
         
         TextView upSpeedHolder = (TextView) v.findViewById(R.id.download_item_up_speed);
         upSpeedHolder.setText(downloadItem.getUpSpeed());
+        
         TextView downSpeedHolder = (TextView) v.findViewById(R.id.download_item_down_speed);
         downSpeedHolder.setText(downloadItem.getDownSpeed());
         
@@ -54,36 +67,24 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         timeOnHolder.setText(downloadItem.getTimeOnLine());
         
         ImageButton startButtonHolder = (ImageButton) v.findViewById(R.id.download_item_start_button);
-        startButtonHolder.setOnClickListener(
-        		new OnClickDownloadItemListener(downloadItem, "start", "is managed to start."));
+        startButtonHolder.setOnClickListener(new OnClickDownloadItemListener(downloadItem, "start", "is queued for start.", null));
         
         ImageButton pauseButtonHolder = (ImageButton) v.findViewById(R.id.download_item_pause_button);
-        pauseButtonHolder.setOnClickListener(
-        		new OnClickDownloadItemListener(downloadItem, "paused", "is managed to pause."));
+        pauseButtonHolder.setOnClickListener(new OnClickDownloadItemListener(downloadItem, "paused", "is queued for pause.", null));
         
         ImageButton deleteButtonHolder = (ImageButton) v.findViewById(R.id.download_item_delete_button);
-        deleteButtonHolder.setOnClickListener(
-        		new OnClickDownloadItemListener(downloadItem, "cancel", "is managed to delete.", "You are going to delete this torrent. Are you sure?"));
+        deleteButtonHolder.setOnClickListener(new OnClickDownloadItemListener(downloadItem, "cancel", "is queued for deletion.", "You are going to delete this torrent. Are you sure?"));
         
         return v;
 	}
-
 	
-	private class OnClickDownloadItemListener implements OnClickListener{
-		
+	private class OnClickDownloadItemListener implements OnClickListener {	
 		DownloadItem _item;
 		String _command;
 		String _postText;
 		String _alertText;
-
-		public OnClickDownloadItemListener(DownloadItem item, String command, String postText){
-			_item = item;
-			_command = command;
-			_postText = postText;
-			_alertText = null;
-		}
 		
-		public OnClickDownloadItemListener(DownloadItem item, String command, String postText, String alertText){
+		public OnClickDownloadItemListener(DownloadItem item, String command, String postText, String alertText) {
 			_item = item;
 			_command = command;
 			_postText = postText;
@@ -91,31 +92,19 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 		}
 		
 		public void onClick(View arg0) {
-			 
-			if (_alertText != null){
-				
-				new AlertDialog.Builder((ListActivity)_context)
-		           .setMessage(_alertText)
-		           .setCancelable(false)
-		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-		               public void onClick(DialogInterface dialog, int id) {
-		            	   new SendCommandAsyncTask((ListActivity)_context, _command, _item.getId()).execute();	       			
-		        		   Toast.makeText(
-		        				   _context,
-		        				   "Torrent \"" + _item.getName() + "\" " + _postText, Toast.LENGTH_SHORT).show();
-		               }
-		           })
-		           .setNegativeButton("No", null)
-		           .show();
-
-				
-			}else{
-				new SendCommandAsyncTask((ListActivity)_context, _command, _item.getId()).execute();
-				Toast.makeText(
-					   _context,
-					   "Torrent \"" + _item.getName() + "\" " + _postText, Toast.LENGTH_SHORT).show();
+			if (_alertText != null) {
+				Bundle args = new Bundle();
+        		args.putString(ConfirmDialogFragment.COMMAND, _command);
+        		args.putString(ConfirmDialogFragment.ITEM_ID, _item.getId());
+        		args.putString(ConfirmDialogFragment.DIALOG_MSG, _alertText);
+        		args.putString(ConfirmDialogFragment.TOAST_MSG, "Torrent \"" + _item.getName() + "\" " + _postText);
+        		
+        		((DownloadItemListActivity) _context).showConfirmDialog(ConfirmDialogFragment.LIST_ITEM_BUTTON_ID, args);
+			}
+			else {
+				new SendCommandAsyncTask(_context).execute(_item.getId(), _command);
+				Toast.makeText(_context, "Torrent \"" + _item.getName() + "\" " + _postText, Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
-
 }

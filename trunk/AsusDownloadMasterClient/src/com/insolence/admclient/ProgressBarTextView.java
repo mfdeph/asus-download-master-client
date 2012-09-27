@@ -32,6 +32,7 @@ public class ProgressBarTextView extends TextView {
     public synchronized void setValue(int value) {
         // Установка новой надписи
         this.setText(String.valueOf(value) + "%");
+        this.setTextColor(android.R.color.white);
         
         // Drawable, отвечающий за фон
         LayerDrawable background = (LayerDrawable) this.getBackground();
@@ -46,5 +47,4 @@ public class ProgressBarTextView extends TextView {
         // Уведомляем об изменении Drawable
         drawableStateChanged();
     }
-
 }
