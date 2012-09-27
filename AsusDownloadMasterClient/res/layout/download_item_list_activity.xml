@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-    
-    <ListView android:id="@id/android:list"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"          
-               android:drawSelectorOnTop="false"
-               android:choiceMode="singleChoice"
-               />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/RelativeLayout" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:orientation="vertical">
+
+	<TextView
+	    android:id="@+id/list_empty"
+	    style="?android:attr/progressBarStyleLarge"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_centerInParent="true"
+	    android:gravity="center"
+	    android:textColor="@android:color/black"
+	    android:textSize="13sp" />
 
-</LinearLayout>
+	<ListView android:id="@id/android:list" android:layout_width="match_parent"
+		android:layout_height="match_parent" android:choiceMode="singleChoice"
+		android:drawSelectorOnTop="false" />
+
+</RelativeLayout>
