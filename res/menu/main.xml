@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/pause_all"
+          android:icon="@android:drawable/ic_media_pause"
+          android:title="Pause all"
+          />
+    <item android:id="@+id/resume_all"
+          android:icon="@android:drawable/ic_media_play"
+          android:title="Resume all"
+          />
+    <item android:id="@+id/delete_finished"
+          android:icon="@android:drawable/ic_menu_close_clear_cancel"
+          android:title="Clear finished"
+          />
+    <item android:id="@+id/settings"
+          android:icon="@android:drawable/ic_menu_preferences"
+          android:title="Settings"
+          />
+</menu>
