@@ -23,8 +23,14 @@
 		        <action android:name="android.intent.action.VIEW" />
 		        <category android:name="android.intent.category.DEFAULT" />
 		        <category android:name="android.intent.category.BROWSABLE" />
-		        <data android:mimeType="application/x-bittorrent" />
+		        <data android:scheme="file" android:mimeType="application/x-bittorrent" />
 		    </intent-filter>
+		    <intent-filter>
+                 <action android:name="android.intent.action.VIEW" />
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <category android:name="android.intent.category.BROWSABLE" />
+                 <data android:scheme="magnet" />
+            </intent-filter>
         </activity>
         <activity
 		        android:name="com.insolence.admclient.Preferences"

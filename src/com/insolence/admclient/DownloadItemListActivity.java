@@ -1,6 +1,8 @@
 package com.insolence.admclient;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -31,35 +33,80 @@ public class DownloadItemListActivity extends SherlockListActivity {
 		DownloadItemListManager.SetPrefs(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
 	}
 	
+	@Override
+	public void onResume(){
+		super.onResume();
+		handleIntent(getIntent());
+	}
+	
+	
+	private void handleIntent(Intent intent) {
+    	
+    	Uri data = intent.getData();
+    	
+    	if (data != null && data.getScheme() != null) {
+    		
+    		if (data.getScheme().equals("magnet")) {
+    			
+    			final String link = data.toString();
+    			final String fileName = SendMagnetAsyncTask.GetFileNameFromMagnetLink(link);
+            	final ListActivity activityToTransfer = this;
+            	
+    			new AlertDialog.Builder(this)
+    	           .setMessage(String.format("Do you really want to start download \"%s\" torrent?", fileName))
+    	           .setCancelable(false)
+    	           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	               public void onClick(DialogInterface dialog, int id) {
+    	            	   new SendMagnetAsyncTask(activityToTransfer, link).execute();
+    	        		   Toast.makeText(
+    	        				   activityToTransfer,
+    	        				   "Torrent \"" + fileName + "\" is queued for download.", Toast.LENGTH_SHORT).show();
+    	               }
+    	           })
+    	           .setNegativeButton("No", null)
+    	           .show();
+    			
+    		} 
+    		else if (data.getScheme().equals("file")) {
+    			
+            	final File file = new File(data.getPath());
+            	final ListActivity activityToTransfer = this;
+            	
+    			new AlertDialog.Builder(this)
+    	           .setMessage(String.format("Do you really want to start download \"%s\" torrent?", file.getName()))
+    	           .setCancelable(false)
+    	           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	               public void onClick(DialogInterface dialog, int id) {
+    	            	   new SendFileAsyncTask(activityToTransfer, file).execute();
+    	        		   Toast.makeText(
+    	        				   activityToTransfer,
+    	        				   "Torrent \"" + file.getName() + "\" is queued for download.", Toast.LENGTH_SHORT).show();
+    	               }
+    	           })
+    	           .setNegativeButton("No", null)
+    	           .show();
+    		}	
+    		
+    		//Remove data so not called again if screen sleeps or user resumes
+    		intent.setData(null);
+    		setIntent(intent);
+    	}
+//    	else {
+//    		//Refresh list if not adding a torrent
+//    		recreateDownloadItemLoader();
+//    	}
+    }
+	
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         
         DownloadItemListManager.SetPrefs(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
         
         setContentView(R.layout.download_item_list_activity);
-        
-        Intent intent = getIntent();
-        Uri data = intent.getData();
-        if (data != null){
 
-        	final File file = new File(data.getPath());
-        	final ListActivity activityToTransfer = this;
-        	
-			new AlertDialog.Builder(this)
-	           .setMessage(String.format("Do you really want to start download \"%s\" torrent?", file.getName()))
-	           .setCancelable(false)
-	           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-	               public void onClick(DialogInterface dialog, int id) {
-	            	   new SendFileAsyncTask(activityToTransfer, file).execute();
-	        		   Toast.makeText(
-	        				   activityToTransfer,
-	        				   "Torrent \"" + file.getName() + "\" is managed to download.", Toast.LENGTH_SHORT).show();
-	               }
-	           })
-	           .setNegativeButton("No", null)
-	           .show();
-        }
         new GetDownloadItemListAsyncTask(this).execute();
         
         if (!_serviceAlreadyRun){
@@ -90,13 +137,13 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	        	new SendCommandAsyncTask(this, "pause_all").execute();
 	     		Toast.makeText(
 	    				   this,
-	    				   "All downloads are managed to pause.", Toast.LENGTH_SHORT).show();
+	    				   "All downloads are queued for pause.", Toast.LENGTH_SHORT).show();
 	        	return true;
 	        case R.id.resume_all:
 	        	new SendCommandAsyncTask(this, "start_all").execute();
 	     		Toast.makeText(
 	    				   this,
-	    				   "All downloads are managed to start.", Toast.LENGTH_SHORT).show();
+	    				   "All downloads are queued for start.", Toast.LENGTH_SHORT).show();
 	        	return true;
 	        case R.id.delete_finished:
 	        	final ListActivity current = this;
@@ -108,7 +155,7 @@ public class DownloadItemListActivity extends SherlockListActivity {
 		            	   new SendCommandAsyncTask(current, "clear").execute();	            	   
 		        		   Toast.makeText(
 		        				   current,
-		        				   "All finished downloads are managed to delete.", Toast.LENGTH_SHORT).show();
+		        				   "All finished downloads are queued for delete.", Toast.LENGTH_SHORT).show();
 		               }
 		           })
 		           .setNegativeButton("No", null)
