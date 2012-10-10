@@ -1,37 +1,24 @@
 package com.insolence.admclient;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.insolence.admclient.util.RandomGuid;
 
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Base64;
 
 public class DownloadItemListManager {
@@ -77,17 +64,12 @@ public class DownloadItemListManager {
 		return "http://" + _connectionString + "/dm_uploadbt.cgi";
 	}
 	 
-	    
-	private void loadDownloadItemList(){
+	protected String getItemList(){
 		
-
+		return "[\"1\",\"Hunger_Games_BDRIP\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Кто подставил кролика роджера.avi\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Revolution\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"ПИПЕЦ! DVDRIP\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Дооо2\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]";
 		
-		if (!_isUpdateAvailable)
-			return;
-		_isUpdateAvailable = false;
-		
-		try{
-		
+		/*try{
+			
 			URL url = new URL(getListUrlString());
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
 		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());		
@@ -97,9 +79,8 @@ public class DownloadItemListManager {
 		    String result = "";
 		    while ((temp = bufferedReader.readLine()) != null)
 		    	result += temp;
-		    	
-		    FillDownloadItems(result);
-        
+		    return result;
+	        
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -108,8 +89,18 @@ public class DownloadItemListManager {
 			e.printStackTrace();
 		}finally{
 			setDelayForNextUpdate();
-		}	
+		}
+		return "";*/
+	}
+	
+	
+	private void loadDownloadItemList(){
 		
+		if (!_isUpdateAvailable)
+			return;
+		_isUpdateAvailable = false;
+		
+		FillDownloadItems(getItemList());
 
 	}
 	
@@ -129,7 +120,7 @@ public class DownloadItemListManager {
 			URL url = new URL(String.format(sendGroupCommandUrlString(), command));
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
 		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
-			InputStream stream = con.getInputStream();
+			con.getInputStream();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -146,7 +137,7 @@ public class DownloadItemListManager {
 			URL url = new URL(String.format(sendCommandUrlString(), command, id));
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
 		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
-			InputStream stream = con.getInputStream();
+			con.getInputStream();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/download_item_background" >
         <TextView  xmlns:android="http://schemas.android.com/apk/res/android"
 		      android:id="@+id/download_item_name"
 			  android:layout_width="match_parent"
@@ -11,8 +12,7 @@
 			  android:layout_marginLeft="8dp"
 			  android:layout_marginRight="8dp"
 			  android:layout_marginBottom="0dp"
-			  android:textSize="16dp"
-			  android:textStyle="bold"
+			  android:textSize="18dp"
 			  android:ellipsize="end"
 			  android:maxLines="3"/>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,7 +38,7 @@
 		        android:layout_width="match_parent"
 		        android:layout_height="22dp" 
 		        android:gravity="center"
-		        android:background="@drawable/background" 
+		        android:background="@drawable/progressbar_background" 
 		        android:layout_marginTop="8dp"
 		        android:layout_marginBottom="8dp"
 		        android:layout_marginRight="8dp" />
@@ -74,7 +74,7 @@
 		        <TextView  xmlns:android="http://schemas.android.com/apk/res/android"
 					  android:layout_width="wrap_content"
 					  android:layout_height="wrap_content"
-					  android:text=" / "/>
+					  android:text=" | "/>
 		        <TextView  xmlns:android="http://schemas.android.com/apk/res/android"
 				      android:id="@+id/download_item_down_speed"
 					  android:layout_width="wrap_content"
@@ -112,17 +112,17 @@
 			           android:id="@+id/download_item_start_button"
 			           android:layout_width="wrap_content"
 			           android:layout_height="wrap_content"
-			           android:background="@android:drawable/ic_media_play"/>
+			           android:background="@drawable/ic_action_start"/>
 			   		<ImageButton
 			   		   android:id="@+id/download_item_pause_button"
 			           android:layout_width="wrap_content"
 			           android:layout_height="wrap_content"
-			           android:background="@android:drawable/ic_media_pause"/>
+			           android:background="@drawable/ic_action_pause"/>
 			   		<ImageButton
 			   		   android:id="@+id/download_item_delete_button"
 			           android:layout_width="wrap_content"
 			           android:layout_height="wrap_content"
-			           android:background="@android:drawable/ic_delete"/>
+			           android:background="@drawable/ic_action_delete"/>
 	        </LinearLayout>	 		        
 		</LinearLayout>
 </LinearLayout>

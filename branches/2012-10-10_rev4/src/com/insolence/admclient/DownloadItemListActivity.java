@@ -2,6 +2,12 @@ package com.insolence.admclient;
 
 import java.io.File;
 
+import com.actionbarsherlock.ActionBarSherlock;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
@@ -10,17 +16,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.Toast;
 
-public class DownloadItemListActivity extends ListActivity {
+public class DownloadItemListActivity extends SherlockListActivity {
     /** Called when the activity is first created. */
 	
 	boolean _serviceAlreadyRun = false;
-	
-	
+    
 	@Override
     public void onStart(){
 		super.onStart();
@@ -69,8 +73,7 @@ public class DownloadItemListActivity extends ListActivity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);       
+        getSupportMenuInflater().inflate(R.menu.main, menu);       
         return true;
     }
     
