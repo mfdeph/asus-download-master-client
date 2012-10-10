@@ -66,9 +66,9 @@ public class DownloadItemListManager {
 	 
 	protected String getItemList(){
 		
-		return "[\"1\",\"Hunger_Games_BDRIP\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Кто подставил кролика роджера.avi\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Revolution\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"ПИПЕЦ! DVDRIP\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Дооо2\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]";
+		/*return "[\"1\",\"Hunger_Games_BDRIP\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Кто подставил кролика роджера.avi\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Revolution\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"ПИПЕЦ! DVDRIP\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Дооо2\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]";*/
 		
-		/*try{
+		try{
 			
 			URL url = new URL(getListUrlString());
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
@@ -90,7 +90,7 @@ public class DownloadItemListManager {
 		}finally{
 			setDelayForNextUpdate();
 		}
-		return "";*/
+		return "";
 	}
 	
 	

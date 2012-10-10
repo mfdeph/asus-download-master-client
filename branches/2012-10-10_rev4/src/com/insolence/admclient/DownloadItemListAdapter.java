@@ -55,15 +55,15 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         
         ImageButton startButtonHolder = (ImageButton) v.findViewById(R.id.download_item_start_button);
         startButtonHolder.setOnClickListener(
-        		new OnClickDownloadItemListener(downloadItem, "start", "is managed to start."));
+        		new OnClickDownloadItemListener(downloadItem, "start", "is queued for start."));
         
         ImageButton pauseButtonHolder = (ImageButton) v.findViewById(R.id.download_item_pause_button);
         pauseButtonHolder.setOnClickListener(
-        		new OnClickDownloadItemListener(downloadItem, "paused", "is managed to pause."));
+        		new OnClickDownloadItemListener(downloadItem, "paused", "is queued for pause."));
         
         ImageButton deleteButtonHolder = (ImageButton) v.findViewById(R.id.download_item_delete_button);
         deleteButtonHolder.setOnClickListener(
-        		new OnClickDownloadItemListener(downloadItem, "cancel", "is managed to delete.", "You are going to delete this torrent. Are you sure?"));
+        		new OnClickDownloadItemListener(downloadItem, "cancel", "is queued for delete.", "You are going to delete this torrent. Are you sure?"));
         
         return v;
 	}

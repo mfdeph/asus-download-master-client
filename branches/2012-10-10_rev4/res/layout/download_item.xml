@@ -41,7 +41,8 @@
 		        android:background="@drawable/progressbar_background" 
 		        android:layout_marginTop="8dp"
 		        android:layout_marginBottom="8dp"
-		        android:layout_marginRight="8dp" />
+		        android:layout_marginRight="8dp"
+		        android:textSize="16dp" />
         </LinearLayout>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    android:layout_width="fill_parent"
