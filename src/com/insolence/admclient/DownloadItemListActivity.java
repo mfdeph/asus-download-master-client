@@ -33,17 +33,13 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	boolean _autorefreshEnabled = true;
 	int _autorefreshInterval = 10;
 	
+	
 	public static DownloadItemListActivity instance;
-    
-	@Override
-    public void onStart(){
-		super.onStart();
-		setPrefs();
-	}
 	
 	@Override
 	public void onResume(){
 		super.onResume();
+		setRefreshMenuButtonVisibility();
 		handleIntent(getIntent());
 	}
 	
@@ -147,15 +143,17 @@ public class DownloadItemListActivity extends SherlockListActivity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.main, menu);  
+        getSupportMenuInflater().inflate(R.menu.main, menu);
+        updateMenuItem = menu.getItem(3);
         setRefreshMenuButtonVisibility();
-        return true;
+        return super.onCreateOptionsMenu(menu);  
     }
     
+    private MenuItem updateMenuItem;
+    
     private void setRefreshMenuButtonVisibility(){
-    	View refreshButton = findViewById(R.id.refresh_list);
-    	if (refreshButton != null)
-    		refreshButton.setVisibility(_autorefreshEnabled ? View.GONE : View.VISIBLE);
+    	if (updateMenuItem != null)
+    		updateMenuItem.setVisible(!_autorefreshEnabled);
     }
     
     @Override
