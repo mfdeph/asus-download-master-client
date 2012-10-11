@@ -30,14 +30,19 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, Void>{
 		_magnetLink = magnetLink;
 	}
 	
-	public static String GetFileNameFromMagnetLink(String magnetLink){
+	public static String GetNativeFileNameFromMagnetLink(String magnetLink){
 		try {
 			return URLDecoder.decode(magnetLink.split("&dn=")[1].split("&")[0], "UTF-8");
 		} 
 		catch (UnsupportedEncodingException e) {
 			
 		}
-		return "";
+		return null;
+	}
+	
+	public static String GetValidFileNameFromMagnetLink(String magnetLink){
+		String nativeName = GetNativeFileNameFromMagnetLink(magnetLink);
+		return nativeName == null ? null : nativeName.replace(" ", "_") + ".torrent";
 	}
 	
 	@Override
@@ -55,7 +60,7 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, Void>{
 			File file = null;
 			HttpClient httpclient = null;
 			try {
-				file = new File(_listActivity.getCacheDir(), GetFileNameFromMagnetLink(magnetLink));
+				file = new File(_listActivity.getCacheDir(), GetValidFileNameFromMagnetLink(magnetLink));
 				if (file.exists()) {
 					file.delete();
 				}		

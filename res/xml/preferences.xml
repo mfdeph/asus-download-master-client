@@ -30,5 +30,21 @@
 		                android:title="Password"
 		                android:inputType="textPassword"
 		                android:key="passwordPref" />
+        </PreferenceCategory>
+        <PreferenceCategory
+                android:title="Autorefresh preferences">
+		        <CheckBoxPreference
+		                android:name="Enable autorefresh"
+		                android:summary="Enable autorefresh of torrent list by timer"
+		                android:defaultValue="true"
+		                android:title="Enable autorefresh"
+		                android:key="autorefreshEnabledPref" />
+		        <EditTextPreference
+		                android:name="Autorefresh interval"
+		                android:summary="Autorefresh interval in seconds"
+		                android:defaultValue="10"
+		                android:title="Autorefresh interval"
+		                android:inputType="number"
+		                android:key="autorefreshIntervalPref" />
         </PreferenceCategory>    
 </PreferenceScreen>
