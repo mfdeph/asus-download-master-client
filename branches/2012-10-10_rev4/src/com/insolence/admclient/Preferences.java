@@ -5,6 +5,7 @@ import com.actionbarsherlock.view.ActionProvider;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -33,7 +34,7 @@ public class Preferences extends SherlockPreferenceActivity {
 
 	@Override
 	protected void onPause() {
+		DownloadItemListActivity.instance.setPrefs();
 		super.onPause();
-		DownloadItemListManager.SetPrefs(PreferenceManager.getDefaultSharedPreferences(this));
 	}
 }

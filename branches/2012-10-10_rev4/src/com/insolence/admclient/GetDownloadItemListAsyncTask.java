@@ -34,6 +34,8 @@ public class GetDownloadItemListAsyncTask  extends AsyncTask<Void, Void, Void>{
 		if (savedPosition >= 0) { //initialized to -1
 		      list.setSelectionFromTop(savedPosition, savedListTop);
 		    }
+		
+		((DownloadItemListActivity)_listActivity).setDefaultMessageVisibility();
 
 		
 	}

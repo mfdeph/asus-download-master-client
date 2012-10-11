@@ -14,29 +14,50 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class DownloadItemListActivity extends SherlockListActivity {
     /** Called when the activity is first created. */
 	
 	boolean _serviceAlreadyRun = false;
+	
+	boolean _autorefreshEnabled = true;
+	int _autorefreshInterval = 10;
+	
+	public static DownloadItemListActivity instance;
     
 	@Override
     public void onStart(){
 		super.onStart();
-		DownloadItemListManager.SetPrefs(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
+		setPrefs();
 	}
 	
 	@Override
 	public void onResume(){
 		super.onResume();
 		handleIntent(getIntent());
+	}
+	
+	
+	public void setPrefs(){
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		DownloadItemListManager.SetPrefs(prefs);
+		_autorefreshEnabled = prefs.getBoolean("autorefreshEnabledPref", true);
+		try{
+			_autorefreshInterval = Integer.parseInt(prefs.getString("autorefreshIntervalPref", "10"));
+		}catch(NumberFormatException e){
+			
+		}
+		setRefreshMenuButtonVisibility();
 	}
 	
 	
@@ -49,7 +70,7 @@ public class DownloadItemListActivity extends SherlockListActivity {
     		if (data.getScheme().equals("magnet")) {
     			
     			final String link = data.toString();
-    			final String fileName = SendMagnetAsyncTask.GetFileNameFromMagnetLink(link);
+    			final String fileName = SendMagnetAsyncTask.GetNativeFileNameFromMagnetLink(link);
             	final ListActivity activityToTransfer = this;
             	
     			new AlertDialog.Builder(this)
@@ -97,20 +118,26 @@ public class DownloadItemListActivity extends SherlockListActivity {
 //    	}
     }
 	
+	public void setDefaultMessageVisibility(){
+		TextView textView = (TextView)findViewById(R.id.no_torrents_label);
+		textView.setVisibility(getListView().getCount() == 0 ? View.VISIBLE : View.GONE);
+	}
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         
-        DownloadItemListManager.SetPrefs(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
+        instance = this;
+        
+        setPrefs();
         
         setContentView(R.layout.download_item_list_activity);
 
         new GetDownloadItemListAsyncTask(this).execute();
         
-        if (!_serviceAlreadyRun){
-        	h.postDelayed(myRunnable, 6000);
+        if (!_serviceAlreadyRun && _autorefreshEnabled){
+        	h.postDelayed(myRunnable, _autorefreshInterval * 1000);
         	_serviceAlreadyRun = true;
         }
 
@@ -120,8 +147,15 @@ public class DownloadItemListActivity extends SherlockListActivity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.main, menu);       
+        getSupportMenuInflater().inflate(R.menu.main, menu);  
+        setRefreshMenuButtonVisibility();
         return true;
+    }
+    
+    private void setRefreshMenuButtonVisibility(){
+    	View refreshButton = findViewById(R.id.refresh_list);
+    	if (refreshButton != null)
+    		refreshButton.setVisibility(_autorefreshEnabled ? View.GONE : View.VISIBLE);
     }
     
     @Override
@@ -148,7 +182,7 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	        case R.id.delete_finished:
 	        	final ListActivity current = this;
 				new AlertDialog.Builder(this)
-		           .setMessage("Do you really want to crear all finished downloads?")
+		           .setMessage("Do you really want to clear all finished downloads?")
 		           .setCancelable(false)
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
@@ -161,6 +195,9 @@ public class DownloadItemListActivity extends SherlockListActivity {
 		           .setNegativeButton("No", null)
 		           .show();        	
 	        	return true;
+	        case R.id.refresh_list:
+	        	new GetDownloadItemListAsyncTask(context).execute();
+	     		return true;
 	        default:
 	            return false;
         }
@@ -175,7 +212,10 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	private Runnable myRunnable = new Runnable() {
 	   public void run() {
 		new GetDownloadItemListAsyncTask(context).execute();
-	    h.postDelayed(myRunnable, 6000);
+		if (_autorefreshEnabled)
+			h.postDelayed(myRunnable, _autorefreshInterval * 1000);
+		else
+			_serviceAlreadyRun = false;
 	   }
 	};
 
