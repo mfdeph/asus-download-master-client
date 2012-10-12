@@ -64,7 +64,7 @@ public class DownloadItemListManager {
 		return "http://" + _connectionString + "/dm_uploadbt.cgi";
 	}
 	 
-	protected String getItemList(){
+	protected boolean tryGetItemList(String result){
 		
 		/*return "[\"1\",\"Hunger_Games_BDRIP\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Кто подставил кролика роджера.avi\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Revolution\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"ПИПЕЦ! DVDRIP\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Дооо2\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]";*/
 		
@@ -76,81 +76,78 @@ public class DownloadItemListManager {
 			InputStream stream = con.getInputStream();
 		    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
 		    String temp;
-		    String result = "";
+		    result = "";
 		    while ((temp = bufferedReader.readLine()) != null)
 		    	result += temp;
-		    return result;
+		    return true;
 	        
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			return false;
 		}finally{
 			setDelayForNextUpdate();
 		}
-		return "";
 	}
 	
 	
-	private void loadDownloadItemList(){
+	private boolean loadDownloadItemList(){
 		
 		if (!_isUpdateAvailable)
-			return;
+			return true;
 		_isUpdateAvailable = false;
 		
-		FillDownloadItems(getItemList());
+		String itemListString = null;
+		if (!tryGetItemList(itemListString))
+			return false;
+		
+		FillDownloadItems(itemListString);
+		return true;
 
 	}
 	
 	private ArrayList<DownloadItem> downloadItems;
 	
 	public ArrayList<DownloadItem> getDownloadItems(boolean forceLoad){
-		if (downloadItems == null || forceLoad)
-			loadDownloadItemList();
-		if (downloadItems == null)
-			downloadItems = new ArrayList<DownloadItem>();
+		updateDownloadItems(forceLoad);
 		return downloadItems;		
 	}
+	
+	public boolean updateDownloadItems(boolean forceLoad){	
+		boolean result = true;
+		if (downloadItems == null || forceLoad)
+			result = loadDownloadItemList();
+		if (downloadItems == null)
+			downloadItems = new ArrayList<DownloadItem>();
+		return result;		
+	}
 
-	public void SendGroupCommand(String command){
+	public boolean SendGroupCommand(String command){
 		try{
 			
 			URL url = new URL(String.format(sendGroupCommandUrlString(), command));
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
 		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
-			con.getInputStream();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-		}			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}		
 	}	
 	
-	public void SendCommand(String command, String id){
+	public boolean SendCommand(String command, String id){
 		try{
 			
 			URL url = new URL(String.format(sendCommandUrlString(), command, id));
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
 		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
 			con.getInputStream();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-		}			
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 
 	
-	public void SendFile(File file){
+	public boolean SendFile(File file){
 		try {		
 			String newLine = "\r\n";
 			String boundary = "---------------------------" + new RandomGuid().toString(13);
@@ -187,11 +184,12 @@ public class DownloadItemListManager {
 		    dos.flush();
 		    int respCode = con.getResponseCode(); 
 		    if (respCode == 1)
-		    	return;
+		    	return true;
 
 		} catch (Exception e) {
-		    e.printStackTrace();
+		    return false;
 		}
+		return false;
 
 	}
 	

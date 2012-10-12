@@ -4,8 +4,9 @@ import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class GetDownloadItemListAsyncTask  extends AsyncTask<Void, Void, Void>{
+public class GetDownloadItemListAsyncTask  extends AsyncTask<Void, Void, AsyncTaskResult>{
 
 	protected ListActivity _listActivity;
 	
@@ -15,27 +16,37 @@ public class GetDownloadItemListAsyncTask  extends AsyncTask<Void, Void, Void>{
 	
 
 	@Override
-	protected Void doInBackground(Void... arg0) {
-		DownloadItemListManager.getInstance().getDownloadItems(true);
-		return null;
+	protected AsyncTaskResult doInBackground(Void... arg0) {
+		if (!DownloadItemListManager.getInstance().updateDownloadItems(true)){
+			return new AsyncTaskResult(false, "Cannot connect to Download Master service");
+		}else{
+			return new AsyncTaskResult(true, "Succeed");
+		}
 	}
 	
 	@Override
-	protected void onPostExecute(Void result){		
-		DownloadItemListAdapter adapter = new DownloadItemListAdapter(_listActivity);
+	protected void onPostExecute(AsyncTaskResult result){	
 		
-		ListView list = _listActivity.getListView();
-		int savedPosition = list.getFirstVisiblePosition();
-	    View firstVisibleView = list.getChildAt(0);
-	    int savedListTop = (firstVisibleView == null) ? 0 : firstVisibleView.getTop();	
+		if (result.IsSucceed){
 		
-		_listActivity.setListAdapter(adapter);
+			DownloadItemListAdapter adapter = new DownloadItemListAdapter(_listActivity);
+			
+			ListView list = _listActivity.getListView();
+			int savedPosition = list.getFirstVisiblePosition();
+		    View firstVisibleView = list.getChildAt(0);
+		    int savedListTop = (firstVisibleView == null) ? 0 : firstVisibleView.getTop();	
+			
+			_listActivity.setListAdapter(adapter);
+			
+			if (savedPosition >= 0) { //initialized to -1
+			      list.setSelectionFromTop(savedPosition, savedListTop);
+			    }
+			
+			((DownloadItemListActivity)_listActivity).setDefaultMessageVisibility();
 		
-		if (savedPosition >= 0) { //initialized to -1
-		      list.setSelectionFromTop(savedPosition, savedListTop);
-		    }
-		
-		((DownloadItemListActivity)_listActivity).setDefaultMessageVisibility();
+		}else{
+			((DownloadItemListActivity) _listActivity).announceAutoupdateIssueMessage(result.Message);
+		}
 
 		
 	}

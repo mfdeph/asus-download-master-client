@@ -1,39 +1,26 @@
 package com.insolence.admclient;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EncodingUtils;
-import org.apache.http.util.EntityUtils;
 
 import com.insolence.admclient.util.RandomGuid;
 
 import android.app.ListActivity;
 import android.os.AsyncTask;
-import android.util.Base64;
 import android.widget.Toast;
 
-public class SendMagnetAsyncTask extends AsyncTask<Void, Void, Void>{
+public class SendMagnetAsyncTask extends AsyncTask<Void, Void, AsyncTaskResult>{
 	protected ListActivity _listActivity;
 	protected String _magnetLink;
 	
@@ -65,19 +52,24 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, Void>{
 	}
 	
 	@Override
-	protected Void doInBackground(Void... arg0) {
+	protected AsyncTaskResult doInBackground(Void... arg0) {
 		File torrent = GetTorrentFileFromMagnetLink(_magnetLink);
 		if (torrent != null){
-			DownloadItemListManager.getInstance().SendFile(torrent);
-			DownloadItemListManager.getInstance().getDownloadItems(true);
-		}else{
-			Toast.makeText(
-					_listActivity,
- 				   "Failed to get Magnet link info", Toast.LENGTH_SHORT).show();
+			if (DownloadItemListManager.getInstance().SendFile(torrent)){
+				DownloadItemListManager.getInstance().getDownloadItems(true);
+				return new AsyncTaskResult(true, "Succeed");
+			}else{
+				return new AsyncTaskResult(false, "Cannot connect to Download Master service");
+			}
 		}
-		return null;
+		return new AsyncTaskResult(false, "Failed to get magnet link data");
 	}
 
+	@Override
+	protected void onPostExecute(AsyncTaskResult result){
+		if (!result.IsSucceed)
+			Toast.makeText(_listActivity, result.Message, Toast.LENGTH_LONG).show();
+	}
 	
 	private static List<String> _torrentCahceProviders;
 	
@@ -86,6 +78,8 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, Void>{
 			_torrentCahceProviders = new ArrayList<String>();
 			_torrentCahceProviders.add("http://torcache.net/torrent/%s.torrent");
 			_torrentCahceProviders.add("http://torrage.com/torrent/%s.torrent");
+			_torrentCahceProviders.add("http://zoink.it/torrent/%s.torrent");
+			_torrentCahceProviders.add("http://torrage.ws/torrent/%s.torrent");
 		}
 		return _torrentCahceProviders;
 	}
@@ -151,6 +145,5 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, Void>{
 		
 		return null;
 	}	
-
 	
 }
