@@ -31,14 +31,13 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	boolean _serviceAlreadyRun = false;	
 	boolean _autorefreshEnabled = true;	
 	boolean _connectIssueAlreadyShown = false;
-	boolean _autorefreshPaused = false;
 	
 	int _autorefreshInterval = 10;
 	
 	public void announceAutorefreshIssueMessage(String message){
 		if (!_connectIssueAlreadyShown){
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-			_connectIssueAlreadyShown = true;
+			//_connectIssueAlreadyShown = true;
 		}
 	}
 	
@@ -48,7 +47,7 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	@Override
 	public void onResume(){
 		super.onResume();
-		_autorefreshPaused = false;
+		ItemListRequestController.getInstance().Enable();
 		_connectIssueAlreadyShown = false;
 		setRefreshMenuButtonVisibility();
 		handleIntent(getIntent());
@@ -57,7 +56,7 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	@Override
 	public void onPause(){
 		super.onPause();
-		_autorefreshPaused = true;
+		ItemListRequestController.getInstance().Disable();
 	}
 	
 	public void setPrefs(){
@@ -149,7 +148,7 @@ public class DownloadItemListActivity extends SherlockListActivity {
         setContentView(R.layout.download_item_list_activity);
 
         if (savedInstanceState == null)
-        	new GetDownloadItemListAsyncTask(this).execute();
+        	ItemListRequestController.getInstance().DoRequestForced(context);
         
         pushAutorefreshService();
 
@@ -216,7 +215,7 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	        	return true;
 	        case R.id.refresh_list:
 	        	_connectIssueAlreadyShown = false;
-	        	new GetDownloadItemListAsyncTask(context).execute();
+	        	ItemListRequestController.getInstance().DoRequestForced(context);
 	     		return true;
 	        default:
 	            return false;
@@ -225,14 +224,13 @@ public class DownloadItemListActivity extends SherlockListActivity {
     
     
     
-    DownloadItemListActivity context = this;
+    ListActivity context = this;
      
 	private Handler h = new Handler();
 
 	private Runnable myRunnable = new Runnable() {
 	   public void run() {
-		if (!_autorefreshPaused)
-			new GetDownloadItemListAsyncTask(context).execute();
+		ItemListRequestController.getInstance().DoRequest(context);
 		if (_autorefreshEnabled)
 			h.postDelayed(myRunnable, _autorefreshInterval * 1000);
 		else
