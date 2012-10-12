@@ -28,10 +28,19 @@ import android.widget.Toast;
 public class DownloadItemListActivity extends SherlockListActivity {
     /** Called when the activity is first created. */
 	
-	boolean _serviceAlreadyRun = false;
+	boolean _serviceAlreadyRun = false;	
+	boolean _autorefreshEnabled = true;	
+	boolean _connectIssueAlreadyShown = false;
+	boolean _autorefreshPaused = false;
 	
-	boolean _autorefreshEnabled = true;
 	int _autorefreshInterval = 10;
+	
+	public void announceAutoupdateIssueMessage(String message){
+		if (!_connectIssueAlreadyShown){
+			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+			//_connectIssueAlreadyShown = true;
+		}
+	}
 	
 	
 	public static DownloadItemListActivity instance;
@@ -39,10 +48,17 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	@Override
 	public void onResume(){
 		super.onResume();
+		_autorefreshPaused = false;
+		_connectIssueAlreadyShown = false;
 		setRefreshMenuButtonVisibility();
 		handleIntent(getIntent());
 	}
 	
+	@Override
+	public void onPause(){
+		super.onPause();
+		_autorefreshPaused = true;
+	}
 	
 	public void setPrefs(){
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -53,7 +69,9 @@ public class DownloadItemListActivity extends SherlockListActivity {
 		}catch(NumberFormatException e){
 			
 		}
+		_connectIssueAlreadyShown = false;
 		setRefreshMenuButtonVisibility();
+		pushAutoupdateService();
 	}
 	
 	
@@ -130,16 +148,19 @@ public class DownloadItemListActivity extends SherlockListActivity {
         
         setContentView(R.layout.download_item_list_activity);
 
-        new GetDownloadItemListAsyncTask(this).execute();
+        if (savedInstanceState == null)
+        	new GetDownloadItemListAsyncTask(this).execute();
         
-        if (!_serviceAlreadyRun && _autorefreshEnabled){
-        	h.postDelayed(myRunnable, _autorefreshInterval * 1000);
-        	_serviceAlreadyRun = true;
-        }
+        pushAutoupdateService();
 
     }
     
-    
+    private void pushAutoupdateService(){
+        if (!_serviceAlreadyRun && _autorefreshEnabled){
+        	h.postDelayed(myRunnable, _autorefreshInterval * 1000);
+        	_serviceAlreadyRun = true;
+        }   	
+    }
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -194,6 +215,7 @@ public class DownloadItemListActivity extends SherlockListActivity {
 		           .show();        	
 	        	return true;
 	        case R.id.refresh_list:
+	        	_connectIssueAlreadyShown = false;
 	        	new GetDownloadItemListAsyncTask(context).execute();
 	     		return true;
 	        default:
@@ -209,7 +231,8 @@ public class DownloadItemListActivity extends SherlockListActivity {
 
 	private Runnable myRunnable = new Runnable() {
 	   public void run() {
-		new GetDownloadItemListAsyncTask(context).execute();
+		if (!_autorefreshPaused)
+			new GetDownloadItemListAsyncTask(context).execute();
 		if (_autorefreshEnabled)
 			h.postDelayed(myRunnable, _autorefreshInterval * 1000);
 		else

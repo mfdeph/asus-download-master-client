@@ -4,8 +4,9 @@ import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class SendCommandAsyncTask  extends AsyncTask<Void, Void, Void>{
+public class SendCommandAsyncTask  extends AsyncTask<Void, Void, AsyncTaskResult>{
 
 	protected ListActivity _listActivity;
 	private String _command;
@@ -25,30 +26,32 @@ public class SendCommandAsyncTask  extends AsyncTask<Void, Void, Void>{
 	
 
 	@Override
-	protected Void doInBackground(Void... arg0) {
-		if (_id == null)
-			DownloadItemListManager.getInstance().SendGroupCommand(_command);
-		else
-			DownloadItemListManager.getInstance().SendCommand(_command, _id);
-		DownloadItemListManager.getInstance().getDownloadItems(true);
-		return null;
+	protected AsyncTaskResult doInBackground(Void... arg0) {
+		boolean isCommandSent = 
+			(_id == null)?
+				DownloadItemListManager.getInstance().SendGroupCommand(_command)
+			:
+				DownloadItemListManager.getInstance().SendCommand(_command, _id);
+		if (isCommandSent){
+			DownloadItemListManager.getInstance().getDownloadItems(true);
+			return new AsyncTaskResult(true, "Succeed");
+		}else{
+			return new AsyncTaskResult(false, "Cannot connect to Download Master service");
+		}
 	}
 	
 	@Override
-	protected void onPostExecute(Void result){		
-		DownloadItemListAdapter adapter = new DownloadItemListAdapter(_listActivity);
-		
-		ListView list = _listActivity.getListView();
-		int savedPosition = list.getFirstVisiblePosition();
-	    View firstVisibleView = list.getChildAt(0);
-	    int savedListTop = (firstVisibleView == null) ? 0 : firstVisibleView.getTop();	
-		
-		_listActivity.setListAdapter(adapter);
-		
-		if (savedPosition >= 0) { //initialized to -1
-		      list.setSelectionFromTop(savedPosition, savedListTop);
-		    }
-
-		
+	protected void onPostExecute(AsyncTaskResult result){		
+		if (result.IsSucceed){
+			ListView list = _listActivity.getListView();
+			int savedPosition = list.getFirstVisiblePosition();
+		    View firstVisibleView = list.getChildAt(0);
+		    int savedListTop = (firstVisibleView == null) ? 0 : firstVisibleView.getTop();			
+			_listActivity.setListAdapter(new DownloadItemListAdapter(_listActivity));
+			if (savedPosition >= 0)
+			   list.setSelectionFromTop(savedPosition, savedListTop);
+		}else{
+			Toast.makeText(_listActivity, result.Message, Toast.LENGTH_LONG).show();
+		}
 	}
 }
