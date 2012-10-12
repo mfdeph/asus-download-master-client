@@ -35,10 +35,10 @@ public class DownloadItemListActivity extends SherlockListActivity {
 	
 	int _autorefreshInterval = 10;
 	
-	public void announceAutoupdateIssueMessage(String message){
+	public void announceAutorefreshIssueMessage(String message){
 		if (!_connectIssueAlreadyShown){
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-			//_connectIssueAlreadyShown = true;
+			_connectIssueAlreadyShown = true;
 		}
 	}
 	
@@ -71,7 +71,7 @@ public class DownloadItemListActivity extends SherlockListActivity {
 		}
 		_connectIssueAlreadyShown = false;
 		setRefreshMenuButtonVisibility();
-		pushAutoupdateService();
+		pushAutorefreshService();
 	}
 	
 	
@@ -151,11 +151,11 @@ public class DownloadItemListActivity extends SherlockListActivity {
         if (savedInstanceState == null)
         	new GetDownloadItemListAsyncTask(this).execute();
         
-        pushAutoupdateService();
+        pushAutorefreshService();
 
     }
     
-    private void pushAutoupdateService(){
+    private void pushAutorefreshService(){
         if (!_serviceAlreadyRun && _autorefreshEnabled){
         	h.postDelayed(myRunnable, _autorefreshInterval * 1000);
         	_serviceAlreadyRun = true;

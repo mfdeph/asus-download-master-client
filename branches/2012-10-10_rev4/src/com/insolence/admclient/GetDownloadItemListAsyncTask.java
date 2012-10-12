@@ -45,7 +45,7 @@ public class GetDownloadItemListAsyncTask  extends AsyncTask<Void, Void, AsyncTa
 			((DownloadItemListActivity)_listActivity).setDefaultMessageVisibility();
 		
 		}else{
-			((DownloadItemListActivity) _listActivity).announceAutoupdateIssueMessage(result.Message);
+			((DownloadItemListActivity) _listActivity).announceAutorefreshIssueMessage(result.Message);
 		}
 
 		
