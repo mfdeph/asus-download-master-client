@@ -4,7 +4,13 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +23,15 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EncodingUtils;
+import org.apache.http.util.EntityUtils;
+
+import com.insolence.admclient.util.RandomGuid;
 
 import android.app.ListActivity;
 import android.os.AsyncTask;
+import android.util.Base64;
+import android.widget.Toast;
 
 public class SendMagnetAsyncTask extends AsyncTask<Void, Void, Void>{
 	protected ListActivity _listActivity;
@@ -32,87 +44,113 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, Void>{
 	
 	public static String GetNativeFileNameFromMagnetLink(String magnetLink){
 		try {
-			return URLDecoder.decode(magnetLink.split("&dn=")[1].split("&")[0], "UTF-8");
+			String[] splitted = magnetLink.split("&dn=");
+			if (splitted.length < 2)
+				return "";
+			return "\"" + URLDecoder.decode(splitted[1].split("&")[0], "UTF-8") + "\"";
 		} 
 		catch (UnsupportedEncodingException e) {
 			
 		}
-		return null;
+		return "";
 	}
 	
-	public static String GetValidFileNameFromMagnetLink(String magnetLink){
-		String nativeName = GetNativeFileNameFromMagnetLink(magnetLink);
-		return nativeName == null ? null : nativeName.replace(" ", "_") + ".torrent";
+	
+	private String getTorrentIdFromMagnetLink(String magnetLink){
+		return magnetLink.split("urn:btih:")[1].split("&")[0].toUpperCase();
+	}
+	
+	public static String GetValidFileName(){
+		return new RandomGuid().toString() + ".torrent";
 	}
 	
 	@Override
 	protected Void doInBackground(Void... arg0) {
 		File torrent = GetTorrentFileFromMagnetLink(_magnetLink);
-		if (torrent != null)
+		if (torrent != null){
 			DownloadItemListManager.getInstance().SendFile(torrent);
-		DownloadItemListManager.getInstance().getDownloadItems(true);
+			DownloadItemListManager.getInstance().getDownloadItems(true);
+		}else{
+			Toast.makeText(
+					_listActivity,
+ 				   "Failed to get Magnet link info", Toast.LENGTH_SHORT).show();
+		}
 		return null;
 	}
 
-	private static final String MAGNET_CONVERSION_URL = "http://magnet2torrent.com/upload/";
 	
-	private File GetTorrentFileFromMagnetLink(String magnetLink){
-			File file = null;
-			HttpClient httpclient = null;
-			try {
-				file = new File(_listActivity.getCacheDir(), GetValidFileNameFromMagnetLink(magnetLink));
-				if (file.exists()) {
-					file.delete();
-				}		
-				String charset = "UTF-8";
-				httpclient = new DefaultHttpClient();
-			    HttpPost httppost = new HttpPost(MAGNET_CONVERSION_URL);
-			    BufferedInputStream bis = null;
-			    BufferedOutputStream bos = null;
-			    try {
-			        // Add your data
-			        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			        nameValuePairs.add(new BasicNameValuePair("magnet", magnetLink));
-			        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, charset));
-
-			        // Execute HTTP Post Request
-			        HttpResponse response = httpclient.execute(httppost);
-			        HttpEntity entity = response.getEntity();
-			        bis = new BufferedInputStream(entity.getContent());
-		    		if (bis != null) {
-						file.createNewFile();
-						
-						bos = new BufferedOutputStream(new FileOutputStream(file));
-						
-			            byte buf[] = new byte[1024];
-			            int len = 0;
-			            while ((len = bis.read(buf)) != -1) {
-			                bos.write(buf, 0, len);
-			            }
-			            bos.flush();
-					}
-			    }
-			    finally {
-			    	if (bos != null) {
-			    		bos.close();
-			    	}
-			    	if (bis != null) {
-			    		bis.close();
-			    	}
-				}			
-			}
-			catch (Exception e) {
-				file = null;
-			}
-			finally {
-				if (httpclient != null) {
-					httpclient.getConnectionManager().shutdown();
-				}
-			}
-			
-			return file;
+	private static List<String> _torrentCahceProviders;
+	
+	private static List<String> getTorrentCacheProviders(){
+		if (_torrentCahceProviders == null){
+			_torrentCahceProviders = new ArrayList<String>();
+			_torrentCahceProviders.add("http://torcache.net/torrent/%s.torrent");
+			_torrentCahceProviders.add("http://torrage.com/torrent/%s.torrent");
+		}
+		return _torrentCahceProviders;
 	}
 	
 	
+	private File TryGetTorrent(String requestPath){
+		
+		BufferedOutputStream bos = null;
+		File torrentFile = null;
+		
+		try{
+			
+			torrentFile = new File(_listActivity.getCacheDir(), GetValidFileName());
+			if (torrentFile.exists()) {
+				torrentFile.delete();
+			}
+			
+			URL url = new URL(requestPath);
+		    URLConnection con = (HttpURLConnection) url.openConnection();	    
+		    InputStream input = con.getInputStream();
+		    
+    		if (input != null) {			
+    			torrentFile.createNewFile();		
+				bos = new BufferedOutputStream(new FileOutputStream(torrentFile));			
+	            byte buf[] = new byte[1024];
+	            int len = 0;
+	            
+	            boolean isFirstPart = true;
+	            
+	            while ((len = input.read(buf)) != -1) {
+	            	
+	            	if (isFirstPart){
+	            		String data = EncodingUtils.getString(buf, "UTF-8");
+	            		if (!data.startsWith("d8:")){
+	            			bos.close();
+	            			torrentFile.delete();
+	            			return null;
+	            		}
+	            	}
+	            	
+	                bos.write(buf, 0, len);
+	                isFirstPart = false;
+	            }
+	            bos.flush();
+			}
+		} catch (Exception e) {
+			torrentFile.delete();
+			return null;
+		}	
+		
+		return torrentFile;
+	}
+
+
+	private File GetTorrentFileFromMagnetLink(String magnetLink){
+		File torrentFile = null;
+		
+		for (String provider : getTorrentCacheProviders()) {
+			torrentFile = TryGetTorrent(String.format(provider, getTorrentIdFromMagnetLink(magnetLink)));
+			if (torrentFile != null)
+				return torrentFile;
+		}
+		
+		return null;
+	}	
+
 	
 }
