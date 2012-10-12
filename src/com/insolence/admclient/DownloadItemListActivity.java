@@ -70,14 +70,14 @@ public class DownloadItemListActivity extends SherlockListActivity {
             	final ListActivity activityToTransfer = this;
             	
     			new AlertDialog.Builder(this)
-    	           .setMessage(String.format("Do you really want to start download \"%s\" torrent?", fileName))
+    	           .setMessage(String.format("Do you really want to start download %s magnet link?", fileName))
     	           .setCancelable(false)
     	           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
     	               public void onClick(DialogInterface dialog, int id) {
     	            	   new SendMagnetAsyncTask(activityToTransfer, link).execute();
     	        		   Toast.makeText(
     	        				   activityToTransfer,
-    	        				   "Torrent \"" + fileName + "\" is queued for download.", Toast.LENGTH_SHORT).show();
+    	        				   "Magnet link " + fileName + " is queued for download.", Toast.LENGTH_SHORT).show();
     	               }
     	           })
     	           .setNegativeButton("No", null)
