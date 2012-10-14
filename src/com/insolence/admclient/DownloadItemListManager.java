@@ -48,7 +48,7 @@ public class DownloadItemListManager {
 	private static String _password;
 	
 	
-	private String getListUrlString(){
+	private static String getListUrlString(){
 		return "http://" + _connectionString + "/dm_print_status.cgi?action_mode=All";
 	}
 	
@@ -64,7 +64,7 @@ public class DownloadItemListManager {
 		return "http://" + _connectionString + "/dm_uploadbt.cgi";
 	}
 	 
-	protected boolean tryGetItemList(String result){
+	protected static boolean tryGetItemList(Holder<String> result){
 		
 		/*return "[\"1\",\"Hunger_Games_BDRIP\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Кто подставил кролика роджера.avi\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Revolution\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"ПИПЕЦ! DVDRIP\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Дооо2\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]";*/
 		
@@ -76,15 +76,14 @@ public class DownloadItemListManager {
 			InputStream stream = con.getInputStream();
 		    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
 		    String temp;
-		    result = "";
 		    while ((temp = bufferedReader.readLine()) != null)
-		    	result += temp;
+		    	result.value += temp;
 		    return true;
 	        
 		} catch (Exception e) {
 			return false;
 		}finally{
-			setDelayForNextUpdate();
+			
 		}
 	}
 	
@@ -95,13 +94,22 @@ public class DownloadItemListManager {
 			return true;
 		_isUpdateAvailable = false;
 		
-		String itemListString = null;
+		Holder<String> itemListString = new Holder<String>("");
 		if (!tryGetItemList(itemListString))
 			return false;
 		
-		FillDownloadItems(itemListString);
+		downloadItems = FillDownloadItems(itemListString.value);
+		setDelayForNextUpdate();
 		return true;
 
+	}
+	
+	public ArrayList<DownloadItem> DirectGetDownloadItems(){
+		Holder<String> itemListString = new Holder<String>("");
+		if (!tryGetItemList(itemListString))
+			return null;
+		
+		return FillDownloadItems(itemListString.value);
 	}
 	
 	private ArrayList<DownloadItem> downloadItems;
@@ -183,7 +191,7 @@ public class DownloadItemListManager {
 
 		    dos.flush();
 		    int respCode = con.getResponseCode(); 
-		    if (respCode == 1)
+		    if (respCode == 200)
 		    	return true;
 
 		} catch (Exception e) {
@@ -193,7 +201,7 @@ public class DownloadItemListManager {
 
 	}
 	
-	private void FillDownloadItems(String data){
+	private static ArrayList<DownloadItem> FillDownloadItems(String data){
 		
 		ArrayList<DownloadItem> result = new ArrayList<DownloadItem>();
 		
@@ -252,7 +260,7 @@ public class DownloadItemListManager {
     	    result.add(item);	
     	}
     	
-    	downloadItems = result;
+    	return result;
     	
 	}
 	
@@ -266,6 +274,13 @@ public class DownloadItemListManager {
 				   _isUpdateAvailable = true;
 			   }
 			}, 5000);*/
+	}
+	
+	class Holder<T> {
+	    public Holder(T value) {
+	        this.value = value;
+	    }
+	    public T value;
 	}
 	
 }
