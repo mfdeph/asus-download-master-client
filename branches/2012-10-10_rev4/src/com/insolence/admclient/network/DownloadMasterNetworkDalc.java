@@ -1,14 +1,12 @@
-package com.insolence.admclient;
+package com.insolence.admclient.network;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -16,28 +14,28 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+import com.insolence.admclient.DownloadItem;
+import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.RandomGuid;
 
 import android.content.SharedPreferences;
 import android.util.Base64;
 
-public class DownloadItemListManager {
+public class DownloadMasterNetworkDalc {
 	
-	//http://192.168.1.1:8081/dm_print_status.cgi?action_mode=All
+	public static DownloadMasterNetworkDalc _instance;
 	
-	public static DownloadItemListManager _instance;
-	
-	public static DownloadItemListManager getInstance(){
+	public static DownloadMasterNetworkDalc getInstance(){
 		if (_instance == null)
-			_instance = new DownloadItemListManager();
+			_instance = new DownloadMasterNetworkDalc();
 		return _instance;
 	}
 	
-	private DownloadItemListManager(){
+	private DownloadMasterNetworkDalc(){
 	}
 	
 	
-	public static void SetPrefs(SharedPreferences prefs){
+	public static void setup(SharedPreferences prefs){
 		_connectionString = prefs.getString("webServerAddrPref", "192.168.1.1") + ":" + prefs.getString("webServerPortPref", "8081");
 		_userName = prefs.getString("loginPref", "admin");
 		_password = prefs.getString("passwordPref", "admin");
@@ -66,7 +64,8 @@ public class DownloadItemListManager {
 	 
 	protected static boolean tryGetItemList(Holder<String> result){
 		
-		/*return "[\"1\",\"Hunger_Games_BDRIP\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Кто подставил кролика роджера.avi\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Revolution\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"ПИПЕЦ! DVDRIP\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Дооо2\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]";*/
+		/*result.value = "[\"1\",\"Hunger_Games_BDRIP\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Кто подставил кролика роджера.avi\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Revolution\",\"0.42\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"ПИПЕЦ! DVDRIP\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"][\"1\",\"Дооо2\",\"0.62\",\"100GB\",\"Idle\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]";
+		return true;*/
 		
 		try{
 			
@@ -87,48 +86,14 @@ public class DownloadItemListManager {
 		}
 	}
 	
-	
-	private boolean loadDownloadItemList(){
-		
-		if (!_isUpdateAvailable)
-			return true;
-		_isUpdateAvailable = false;
-		
-		Holder<String> itemListString = new Holder<String>("");
-		if (!tryGetItemList(itemListString))
-			return false;
-		
-		downloadItems = FillDownloadItems(itemListString.value);
-		setDelayForNextUpdate();
-		return true;
-
-	}
-	
-	public ArrayList<DownloadItem> DirectGetDownloadItems(){
+	public ArrayList<DownloadItem> getDownloadItems(){
 		Holder<String> itemListString = new Holder<String>("");
 		if (!tryGetItemList(itemListString))
 			return null;
-		
-		return FillDownloadItems(itemListString.value);
-	}
-	
-	private ArrayList<DownloadItem> downloadItems;
-	
-	public ArrayList<DownloadItem> getDownloadItems(boolean forceLoad){
-		updateDownloadItems(forceLoad);
-		return downloadItems;		
-	}
-	
-	public boolean updateDownloadItems(boolean forceLoad){	
-		boolean result = true;
-		if (downloadItems == null || forceLoad)
-			result = loadDownloadItemList();
-		if (downloadItems == null)
-			downloadItems = new ArrayList<DownloadItem>();
-		return result;		
+		return fillDownloadItems(itemListString.value);
 	}
 
-	public boolean SendGroupCommand(String command){
+	public boolean sendGroupCommand(String command){
 		try{
 			
 			URL url = new URL(String.format(sendGroupCommandUrlString(), command));
@@ -140,7 +105,7 @@ public class DownloadItemListManager {
 		}		
 	}	
 	
-	public boolean SendCommand(String command, String id){
+	public boolean sendCommand(String command, String id){
 		try{
 			
 			URL url = new URL(String.format(sendCommandUrlString(), command, id));
@@ -155,7 +120,7 @@ public class DownloadItemListManager {
 	
 
 	
-	public boolean SendFile(File file){
+	public boolean sendFile(File file){
 		try {		
 			String newLine = "\r\n";
 			String boundary = "---------------------------" + new RandomGuid().toString(13);
@@ -201,11 +166,10 @@ public class DownloadItemListManager {
 
 	}
 	
-	private static ArrayList<DownloadItem> FillDownloadItems(String data){
+	private static ArrayList<DownloadItem> fillDownloadItems(String data){
 		
 		ArrayList<DownloadItem> result = new ArrayList<DownloadItem>();
 		
-		//Matcher m = Pattern.compile("\\[\"([^(\\[]*)\\]").matcher(data);
 		Matcher m = Pattern.compile("\\[((\"[^,^\"]*\"),)*(\"[^,^\"]*\")\\]").matcher(data);
     	while (m.find()){
     	    String res = m.toMatchResult().group(0);
@@ -262,25 +226,6 @@ public class DownloadItemListManager {
     	
     	return result;
     	
-	}
-	
-	//механизм, позволяющий странице перерисовываться не чаще чем раз в 5 секунд
-	private boolean _isUpdateAvailable = true;
-	
-	private void setDelayForNextUpdate(){
-		_isUpdateAvailable = true;
-		/*new Handler().postDelayed(new Runnable() {
-			   public void run() {
-				   _isUpdateAvailable = true;
-			   }
-			}, 5000);*/
-	}
-	
-	class Holder<T> {
-	    public Holder(T value) {
-	        this.value = value;
-	    }
-	    public T value;
 	}
 	
 }

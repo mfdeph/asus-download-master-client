@@ -1,4 +1,4 @@
-package com.insolence.admclient;
+package com.insolence.admclient.asynctasks;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -14,20 +14,26 @@ import java.util.List;
 
 import org.apache.http.util.EncodingUtils;
 
+import com.insolence.admclient.listmanagers.IProcessResultConsumer;
 import com.insolence.admclient.util.RandomGuid;
 
-import android.app.ListActivity;
-import android.os.AsyncTask;
-import android.widget.Toast;
+public class SendMagnetTask extends SendFileTaskBase {
 
-public class SendMagnetAsyncTask extends AsyncTask<Void, Void, AsyncTaskResult>{
-	protected ListActivity _listActivity;
-	protected String _magnetLink;
+	String _magnetLink;
+	File _cacheDirectory;
 	
-	public SendMagnetAsyncTask(ListActivity listActivity, String magnetLink){
-		_listActivity = listActivity;
+	public SendMagnetTask(IProcessResultConsumer target, String magnetLink, File cacheDirectory) {
+		super(target);
 		_magnetLink = magnetLink;
+		_cacheDirectory = cacheDirectory;
+		fileIsNullExceptionText = "Failed to get magnet link data";
 	}
+
+	@Override
+	protected File getFile() {
+		return GetTorrentFileFromMagnetLink(_magnetLink);
+	}
+	
 	
 	public static String GetNativeFileNameFromMagnetLink(String magnetLink){
 		try {
@@ -51,26 +57,6 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, AsyncTaskResult>{
 		return new RandomGuid().toString() + ".torrent";
 	}
 	
-	@Override
-	protected AsyncTaskResult doInBackground(Void... arg0) {
-		File torrent = GetTorrentFileFromMagnetLink(_magnetLink);
-		if (torrent != null){
-			if (DownloadItemListManager.getInstance().SendFile(torrent)){
-				DownloadItemListManager.getInstance().getDownloadItems(true);
-				return new AsyncTaskResult(true, "Succeed");
-			}else{
-				return new AsyncTaskResult(false, "Cannot connect to Download Master service");
-			}
-		}
-		return new AsyncTaskResult(false, "Failed to get magnet link data");
-	}
-
-	@Override
-	protected void onPostExecute(AsyncTaskResult result){
-		if (!result.IsSucceed)
-			Toast.makeText(_listActivity, result.Message, Toast.LENGTH_LONG).show();
-	}
-	
 	private static List<String> _torrentCahceProviders;
 	
 	private static List<String> getTorrentCacheProviders(){
@@ -84,7 +70,6 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, AsyncTaskResult>{
 		return _torrentCahceProviders;
 	}
 	
-	
 	private File TryGetTorrent(String requestPath){
 		
 		BufferedOutputStream bos = null;
@@ -92,7 +77,7 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, AsyncTaskResult>{
 		
 		try{
 			
-			torrentFile = new File(_listActivity.getCacheDir(), GetValidFileName());
+			torrentFile = new File(_cacheDirectory, GetValidFileName());
 			if (torrentFile.exists()) {
 				torrentFile.delete();
 			}
@@ -146,4 +131,9 @@ public class SendMagnetAsyncTask extends AsyncTask<Void, Void, AsyncTaskResult>{
 		return null;
 	}	
 	
+	
+	
+	
+	
+
 }

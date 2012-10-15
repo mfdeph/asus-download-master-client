@@ -11,4 +11,6 @@ public interface IDownloadItemListManager {
 	
 	void postProcessResult(GetItemListResult result);
 	
+	IDownloadItemListManager switchToNext(IDownloadItemListManager nextManager);
+	
 }

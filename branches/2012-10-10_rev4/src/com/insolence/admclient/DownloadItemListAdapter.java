@@ -1,5 +1,9 @@
 package com.insolence.admclient;
 
+import java.util.List;
+
+import com.insolence.admclient.asynctasks.SendCommandTask;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -17,8 +21,8 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
 	private Context _context;
 	
-	public DownloadItemListAdapter(Context context) {
-		super(context, R.layout.download_item, DownloadItemListManager.getInstance().getDownloadItems(false));
+	public DownloadItemListAdapter(Context context, List<DownloadItem> downloadItems) {
+		super(context, R.layout.download_item, downloadItems);
 		_context = context; 
 	}
 	
@@ -99,7 +103,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 		           .setCancelable(false)
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
-		            	   new SendCommandAsyncTask((ListActivity)_context, _command, _item.getId()).execute();	       			
+		            	   new SendCommandTask((DownloadItemListActivity)_context, _command, _item.getId()).execute();	       			
 		        		   Toast.makeText(
 		        				   _context,
 		        				   "Torrent \"" + _item.getName() + "\" " + _postText, Toast.LENGTH_SHORT).show();
@@ -110,7 +114,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
 				
 			}else{
-				new SendCommandAsyncTask((ListActivity)_context, _command, _item.getId()).execute();
+				new SendCommandTask((DownloadItemListActivity)_context, _command, _item.getId()).execute();
 				Toast.makeText(
 					   _context,
 					   "Torrent \"" + _item.getName() + "\" " + _postText, Toast.LENGTH_SHORT).show();
