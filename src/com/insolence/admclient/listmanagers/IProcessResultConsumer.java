@@ -6,7 +6,10 @@ import com.insolence.admclient.DownloadItem;
 
 public interface IProcessResultConsumer {
 
-	void ShowResult(List<DownloadItem> items);
+	void showResult(List<DownloadItem> items);
 	
-	void ShowErrorMessage(String errorMessage);
+	void showErrorMessage(String errorMessage);
+	
+	void sendRefreshRequestIfNesessary();
+	
 }

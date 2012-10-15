@@ -4,23 +4,16 @@ import java.util.ArrayList;
 
 import com.insolence.admclient.DownloadItem;
 
-public class GetItemListResult {
-
+public class GetItemListResult extends AsyncTaskResult{
+	
 	public GetItemListResult(){
+		super();
 	}
 	
-	public boolean isSucceed() {
-		return isSucceed;
+	public GetItemListResult(boolean isSucceed, String message) {
+		super(isSucceed, message);
 	}
-	public void setSucceed(boolean isSucceed) {
-		this.isSucceed = isSucceed;
-	}
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
-		this.message = message;
-	}
+
 	public ArrayList<DownloadItem> getDownloadItems() {
 		return downloadItems;
 	}
@@ -28,8 +21,6 @@ public class GetItemListResult {
 		this.downloadItems = downloadItems;
 	}
 
-	private boolean isSucceed;	
-	private String message;
 	private ArrayList<DownloadItem> downloadItems;
 	
 }

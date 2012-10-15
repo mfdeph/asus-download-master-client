@@ -1,40 +1,42 @@
 package com.insolence.admclient.listmanagers;
 
-import java.util.ArrayList;
-
-import android.app.ListActivity;
 import android.os.Handler;
 
-import com.insolence.admclient.DownloadItem;
-import com.insolence.admclient.ItemListRequestController;
-import com.insolence.admclient.asynctasks.GetItemListAsyncTask;
-import com.insolence.admclient.asynctasks.GetItemListResult;
 
-public class AutorefreshItemListManager extends DownloadItemListManagerBase {
+public class AutoRefreshItemListManager extends DownloadItemListManagerBase {
 
 	private int _refreshInterval = 10;
 	
 	private IDisabler _disabler;
 	
-	public void SetDisabler(IDisabler disabler){
+	public AutoRefreshItemListManager setDisabler(IDisabler disabler){
 		_disabler = disabler;
+		return this;
 	}
 	
-	public AutorefreshItemListManager(IProcessResultConsumer processResultConsumer, int refreshInterval){
+	public AutoRefreshItemListManager(IProcessResultConsumer processResultConsumer, int refreshInterval){
 		super(processResultConsumer);
 		_refreshInterval = refreshInterval;
 		h.post(myRunnable);
 	}
-
+	
+	@Override
+	protected void dispose(){
+		super.dispose();
+		h = null;
+	}
+	
 	private Handler h = new Handler();
 	
-	IDownloadItemListManager manager = this;
+	DownloadItemListManagerBase manager = this;
 
 	private Runnable myRunnable = new Runnable() {
 	   public void run() {
-		if (_disabler == null || _disabler.IsEnabled())
-			new GetItemListAsyncTask(manager).execute();
-		h.postDelayed(myRunnable, _refreshInterval * 1000);
+		   if (h == null)
+			   return;
+		   if (_disabler == null || _disabler.IsEnabled())
+			   manager.ExecuteItemListRequest();
+			h.postDelayed(myRunnable, _refreshInterval * 1000);
 	   }
 	};
 
