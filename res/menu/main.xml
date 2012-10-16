@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/pause_all"
-          android:icon="@drawable/ic_action_start"
+          android:icon="@drawable/ic_action_pause"
           android:title="Pause all"
            android:showAsAction="always"
           />
     <item android:id="@+id/resume_all"
-          android:icon="@drawable/ic_action_pause"
+          android:icon="@drawable/ic_action_start"
           android:title="Resume all"
            android:showAsAction="always"
           />
