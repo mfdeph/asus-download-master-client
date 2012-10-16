@@ -99,6 +99,7 @@ public class DownloadMasterNetworkDalc {
 			URL url = new URL(String.format(sendGroupCommandUrlString(), command));
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
 		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
+		    con.getInputStream();
 			return true;
 		} catch (Exception e) {
 			return false;
