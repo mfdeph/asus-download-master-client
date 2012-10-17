@@ -7,6 +7,8 @@ import com.insolence.admclient.asynctasks.GetItemListResult;
 
 public interface IDownloadItemListManager {
 
+	void Actualize(IProcessResultConsumer processResultConsumer);
+	
 	ArrayList<DownloadItem> getDownloadItems();
 	
 	void postProcessResult(GetItemListResult result);

@@ -32,9 +32,15 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	
 	public static DownloadItemListActivity instance;
 	
+	private void ActualizeInstance(){
+		_manager.Actualize(this);
+		instance = this;
+	}
+	
 	@Override
 	public void onResume(){
 		super.onResume();
+		ActualizeInstance();
 		setRefreshMenuButtonVisibility();
 		_autoRefreshEnabled = true;
 		handleIntent(getIntent());
@@ -111,10 +117,10 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);       
-        instance = this;   
+        super.onCreate(savedInstanceState);         
         setContentView(R.layout.download_item_list_activity);      
         applyPreferences(); 
+        ActualizeInstance();
         showResult(_manager.getDownloadItems());
     }
 
