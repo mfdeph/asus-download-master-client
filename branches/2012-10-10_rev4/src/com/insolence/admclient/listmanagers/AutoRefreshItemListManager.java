@@ -14,6 +14,13 @@ public class AutoRefreshItemListManager extends DownloadItemListManagerBase {
 		return this;
 	}
 	
+	@Override
+	public void Actualize(IProcessResultConsumer processResultConsumer){
+		super.Actualize(processResultConsumer);
+		if (processResultConsumer instanceof IDisabler)
+			_disabler = (IDisabler)processResultConsumer;
+	}
+	
 	public AutoRefreshItemListManager(IProcessResultConsumer processResultConsumer, int refreshInterval){
 		super(processResultConsumer);
 		_refreshInterval = refreshInterval;

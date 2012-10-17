@@ -16,6 +16,7 @@ public abstract class DownloadItemListManagerBase implements IDownloadItemListMa
 		Actualize(processResultConsumer);
 	}
 	
+	@Override
 	public void Actualize(IProcessResultConsumer processResultConsumer){
 		ProcessResultConsumer = processResultConsumer;
 	}
