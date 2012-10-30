@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
         <PreferenceCategory
-                android:title="WEB SERVER PREFERENCES">
+                android:title="Web server preferences">
 		        <EditTextPreference
 		                android:name="Web server address"
 		                android:summary="Network path to Download Master web server"
@@ -16,7 +16,7 @@
 		                android:key="webServerPortPref" />
         </PreferenceCategory>
         <PreferenceCategory
-                android:title="LOGIN PREFERENCES">
+                android:title="Authorization preferences">
 		        <EditTextPreference
 		                android:name="Login"
 		                android:summary="Login to Download Master web server"
@@ -26,9 +26,25 @@
 		        <EditTextPreference
 		                android:name="Password"
 		                android:summary="Password to Download Master web server"
-		                android:defaultValue="password"
+		                android:defaultValue="admin"
 		                android:title="Password"
 		                android:inputType="textPassword"
 		                android:key="passwordPref" />
+        </PreferenceCategory>
+        <PreferenceCategory
+                android:title="Autorefresh preferences">
+		        <CheckBoxPreference
+		                android:name="Enable autorefresh"
+		                android:summary="Enable autorefresh of torrent list by timer"
+		                android:defaultValue="true"
+		                android:title="Enable autorefresh"
+		                android:key="autorefreshEnabledPref" />
+		        <EditTextPreference
+		                android:name="Autorefresh interval"
+		                android:summary="Autorefresh interval in seconds"
+		                android:defaultValue="10"
+		                android:title="Autorefresh interval"
+		                android:inputType="number"
+		                android:key="autorefreshIntervalPref" />
         </PreferenceCategory>    
 </PreferenceScreen>
