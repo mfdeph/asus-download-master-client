@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/di_background">
+        <shape>
+            <gradient android:startColor="#FFFFFF"
+                android:centerColor="#F0F0F0" 
+                android:endColor="#F0F0F0" 
+                android:centerY="1" 
+                android:angle="270" />
+        </shape>
+    </item>
+</layer-list>
