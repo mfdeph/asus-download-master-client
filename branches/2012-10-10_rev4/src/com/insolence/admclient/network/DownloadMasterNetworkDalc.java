@@ -36,7 +36,7 @@ public class DownloadMasterNetworkDalc {
 	
 	
 	public static void setup(SharedPreferences prefs){
-		_connectionString = prefs.getString("webServerAddrPref", "192.168.1.1") + ":" + prefs.getString("webServerPortPref", "8081");
+		_connectionString = prefs.getString("webServerAddrPref", "192.168.1.1") + ":" + prefs.getString("webServerPortPref", "8081") + (prefs.getBoolean("postfixEnabledPref", false) ? "/downloadmaster" : "");
 		_userName = prefs.getString("loginPref", "admin");
 		_password = prefs.getString("passwordPref", "admin");
 		

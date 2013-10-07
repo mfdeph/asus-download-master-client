@@ -14,6 +14,12 @@
 		                android:defaultValue="8081"
 		                android:title="Web server port"
 		                android:key="webServerPortPref" />
+		        <CheckBoxPreference
+		                android:name="Enable path postfix"
+		                android:summary="Enable this for versions of DM 3.1.0.68 or newer"
+		                android:defaultValue="false"
+		                android:title="Enable path postfix"
+		                android:key="postfixEnabledPref" />
         </PreferenceCategory>
         <PreferenceCategory
                 android:title="Authorization preferences">
@@ -36,7 +42,7 @@
 		        <CheckBoxPreference
 		                android:name="Enable autorefresh"
 		                android:summary="Enable autorefresh of torrent list by timer"
-		                android:defaultValue="true"
+		                android:defaultValue="false"
 		                android:title="Enable autorefresh"
 		                android:key="autorefreshEnabledPref" />
 		        <EditTextPreference
