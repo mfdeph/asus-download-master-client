@@ -29,9 +29,9 @@ public class ProgressBarTextView extends TextView {
     }
     
     // Установка значения
-    public synchronized void setValue(int value) {
+    public synchronized void setValue(int value, String text) {
         // Установка новой надписи
-        this.setText(String.valueOf(value) + "%");
+        this.setText(text == null ? String.valueOf(value) + "%" : text);
         
         // Drawable, отвечающий за фон
         LayerDrawable background = (LayerDrawable) this.getBackground();
@@ -45,6 +45,10 @@ public class ProgressBarTextView extends TextView {
         
         // Уведомляем об изменении Drawable
         drawableStateChanged();
+    }
+    
+    public void setValue(String value){
+    	
     }
 
 }

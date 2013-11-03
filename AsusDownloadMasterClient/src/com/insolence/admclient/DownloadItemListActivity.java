@@ -128,7 +128,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.main, menu);
-        updateMenuItem = menu.getItem(3);
+        updateMenuItem = menu.findItem(R.id.refresh_list);
         setRefreshMenuButtonVisibility();
         return super.onCreateOptionsMenu(menu);  
     }
