@@ -57,7 +57,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         downSpeedHolder.setText(downloadItem.getDownSpeed());
         
         TextView ststusHolder = (TextView) v.findViewById(R.id.download_item_status);
-        ststusHolder.setText("Status: " + downloadItem.getStatus());
+        ststusHolder.setText(downloadItem.getStatus());
         
         TextView volumeHolder = (TextView) v.findViewById(R.id.download_item_volume);
         volumeHolder.setText(downloadItem.getVolume());
