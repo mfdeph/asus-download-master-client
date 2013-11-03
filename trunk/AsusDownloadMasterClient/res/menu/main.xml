@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/pause_all"
-          android:icon="@drawable/ic_action_pause"
-          android:title="Pause all"
-           android:showAsAction="always"
-          />
-    <item android:id="@+id/resume_all"
-          android:icon="@drawable/ic_action_start"
-          android:title="Resume all"
-           android:showAsAction="always"
-          />
-    <item android:id="@+id/delete_finished"
-          android:icon="@drawable/ic_action_delete"
-          android:title="Clear finished"
-           android:showAsAction="always"
-          />
+
      <item android:id="@+id/refresh_list"
-          android:icon="@drawable/ic_action_refresh"
+         android:orderInCategory="100"
+          android:icon="@drawable/ic_menu_refresh"
           android:title="Refresh list"
            android:showAsAction="always"
           />
+     
+     <item
+	    android:title="Manage downloads"
+	    android:showAsAction="always"
+	    android:orderInCategory="100"
+	    android:id="@+id/manage_group"
+	    android:icon="@drawable/ic_menu_more">
+	    <menu>
+	        <group>
+			    <item android:id="@+id/pause_all"
+			          android:title="Suspend all"
+			          android:icon="@drawable/ic_menu_pause"
+			           android:showAsAction="withText"
+			          />
+			    <item android:id="@+id/resume_all"
+			          android:title="Resume all"
+			          android:icon="@drawable/ic_menu_resume"
+			           android:showAsAction="withText"
+			          />
+			    <item android:id="@+id/delete_finished"
+			          android:title="Remove completed"
+			          android:icon="@drawable/ic_menu_close_clear_cancel"
+			          android:showAsAction="withText"
+	          />
+	        </group>
+	    </menu>
+	</item>
+     
+     
+     
     <item android:id="@+id/settings"
+        android:orderInCategory="100"
           android:title="Preferences"
            android:showAsAction="always"
-           android:icon="@drawable/ic_action_settings"
+           android:icon="@drawable/ic_menu_preferences"
           />
 </menu>
 

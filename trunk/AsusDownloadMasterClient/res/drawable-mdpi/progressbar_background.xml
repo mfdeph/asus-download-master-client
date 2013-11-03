@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/bar_background">
         <shape>
-            <corners android:radius="10dp" />
+            <corners android:radius="3dp" />
             <gradient android:startColor="#E0E0E0"
                 android:centerColor="#C0C0C0" 
                 android:endColor="#D0D0D0" 
@@ -13,11 +13,9 @@
     <item android:id="@+id/bar_value">
         <clip>
             <shape>
-                <corners android:radius="10dp" />
-                <gradient android:startColor="#ffaa00"
-                    android:centerColor="#ff9900" 
-                    android:endColor="#ffaa00" 
-                    android:centerY="0.5"
+                <corners android:radius="3dp" />
+                <gradient android:startColor="#81add3"
+                    android:endColor="#87a6c2" 
                     android:angle="270" />
             </shape>
         </clip>
