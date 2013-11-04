@@ -282,8 +282,10 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 
 	@Override
 	public void setDownloadItemSelected(DownloadItem item) {
-		if (item == null)
+		if (item == null){
+			selectedItemName = null;
 			return;
+		}
 		selectedItemName = (item.getId() + item.getName());
 		
 	}
