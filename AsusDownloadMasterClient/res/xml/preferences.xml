@@ -17,7 +17,7 @@
 		        <CheckBoxPreference
 		                android:name="Enable path postfix"
 		                android:summary="Enable this for versions of DM 3.1.0.68 or newer"
-		                android:defaultValue="false"
+		                android:defaultValue="true"
 		                android:title="Enable path postfix"
 		                android:key="postfixEnabledPref" />
         </PreferenceCategory>
@@ -48,9 +48,18 @@
 		        <EditTextPreference
 		                android:name="Autorefresh interval"
 		                android:summary="Autorefresh interval in seconds"
-		                android:defaultValue="10"
+		                android:defaultValue="30"
 		                android:title="Autorefresh interval"
 		                android:inputType="number"
 		                android:key="autorefreshIntervalPref" />
-        </PreferenceCategory>    
+        </PreferenceCategory> 
+        <PreferenceCategory
+                android:title="Display preferences">
+		        <CheckBoxPreference
+		                android:name="Show expanded"
+		                android:summary="Display full info for all downloads in your list"
+		                android:defaultValue="false"
+		                android:title="Show expanded"
+		                android:key="showExpandedPref" />
+        </PreferenceCategory>   
 </PreferenceScreen>

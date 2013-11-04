@@ -19,16 +19,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.insolence.admclient.DownloadItemListAdapter.OnSelectItemListener;
 import com.insolence.admclient.asynctasks.SendCommandTask;
 import com.insolence.admclient.asynctasks.SendMagnetTask;
 import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.listmanagers.*;
 import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 
-public class DownloadItemListActivity extends SherlockListActivity implements IProcessResultConsumer, IDisabler{
-	
+public class DownloadItemListActivity extends SherlockListActivity implements IProcessResultConsumer, IDisabler, OnSelectItemListener{
 	
 	static boolean _autoRefreshEnabled = true;
+	
+	String selectedItemName;
 	
 	public static DownloadItemListActivity instance;
 	
@@ -188,7 +190,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	@Override
 	public void showResult(List<DownloadItem> items) {
 		//set adapter
-		DownloadItemListAdapter adapter = new DownloadItemListAdapter(this, items);		
+		DownloadItemListAdapter adapter = new DownloadItemListAdapter(this, items, this);		
 		ListView list = getListView();
 		int savedPosition = list.getFirstVisiblePosition();
 	    View firstVisibleView = list.getChildAt(0);
@@ -269,6 +271,21 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 		if (_manager instanceof IManualRefreshable){
 			((IManualRefreshable) _manager).manualRefresh();
 		}
+	}
+
+	@Override
+	public boolean isItemSelected(DownloadItem item) {
+		if (item == null)
+			return false;
+		return (item.getId() + item.getName()).equals(selectedItemName);
+	}
+
+	@Override
+	public void setDownloadItemSelected(DownloadItem item) {
+		if (item == null)
+			return;
+		selectedItemName = (item.getId() + item.getName());
+		
 	}
 	
 	
