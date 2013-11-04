@@ -12,6 +12,8 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.opengl.Visibility;
+import android.preference.PreferenceManager;
 import android.text.AndroidCharacter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +26,11 @@ import android.widget.Toast;
 
 public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
-	private Context _context;
+	private OnSelectItemListener _onSelectItemListener;
 	
-	public DownloadItemListAdapter(Context context, List<DownloadItem> downloadItems) {
-		super(context, R.layout.download_item, downloadItems);
-		_context = context; 
+	public DownloadItemListAdapter(Context context, List<DownloadItem> downloadItems, OnSelectItemListener listener) {
+		super(context, R.layout.download_item, downloadItems); 
+		_onSelectItemListener = listener;
 	}
 	
 	@Override
@@ -36,7 +38,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
         View v = convertView;
         if (v == null) {
-            LayoutInflater vi = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.download_item, null);
         }
         
@@ -51,10 +53,14 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         		null
         		);
         
+        TextView summaryHolder = (TextView) v.findViewById(R.id.download_item_summary);
+        summaryHolder.setText("Status: " + downloadItem.getStatus() + ", progress: " + Math.round(downloadItem.getPercentage()*100) + "% of " + downloadItem.getVolume());
+        
         TextView upSpeedHolder = (TextView) v.findViewById(R.id.download_item_up_speed);
-        upSpeedHolder.setText(downloadItem.getUpSpeed());
+        upSpeedHolder.setText(downloadItem.getDownSpeed());
+        
         TextView downSpeedHolder = (TextView) v.findViewById(R.id.download_item_down_speed);
-        downSpeedHolder.setText(downloadItem.getDownSpeed());
+        downSpeedHolder.setText(downloadItem.getUpSpeed());
         
         TextView ststusHolder = (TextView) v.findViewById(R.id.download_item_status);
         ststusHolder.setText(downloadItem.getStatus());
@@ -66,10 +72,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         timeOnHolder.setText(downloadItem.getTimeOnLine());
         
         final ImageButton menuButtonHolder = (ImageButton) v.findViewById(R.id.download_item_menu_button);
-        menuButtonHolder.setOnClickListener(
-        		/*new OnClickDownloadItemListener(downloadItem, "cancel", "is queued for delete.", "You are going to delete this torrent. Are you sure?"));
-        */
-        
+        menuButtonHolder.setOnClickListener(       
         	new OnClickListener() {
 				
 				@Override
@@ -98,17 +101,67 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 					helper.show();
 					
 				}
-			}	);
+			}
+        );
         		
+        if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("showExpandedPref", false)){
+        	expandItem(v);
+        	return v;
+        }
+               
+        v.setOnClickListener(new OnClickListener() {
 
-    	
+			@Override
+			public void onClick(View v) {
+				
+				_onSelectItemListener.setDownloadItemSelected(downloadItem);
+				
+				if (currentExpandedItem != null)
+					collapseItem(currentExpandedItem);
+				if (v == currentExpandedItem){
+					_onSelectItemListener.setDownloadItemSelected(null);
+					currentExpandedItem = null;
+				}else{
+					expandItem(v);
+					currentExpandedItem = v;
+				}
+				
+			}
+        	
+        	
+        });
         
+        if (_onSelectItemListener.isItemSelected(downloadItem)){
+        	expandItem(v);
+        	currentExpandedItem = v;
+        }
         
         return v;
 	}
-
 	
-	private class OnClickDownloadItemListener implements OnClickListener, OnMenuItemClickListener{
+	private View currentExpandedItem;
+	
+	private void expandItem(View view){
+		view.findViewById(R.id.view_additional_info_1).setVisibility(View.VISIBLE);
+		view.findViewById(R.id.view_additional_info_2).setVisibility(View.VISIBLE);
+		view.findViewById(R.id.download_item_summary).setVisibility(View.GONE);
+		((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(4);
+	}
+	
+	private void collapseItem(View view){
+		view.findViewById(R.id.view_additional_info_1).setVisibility(View.GONE);
+		view.findViewById(R.id.view_additional_info_2).setVisibility(View.GONE);
+		view.findViewById(R.id.download_item_summary).setVisibility(View.VISIBLE);
+		((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(1);
+	}
+
+	public interface OnSelectItemListener{
+		boolean isItemSelected(DownloadItem item);
+		void setDownloadItemSelected(DownloadItem item);
+	}
+	
+	
+	private class OnClickDownloadItemListener implements OnMenuItemClickListener{
 		
 		DownloadItem _item;
 		String _command;
@@ -128,19 +181,19 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 			_postText = postText;
 			_alertText = alertText;
 		}
-		
-		public void onClick(View arg0) {
-			 
+
+		@Override
+		public boolean onMenuItemClick(MenuItem item) {
 			if (_alertText != null){
 				
-				new AlertDialog.Builder((ListActivity)_context)
+				new AlertDialog.Builder((ListActivity)getContext())
 		           .setMessage(_alertText)
 		           .setCancelable(false)
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
-		            	   new SendCommandTask((DownloadItemListActivity)_context, _command, _item.getId()).execute();	       			
+		            	   new SendCommandTask((DownloadItemListActivity)getContext(), _command, _item.getId()).execute();	       			
 		        		   Toast.makeText(
-		        				   _context,
+		        				   getContext(),
 		        				   "Torrent \"" + _item.getName() + "\" " + _postText, Toast.LENGTH_SHORT).show();
 		               }
 		           })
@@ -149,16 +202,11 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
 				
 			}else{
-				new SendCommandTask((DownloadItemListActivity)_context, _command, _item.getId()).execute();
+				new SendCommandTask((DownloadItemListActivity)getContext(), _command, _item.getId()).execute();
 				Toast.makeText(
-					   _context,
+						getContext(),
 					   "Torrent \"" + _item.getName() + "\" " + _postText, Toast.LENGTH_SHORT).show();
 			}
-		}
-
-		@Override
-		public boolean onMenuItemClick(MenuItem item) {
-			onClick(null);
 			return true;
 		}
 	}

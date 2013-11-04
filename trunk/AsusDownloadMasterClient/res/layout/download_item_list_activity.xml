@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@drawable/download_item_background">
+    android:orientation="vertical">
     
     <TextView
 		      android:id="@+id/no_torrents_label"
@@ -16,7 +15,7 @@
     
     <ListView android:id="@id/android:list"
                android:layout_width="match_parent"
-               android:layout_height="wrap_content"          
+               android:layout_height="match_parent"          
                android:drawSelectorOnTop="false"
                android:choiceMode="singleChoice"
                />
