@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
         <PreferenceCategory
-                android:title="Web server preferences">
+                android:title="@string/preference_category_server">
 		        <EditTextPreference
 		                android:name="Web server address"
 		                android:summary="Network path to Download Master web server"
 		                android:defaultValue="192.168.1.1"
-		                android:title="Web server address"
+		                android:title="@string/preference_server_address"
 		                android:key="webServerAddrPref" />
 		        <EditTextPreference
 		                android:name="Web server port"
 		                android:summary="Port of Download Master web server"
 		                android:defaultValue="8081"
-		                android:title="Web server port"
+		                 android:title="@string/preference_server_port"
 		                android:key="webServerPortPref" />
 		        <CheckBoxPreference
 		                android:name="Enable path postfix"
-		                android:summary="Enable this for versions of DM 3.1.0.68 or newer"
+		                android:summary="@string/preference_path_postfix_summary"
 		                android:defaultValue="true"
-		                android:title="Enable path postfix"
+		                android:title="@string/preference_path_postfix"
 		                android:key="postfixEnabledPref" />
         </PreferenceCategory>
         <PreferenceCategory
-                android:title="Authorization preferences">
+                android:title="@string/preference_category_auth">
 		        <EditTextPreference
 		                android:name="Login"
 		                android:summary="Login to Download Master web server"
 		                android:defaultValue="admin"
-		                android:title="Login"
+		                android:title="@string/preference_login"
 		                android:key="loginPref" />
 		        <EditTextPreference
 		                android:name="Password"
 		                android:summary="Password to Download Master web server"
 		                android:defaultValue="admin"
-		                android:title="Password"
+		                android:title="@string/preference_password"
 		                android:inputType="textPassword"
 		                android:key="passwordPref" />
         </PreferenceCategory>
         <PreferenceCategory
-                android:title="Autorefresh preferences">
+                android:title="@string/preference_category_autorefresh">
 		        <CheckBoxPreference
 		                android:name="Enable autorefresh"
-		                android:summary="Enable autorefresh of torrent list by timer"
+		                android:summary="@string/preference_autorefresh_enabled_summary"
 		                android:defaultValue="false"
-		                android:title="Enable autorefresh"
+		                android:title="@string/preference_autorefresh_enabled"
 		                android:key="autorefreshEnabledPref" />
 		        <EditTextPreference
 		                android:name="Autorefresh interval"
 		                android:summary="Autorefresh interval in seconds"
 		                android:defaultValue="30"
-		                android:title="Autorefresh interval"
+		                android:title="@string/preference_autorefresh_interval"
 		                android:inputType="number"
 		                android:key="autorefreshIntervalPref" />
         </PreferenceCategory> 
         <PreferenceCategory
-                android:title="Display preferences">
+                android:title="@string/preference_category_display">
 		        <CheckBoxPreference
 		                android:name="Show expanded"
-		                android:summary="Display full info for all downloads in your list"
+		                android:summary="@string/preference_show_expanded_summary"
 		                android:defaultValue="false"
-		                android:title="Show expanded"
+		                android:title="@string/preference_show_expanded"
 		                android:key="showExpandedPref" />
         </PreferenceCategory>   
 </PreferenceScreen>
