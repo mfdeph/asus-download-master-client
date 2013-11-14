@@ -1,6 +1,7 @@
 package com.insolence.admclient;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.actionbarsherlock.internal.view.menu.MenuBuilder;
 import com.actionbarsherlock.internal.view.menu.MenuPopupHelper;
@@ -54,7 +55,11 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         		);
         
         TextView summaryHolder = (TextView) v.findViewById(R.id.download_item_summary);
-        summaryHolder.setText("Status: " + downloadItem.getStatus() + ", progress: " + Math.round(downloadItem.getPercentage()*100) + "% of " + downloadItem.getVolume());
+        //summaryHolder.setText("Status: " + downloadItem.getStatus() + ", progress: " + Math.round(downloadItem.getPercentage()*100) + "% of " + downloadItem.getVolume());
+        
+        String summary = String.format(getStr(R.string.download_item_status), downloadItem.getStatus(), Math.round(downloadItem.getPercentage()*100),  downloadItem.getVolume());
+        
+        summaryHolder.setText(summary);
         
         TextView upSpeedHolder = (TextView) v.findViewById(R.id.download_item_up_speed);
         upSpeedHolder.setText(downloadItem.getDownSpeed());
@@ -72,37 +77,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         timeOnHolder.setText(downloadItem.getTimeOnLine());
         
         final ImageButton menuButtonHolder = (ImageButton) v.findViewById(R.id.download_item_menu_button);
-        menuButtonHolder.setOnClickListener(       
-        	new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					
-					MenuBuilder builder = new MenuBuilder(getContext());
-					
-					if (downloadItem.getStatus().equalsIgnoreCase("paused")){
-						MenuItem resumeMenuItem = builder.add("Resume this");
-						resumeMenuItem.setIcon(R.drawable.ic_menu_resume);
-						resumeMenuItem.setOnMenuItemClickListener(new OnClickDownloadItemListener(downloadItem, "start", "is queued for start."));				
-					}else{				
-						MenuItem suspendMenuItem = builder.add("Suspend this");
-						suspendMenuItem.setIcon(R.drawable.ic_menu_pause);
-						suspendMenuItem.setOnMenuItemClickListener(new OnClickDownloadItemListener(downloadItem, "paused", "is queued for pause."));
-					}
-					
-					MenuItem removeMenuItem = builder.add("Stop and remove this");
-					removeMenuItem.setIcon(R.drawable.ic_menu_close_clear_cancel);
-					removeMenuItem.setOnMenuItemClickListener(new OnClickDownloadItemListener(downloadItem, "cancel", "is queued for delete.", "You are going to delete this torrent. All downloaded data will be saved. Are you sure?"));
-					
-					MenuPopupHelper helper = new MenuPopupHelper(getContext(), builder);
-					helper.setAnchorView(menuButtonHolder);
-					helper.setForceShowIcon(true);
-					
-					helper.show();
-					
-				}
-			}
-        );
+        menuButtonHolder.setOnClickListener(buildContextMenuOpener(downloadItem));
         		
         if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("showExpandedPref", false)){
         	expandItem(v);
@@ -139,6 +114,43 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         return v;
 	}
 	
+	private OnClickListener buildContextMenuOpener(final DownloadItem downloadItem){
+		
+		return new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				
+				MenuBuilder builder = buildContextMenu(downloadItem);
+				MenuPopupHelper helper = new MenuPopupHelper(getContext(), builder);
+				helper.setAnchorView(v);
+				helper.setForceShowIcon(true);
+				
+				helper.show();				
+			}
+		};	
+	}
+	
+	private MenuBuilder buildContextMenu(DownloadItem downloadItem){
+		
+		MenuBuilder builder = new MenuBuilder(getContext());
+		
+		if (downloadItem.getStatus().equalsIgnoreCase("paused")){
+			MenuItem resumeMenuItem = builder.add(getStr(R.string.context_menu_item_resume));
+			resumeMenuItem.setIcon(R.drawable.ic_menu_resume);
+			resumeMenuItem.setOnMenuItemClickListener(new OnClickDownloadItemListener(downloadItem, "start", getStr(R.string.command_info_part_resume)));				
+		}else{				
+			MenuItem suspendMenuItem = builder.add(getStr(R.string.context_menu_item_pause));
+			suspendMenuItem.setIcon(R.drawable.ic_menu_pause);
+			suspendMenuItem.setOnMenuItemClickListener(new OnClickDownloadItemListener(downloadItem, "paused", getStr(R.string.command_info_part_pause)));
+		}
+		
+		MenuItem removeMenuItem = builder.add(getStr(R.string.context_menu_item_delete));
+		removeMenuItem.setIcon(R.drawable.ic_menu_close_clear_cancel);
+		removeMenuItem.setOnMenuItemClickListener(new OnClickDownloadItemListener(downloadItem, "cancel", getStr(R.string.command_info_part_delete), getStr(R.string.confirmation_message_delete)));
+				
+	    return builder;
+	}
+	
 	private View currentExpandedItem;
 	
 	private void expandItem(View view){
@@ -158,6 +170,10 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 	public interface OnSelectItemListener{
 		boolean isItemSelected(DownloadItem item);
 		void setDownloadItemSelected(DownloadItem item);
+	}
+	
+	private String getStr(int resourceId){
+		return getContext().getResources().getString(resourceId);
 	}
 	
 	
@@ -189,15 +205,15 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 				new AlertDialog.Builder((ListActivity)getContext())
 		           .setMessage(_alertText)
 		           .setCancelable(false)
-		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
 		            	   new SendCommandTask((DownloadItemListActivity)getContext(), _command, _item.getId()).execute();	       			
 		        		   Toast.makeText(
 		        				   getContext(),
-		        				   "Torrent \"" + _item.getName() + "\" " + _postText, Toast.LENGTH_SHORT).show();
+		        				   getStr(R.string.command_info_part_download) + " \"" + _item.getName() + "\" " + _postText + ".", Toast.LENGTH_SHORT).show();
 		               }
 		           })
-		           .setNegativeButton("No", null)
+		           .setNegativeButton(getStr(R.string.basic_no), null)
 		           .show();
 
 				
@@ -205,7 +221,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 				new SendCommandTask((DownloadItemListActivity)getContext(), _command, _item.getId()).execute();
 				Toast.makeText(
 						getContext(),
-					   "Torrent \"" + _item.getName() + "\" " + _postText, Toast.LENGTH_SHORT).show();
+						getStr(R.string.command_info_part_download) + " \"" + _item.getName() + "\" " + _postText + ".", Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ASUS Download Master Cleint</string>
+    
+    <!-- Basics -->
+    <string name="basic_yes">Да</string>
+    <string name="basic_no">Нет</string>
+    
+    <!-- Preferences screen -->
+    <string name="preference_category_server">Настройки сервера Download Master</string>
+    <string name="preference_server_address">Адрес веб-сервера</string>
+	<string name="preference_server_port">Порт веб-сервера</string>
+	<string name="preference_path_postfix">Добавлять к пути /downloadmaster</string>
+	<string name="preference_path_postfix_summary">Включите эту опцию для Download Master версии 3.1.0.68 или более поздних</string>
+	
+	<string name="preference_category_auth">Настройки авторизации</string>
+    <string name="preference_login">Логин</string>
+    <string name="preference_password">Пароль</string>
+    
+    <string name="preference_category_autorefresh">Настройки автообновлений</string>
+    <string name="preference_autorefresh_enabled">Использовать автообновление</string>
+    <string name="preference_autorefresh_enabled_summary">Включите эту опцию, чтобы список загрузок обновлялся автоматически по таймеру</string>
+    <string name="preference_autorefresh_interval">Интервал автообновления (в секундах)</string>
+    
+    <string name="preference_category_display">Настройки отображения</string>
+    <string name="preference_show_expanded">Показывать в развернутом виде</string>
+    <string name="preference_show_expanded_summary">В списке загрузок всегда будет отображаться полная информация по каждой из них</string>
+    
+    <!-- Menus and commands -->
+    <string name="menu_item_refresh_list">Обновить список</string>
+    <string name="menu_group_manage_downloads">Управление загрузками</string>
+    <string name="menu_item_pause_all">Приостановить все</string>
+    <string name="menu_item_resume_all">Возобновить все</string>
+    <string name="menu_item_delete_completed">Удалить завершенные</string>
+    <string name="menu_item_preferences">Настройки</string>
+    
+    <string name="context_menu_item_pause">Приостановить</string>
+    <string name="context_menu_item_resume">Возобновить</string>
+    <string name="context_menu_item_delete">Остановить и удалить</string>
+    
+    <!-- Commands and popups -->
+    <string name="command_info_part_download">Torrent</string>
+    <string name="command_info_part_pause">is queued for pause</string>
+    <string name="command_info_part_resume">is queued for resume</string>
+    <string name="command_info_part_delete">is queued for delete</string>
+    <string name="confirmation_message_delete">Вы собираетесь удалить из очереди загрузку. Все загруженные на данный момент файлы будут сохранены. Продолжить?</string>
+    <string name="command_info_cannot_connect">Не удалось подключиться к серверу Download Master</string>
+    <string name="command_info_pause_all">Отправлена команда на приосановку всех загрузок.</string>
+    <string name="command_info_resume_all">Отправлена команда на возобновление всех загрузок.</string>
+    <string name="command_info_delete_finished">Отправлена команда на удаление всех завершенных загрузок.</string>
+    <string name="confirmation_message_delete_finished">Вы собираетесь удалить все завершенные загрузки. Все загруженные файлы будут сохранены. Продолжить?</string>
+    
+    <string name="confirmation_message_download_magnet_link" formatted="false">Do you really want to start download %s magnet link?</string>
+    <string name="command_info_download_magnet_link" formatted="false">Magnet link %s is queued for download.</string>
+   <string name="confirmation_message_download_torrent" formatted="false">Do you really want to start download "%s" torrent?</string>
+    <string name="command_info_download_torrent" formatted="false">Torrent "%s" is queued for download.</string>
+    
+    <!-- Download item UI strings -->
+    <string name="item_list_no_downloads">No active downloads detected</string>
+    <string name="download_item_status" formatted="false">Status: %s, progress: %d%% of %s</string>
+    <string name="download_item_expanded_status">Status: </string>
+    <string name="download_item_expanded_lifetime">Torrent lifetime: </string>
+    <string name="download_item_expanded_upload_speed">Upload speed: </string>
+    <string name="download_item_expanded_download_speed">Download speed: </string>
+</resources>

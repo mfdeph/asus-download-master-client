@@ -73,17 +73,17 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
             	final DownloadItemListActivity activityToTransfer = this;
             	
     			new AlertDialog.Builder(this)
-    	           .setMessage(String.format("Do you really want to start download %s magnet link?", fileName))
+    	           .setMessage(String.format(getStr(R.string.confirmation_message_download_magnet_link), fileName))
     	           .setCancelable(false)
-    	           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
     	               public void onClick(DialogInterface dialog, int id) {
     	            	   new SendMagnetTask(activityToTransfer, link, activityToTransfer.getCacheDir()).execute();
     	        		   Toast.makeText(
     	        				   activityToTransfer,
-    	        				   "Magnet link " + fileName + " is queued for download.", Toast.LENGTH_SHORT).show();
+    	        				   String.format(getStr(R.string.command_info_download_magnet_link), fileName), Toast.LENGTH_SHORT).show();
     	               }
     	           })
-    	           .setNegativeButton("No", null)
+    	           .setNegativeButton(getStr(R.string.basic_no), null)
     	           .show();
     			
     		} 
@@ -93,17 +93,17 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
             	final DownloadItemListActivity activityToTransfer = this;
             	
     			new AlertDialog.Builder(this)
-    	           .setMessage(String.format("Do you really want to start download \"%s\" torrent?", file.getName()))
+    	           .setMessage(String.format(getStr(R.string.confirmation_message_download_torrent), file.getName()))
     	           .setCancelable(false)
-    	           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
     	               public void onClick(DialogInterface dialog, int id) {
     	            	   new SendTorrentTask(activityToTransfer, file).execute();
     	        		   Toast.makeText(
     	        				   activityToTransfer,
-    	        				   "Torrent \"" + file.getName() + "\" is queued for download.", Toast.LENGTH_SHORT).show();
+    	        				   String.format(getStr(R.string.command_info_download_torrent), file.getName()), Toast.LENGTH_SHORT).show();
     	               }
     	           })
-    	           .setNegativeButton("No", null)
+    	           .setNegativeButton(getStr(R.string.basic_no), null)
     	           .show();
     		}	
     		
@@ -111,6 +111,10 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
     		setIntent(intent);
     	}
     }
+	
+	private String getStr(int resourceId){
+		return getResources().getString(resourceId);
+	}
 	
 	public void setDefaultMessageVisibility(){
 		TextView textView = (TextView)findViewById(R.id.no_torrents_label);
@@ -155,28 +159,28 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	        	new SendCommandTask(this, "pause_all").execute();
 	     		Toast.makeText(
 	    				   this,
-	    				   "All downloads are queued for pause.", Toast.LENGTH_SHORT).show();
+	    				   getStr(R.string.command_info_pause_all), Toast.LENGTH_SHORT).show();
 	        	return true;
 	        case R.id.resume_all:
 	        	new SendCommandTask(this, "start_all").execute();
 	     		Toast.makeText(
 	    				   this,
-	    				   "All downloads are queued for start.", Toast.LENGTH_SHORT).show();
+	    				   getStr(R.string.command_info_resume_all), Toast.LENGTH_SHORT).show();
 	        	return true;
 	        case R.id.delete_finished:
 	        	final DownloadItemListActivity current = this;
 				new AlertDialog.Builder(this)
-		           .setMessage("Do you really want to clear all finished downloads?")
+		           .setMessage(getStr(R.string.confirmation_message_delete_finished))
 		           .setCancelable(false)
-		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
 		            	   new SendCommandTask(current, "clear").execute();	            	   
 		        		   Toast.makeText(
 		        				   current,
-		        				   "All finished downloads are queued for delete.", Toast.LENGTH_SHORT).show();
+		        				   getStr(R.string.command_info_delete_finished), Toast.LENGTH_SHORT).show();
 		               }
 		           })
-		           .setNegativeButton("No", null)
+		           .setNegativeButton(getStr(R.string.basic_no), null)
 		           .show();        	
 	        	return true;
 	        case R.id.refresh_list:

@@ -3,6 +3,10 @@
 
     <string name="app_name">ASUS Download Master Cleint</string>
     
+    <!-- Basics -->
+    <string name="basic_yes">Yes</string>
+    <string name="basic_no">No</string>
+    
     <!-- Preferences screen -->
     <string name="preference_category_server">Web server preferences</string>
     <string name="preference_server_address">Web server address</string>
@@ -23,4 +27,40 @@
     <string name="preference_show_expanded">Show expanded</string>
     <string name="preference_show_expanded_summary">Display full info for all downloads in your list</string>
     
+    <!-- Menus and commands -->
+    <string name="menu_item_refresh_list">Refresh list</string>
+    <string name="menu_group_manage_downloads">Manage downloads</string>
+    <string name="menu_item_pause_all">Suspend all</string>
+    <string name="menu_item_resume_all">Resume all</string>
+    <string name="menu_item_delete_completed">Remove completed</string>
+    <string name="menu_item_preferences">Preferences</string>
+    
+    <string name="context_menu_item_pause">Suspend this</string>
+    <string name="context_menu_item_resume">Resume this</string>
+    <string name="context_menu_item_delete">Stop and remove this</string>
+    
+    <!-- Commands and popups -->
+    <string name="command_info_part_download">Torrent</string>
+    <string name="command_info_part_pause">is queued for pause</string>
+    <string name="command_info_part_resume">is queued for resume</string>
+    <string name="command_info_part_delete">is queued for delete</string>
+    <string name="confirmation_message_delete">You are going to delete this torrent. All downloaded data will be saved. Are you sure?</string>
+    <string name="command_info_cannot_connect">Cannot connect to Download Master service</string>
+    <string name="command_info_pause_all">All downloads are queued for pause.</string>
+    <string name="command_info_resume_all">All downloads are queued for resume.</string>
+    <string name="command_info_delete_finished">All finished downloads are queued for delete.</string>
+    <string name="confirmation_message_delete_finished">Do you really want to clear all finished downloads?</string>
+    
+    <string name="confirmation_message_download_magnet_link" formatted="false">Do you really want to start download %s magnet link?</string>
+    <string name="command_info_download_magnet_link" formatted="false">Magnet link %s is queued for download.</string>
+   <string name="confirmation_message_download_torrent" formatted="false">Do you really want to start download "%s" torrent?</string>
+    <string name="command_info_download_torrent" formatted="false">Torrent "%s" is queued for download.</string>
+    
+    <!-- Download item UI strings -->
+    <string name="item_list_no_downloads">No active downloads detected</string>
+    <string name="download_item_status" formatted="false">Status: %s, progress: %d%% of %s</string>
+    <string name="download_item_expanded_status">Status: </string>
+    <string name="download_item_expanded_lifetime">Torrent lifetime: </string>
+    <string name="download_item_expanded_upload_speed">Upload speed: </string>
+    <string name="download_item_expanded_download_speed">Download speed: </string>
 </resources>
