@@ -4,12 +4,12 @@
      <item android:id="@+id/refresh_list"
          android:orderInCategory="100"
           android:icon="@drawable/ic_menu_refresh"
-          android:title="Refresh list"
+          android:title="@string/menu_item_refresh_list"
            android:showAsAction="always"
           />
      
      <item
-	    android:title="Manage downloads"
+	    android:title="@string/menu_group_manage_downloads"
 	    android:showAsAction="always"
 	    android:orderInCategory="100"
 	    android:id="@+id/manage_group"
@@ -17,17 +17,17 @@
 	    <menu>
 	        <group>
 			    <item android:id="@+id/pause_all"
-			          android:title="Suspend all"
+			          android:title="@string/menu_item_pause_all"
 			          android:icon="@drawable/ic_menu_pause"
 			           android:showAsAction="withText"
 			          />
 			    <item android:id="@+id/resume_all"
-			          android:title="Resume all"
+			          android:title="@string/menu_item_resume_all"
 			          android:icon="@drawable/ic_menu_resume"
 			           android:showAsAction="withText"
 			          />
 			    <item android:id="@+id/delete_finished"
-			          android:title="Remove completed"
+			          android:title="@string/menu_item_delete_completed"
 			          android:icon="@drawable/ic_menu_close_clear_cancel"
 			          android:showAsAction="withText"
 	          />
@@ -39,7 +39,7 @@
      
     <item android:id="@+id/settings"
         android:orderInCategory="100"
-          android:title="Preferences"
+          android:title="@string/menu_item_preferences"
            android:showAsAction="always"
            android:icon="@drawable/ic_menu_preferences"
           />

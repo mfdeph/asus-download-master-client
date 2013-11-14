@@ -9,9 +9,9 @@
 			  android:layout_width="match_parent"
 			  android:layout_height="wrap_content"
 			  android:paddingTop="20dp"
-			  android:textSize="16dp"
+			  android:textSize="16sp"
 			  android:gravity="center"
-			  android:text="No active downloads detected"/>
+			  android:text="@string/item_list_no_downloads"/>
     
     <ListView android:id="@id/android:list"
                android:layout_width="match_parent"

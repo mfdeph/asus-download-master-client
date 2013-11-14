@@ -104,7 +104,7 @@
 					<TextView
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"
-						  android:text="Status: "/>
+						  android:text="@string/download_item_expanded_status"/>
 			        <TextView
 					      android:id="@+id/download_item_status"
 					      android:textStyle="bold"
@@ -120,7 +120,7 @@
 					<TextView
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"
-						  android:text="Torrent lifetime: "/>
+						  android:text="@string/download_item_expanded_lifetime"/>
 				        <TextView
 						      android:id="@+id/download_item_time_on"
 						      android:textStyle="bold"
@@ -135,7 +135,7 @@
 					<TextView
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"
-						  android:text="Upload speed: "/>
+						  android:text="@string/download_item_expanded_upload_speed"/>
 			        <TextView
 					      android:id="@+id/download_item_up_speed"
 					      android:textStyle="bold"
@@ -150,7 +150,7 @@
 			        <TextView
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"
-						  android:text="Download speed: "/>
+						  android:text="@string/download_item_expanded_download_speed"/>
 			        <TextView
 					      android:id="@+id/download_item_down_speed"
 					      android:textStyle="bold"
