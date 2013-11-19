@@ -40,10 +40,10 @@
     <string name="context_menu_item_delete">Остановить и удалить</string>
     
     <!-- Commands and popups -->
-    <string name="command_info_part_download">Torrent</string>
-    <string name="command_info_part_pause">is queued for pause</string>
-    <string name="command_info_part_resume">is queued for resume</string>
-    <string name="command_info_part_delete">is queued for delete</string>
+    <string name="command_info_part_download">Закачка</string>
+    <string name="command_info_part_pause">поставлена на паузу</string>
+    <string name="command_info_part_resume">возобновлена</string>
+    <string name="command_info_part_delete">будет удалена</string>
     <string name="confirmation_message_delete">Вы собираетесь удалить из очереди загрузку. Все загруженные на данный момент файлы будут сохранены. Продолжить?</string>
     <string name="command_info_cannot_connect">Не удалось подключиться к серверу Download Master</string>
     <string name="command_info_pause_all">Отправлена команда на приосановку всех загрузок.</string>
@@ -51,16 +51,16 @@
     <string name="command_info_delete_finished">Отправлена команда на удаление всех завершенных загрузок.</string>
     <string name="confirmation_message_delete_finished">Вы собираетесь удалить все завершенные загрузки. Все загруженные файлы будут сохранены. Продолжить?</string>
     
-    <string name="confirmation_message_download_magnet_link" formatted="false">Do you really want to start download %s magnet link?</string>
-    <string name="command_info_download_magnet_link" formatted="false">Magnet link %s is queued for download.</string>
-   <string name="confirmation_message_download_torrent" formatted="false">Do you really want to start download "%s" torrent?</string>
-    <string name="command_info_download_torrent" formatted="false">Torrent "%s" is queued for download.</string>
+    <string name="confirmation_message_download_magnet_link" formatted="false">Начать закачку magnet-ссылки %s?</string>
+    <string name="command_info_download_magnet_link" formatted="false">Magnet-ссылка %s поставлена в очередь на скачивание.</string>
+   <string name="confirmation_message_download_torrent" formatted="false">Начать закачку торрента "%s"?</string>
+    <string name="command_info_download_torrent" formatted="false">Торрент "%s" поставлен в очередь на скачивание.</string>
     
     <!-- Download item UI strings -->
-    <string name="item_list_no_downloads">No active downloads detected</string>
-    <string name="download_item_status" formatted="false">Status: %s, progress: %d%% of %s</string>
-    <string name="download_item_expanded_status">Status: </string>
-    <string name="download_item_expanded_lifetime">Torrent lifetime: </string>
-    <string name="download_item_expanded_upload_speed">Upload speed: </string>
-    <string name="download_item_expanded_download_speed">Download speed: </string>
+    <string name="item_list_no_downloads">Нет активных загрузок</string>
+    <string name="download_item_status" formatted="false">Статус: %s, загружено: %d%% of %s</string>
+    <string name="download_item_expanded_status">Статус: </string>
+    <string name="download_item_expanded_lifetime">Время жизни: </string>
+    <string name="download_item_expanded_upload_speed">Скорость раздачи: </string>
+    <string name="download_item_expanded_download_speed">Скорость загрузки: </string>
 </resources>
