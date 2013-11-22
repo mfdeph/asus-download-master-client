@@ -17,6 +17,7 @@
 	<string name="preference_category_auth">Настройки авторизации</string>
     <string name="preference_login">Логин</string>
     <string name="preference_password">Пароль</string>
+    <string name="preference_password_summary">Введите пароль для авторизации на сервисе Download Master</string>
     
     <string name="preference_category_autorefresh">Настройки автообновлений</string>
     <string name="preference_autorefresh_enabled">Использовать автообновление</string>
