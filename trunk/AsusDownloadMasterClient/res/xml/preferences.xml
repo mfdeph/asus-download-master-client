@@ -31,7 +31,7 @@
 		                android:key="loginPref" />
 		        <EditTextPreference
 		                android:name="Password"
-		                android:summary="Password to Download Master web server"
+		                android:summary="@string/preference_password_summary"
 		                android:defaultValue="admin"
 		                android:title="@string/preference_password"
 		                android:inputType="textPassword"

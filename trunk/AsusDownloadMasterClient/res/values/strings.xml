@@ -17,6 +17,7 @@
 	<string name="preference_category_auth">Authorization preferences</string>
     <string name="preference_login">Login</string>
     <string name="preference_password">Password</string>
+    <string name="preference_password_summary">Password to Download Master web server</string>
     
     <string name="preference_category_autorefresh">Autorefresh preferences</string>
     <string name="preference_autorefresh_enabled">Enable autorefresh</string>

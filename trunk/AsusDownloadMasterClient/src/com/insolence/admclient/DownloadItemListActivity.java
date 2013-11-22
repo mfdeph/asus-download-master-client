@@ -19,9 +19,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -95,20 +97,16 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
     	           .show();
     			
     		} 
-    		else{
+    		else {
     			
-    			File fileTmp = null;
-    			
+    			File fileTmp = null;   			
     			if (data.getScheme().equals("file"))
     				fileTmp = new File(data.getPath());
     			else if (data.getScheme().equals("content"))
-					fileTmp = getFileFromUri(data);
-    			
-            	final File file = fileTmp;          	
-            	if (file != null){
-            	
-	            	final DownloadItemListActivity activityToTransfer = this;
-	            	
+					fileTmp = getTorrentFileFromUri(data);    			
+            	final File file = fileTmp;       	
+            	if (file != null){           	
+	            	final DownloadItemListActivity activityToTransfer = this;	            	
 	    			new AlertDialog.Builder(this)
 	    	           .setMessage(String.format(getStr(R.string.confirmation_message_download_torrent), file.getName()))
 	    	           .setCancelable(false)
@@ -123,27 +121,38 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	    	           .setNegativeButton(getStr(R.string.basic_no), null)
 	    	           .show();
             	}
-    		}	
-    		
+    		}	   		
     		intent.setData(null);
     		setIntent(intent);
     	}
     }
 	
-	private File getFileFromUri(Uri uri){
+	private File getTorrentFileFromUri(Uri uri){
 		
 		try {
+			
+			String fileName = Math.round(10000*Math.random()) + ".torrent";
+			
+		    String[] proj = { MediaStore.Images.Media.TITLE };
+		    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
+		    if (cursor != null && cursor.getCount() != 0) {
+		        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
+		        cursor.moveToFirst();
+		        fileName = cursor.getString(columnIndex);
+		    }
+			
 			InputStream is = getContentResolver().openInputStream(uri);	
-			File tempFile = File.createTempFile("" + Math.round(10000*Math.random()), ".torrent", getCacheDir());												
+			File tempFile = new File(getCacheDir(), fileName);
+			
 			OutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile)); 
 			int bufferSize = 1024;
 			byte[] buffer = new byte[bufferSize];
 			int len = 0;
-			while ((len = is.read(buffer)) != -1) {
+			while ((len = is.read(buffer)) != -1)
 			    stream.write(buffer, 0, len);
-			}
-			if(stream!=null)
+			if(stream != null)
 			    stream.close();
+			
 			return tempFile;
 		
 		} catch (FileNotFoundException e) {
