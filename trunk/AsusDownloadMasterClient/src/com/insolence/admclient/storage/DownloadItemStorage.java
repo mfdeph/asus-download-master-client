@@ -17,8 +17,12 @@ public class DownloadItemStorage {
 	private static DownloadItemStorage _instance;
 	
 	public static DownloadItemStorage getInstance(){
+		return getInstance(StaticContextApp.getContext());
+	}
+	
+	public static DownloadItemStorage getInstance(Context context){
 		if (_instance == null)
-			_instance = new DownloadItemStorage(StaticContextApp.getContext());
+			_instance = new DownloadItemStorage(context);
 		return _instance;
 	}
 	

@@ -2,16 +2,14 @@ package com.insolence.admclient.listmanagers;
 
 import java.util.ArrayList;
 
-import com.insolence.admclient.asynctasks.GetItemListResult;
 import com.insolence.admclient.entity.DownloadItem;
+import com.insolence.admclient.entity.IGetItemListResultPostProcessor;
 
-public interface IDownloadItemListManager {
+public interface IDownloadItemListManager extends IGetItemListResultPostProcessor{
 
 	void Actualize(IProcessResultConsumer processResultConsumer);
 	
 	ArrayList<DownloadItem> getDownloadItems();
-	
-	void postProcessResult(GetItemListResult result);
 	
 	IDownloadItemListManager switchToNext(IDownloadItemListManager nextManager);
 	
