@@ -2,9 +2,9 @@ package com.insolence.admclient.asynctasks;
 
 import java.util.ArrayList;
 
-import com.insolence.admclient.DownloadItem;
 import com.insolence.admclient.R;
 import com.insolence.admclient.StaticContextApp;
+import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.listmanagers.IDownloadItemListManager;
 import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 

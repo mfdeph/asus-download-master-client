@@ -33,6 +33,7 @@ import com.insolence.admclient.DownloadItemListAdapter.OnSelectItemListener;
 import com.insolence.admclient.asynctasks.SendCommandTask;
 import com.insolence.admclient.asynctasks.SendMagnetTask;
 import com.insolence.admclient.asynctasks.SendTorrentTask;
+import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.listmanagers.*;
 import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 

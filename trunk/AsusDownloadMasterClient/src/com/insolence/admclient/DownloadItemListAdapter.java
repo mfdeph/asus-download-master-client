@@ -8,6 +8,7 @@ import com.actionbarsherlock.internal.view.menu.MenuPopupHelper;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.insolence.admclient.asynctasks.SendCommandTask;
+import com.insolence.admclient.entity.DownloadItem;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;

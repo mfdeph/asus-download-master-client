@@ -2,7 +2,7 @@ package com.insolence.admclient.listmanagers;
 
 import java.util.List;
 
-import com.insolence.admclient.DownloadItem;
+import com.insolence.admclient.entity.DownloadItem;
 
 public interface IProcessResultConsumer {
 
