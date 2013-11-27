@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import com.insolence.admclient.R;
 import com.insolence.admclient.StaticContextApp;
 import com.insolence.admclient.entity.DownloadItem;
-import com.insolence.admclient.listmanagers.IDownloadItemListManager;
+import com.insolence.admclient.entity.IGetItemListResultPostProcessor;
 import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 
 import android.os.AsyncTask;
 
 public class GetItemListTask  extends AsyncTask<Void, Void, GetItemListResult>{
 
-	protected IDownloadItemListManager _manager;
+	protected IGetItemListResultPostProcessor _postProcessor;
 	
-	public GetItemListTask(IDownloadItemListManager manager){
-		_manager = manager;
+	public GetItemListTask(IGetItemListResultPostProcessor manager){
+		_postProcessor = manager;
 	}	
 
 	@Override
@@ -39,6 +39,6 @@ public class GetItemListTask  extends AsyncTask<Void, Void, GetItemListResult>{
 	
 	@Override
 	protected void onPostExecute(GetItemListResult result){		
-		_manager.postProcessResult(result);		
+		_postProcessor.postProcessResult(result);		
 	}
 }
