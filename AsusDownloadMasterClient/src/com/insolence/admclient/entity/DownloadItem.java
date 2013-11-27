@@ -1,4 +1,4 @@
-package com.insolence.admclient;
+package com.insolence.admclient.entity;
 
 public class DownloadItem {
 

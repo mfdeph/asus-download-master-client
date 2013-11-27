@@ -2,9 +2,10 @@ package com.insolence.admclient.listmanagers;
 
 import java.util.ArrayList;
 
-import com.insolence.admclient.DownloadItem;
 import com.insolence.admclient.asynctasks.GetItemListTask;
 import com.insolence.admclient.asynctasks.GetItemListResult;
+import com.insolence.admclient.entity.DownloadItem;
+import com.insolence.admclient.storage.DownloadItemStorage;
 
 public abstract class DownloadItemListManagerBase implements IDownloadItemListManager{
 
@@ -31,6 +32,7 @@ public abstract class DownloadItemListManagerBase implements IDownloadItemListMa
 			return;
 		if (result.isSucceed()){
 			DownloadItems = result.getDownloadItems();
+			DownloadItemStorage.getInstance().saveDownloadItems(result.getDownloadItems(), null);
 			ProcessResultConsumer.showResult(DownloadItems);
 		}else{
 			ProcessResultConsumer.showErrorMessage(result.getMessage());

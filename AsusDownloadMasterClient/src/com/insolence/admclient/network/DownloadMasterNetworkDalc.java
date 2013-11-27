@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-import com.insolence.admclient.DownloadItem;
+import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.RandomGuid;
 
