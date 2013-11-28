@@ -1,4 +1,4 @@
-package com.insolence.admclient.listmanagers;
+/*package com.insolence.admclient.listmanagers;
 
 import java.util.ArrayList;
 
@@ -14,3 +14,4 @@ public interface IDownloadItemListManager extends IGetItemListResultPostProcesso
 	IDownloadItemListManager switchToNext(IDownloadItemListManager nextManager);
 	
 }
+*/

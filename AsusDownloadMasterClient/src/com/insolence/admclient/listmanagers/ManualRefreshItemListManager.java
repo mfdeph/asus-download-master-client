@@ -1,4 +1,4 @@
-package com.insolence.admclient.listmanagers;
+/*package com.insolence.admclient.listmanagers;
 
 public class ManualRefreshItemListManager extends DownloadItemListManagerBase implements IManualRefreshable{
 
@@ -13,4 +13,4 @@ public class ManualRefreshItemListManager extends DownloadItemListManagerBase im
 		ExecuteItemListRequest();
 	}
 	
-}
+}*/
