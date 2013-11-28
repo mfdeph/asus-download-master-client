@@ -14,12 +14,19 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 
+	private static boolean _isAppInForeground;
+	
+	public static void setAppInForeground(boolean isAppInForeground, Context context){
+		_isAppInForeground = isAppInForeground;
+		new RefreshItemListBroadcastReceiver().resetAlarm(context);
+	}
+	
 	@Override
 	public void onReceive(final Context context, Intent intent) {
-		
 		IGetItemListResultPostProcessor resultPostProcessor = new IGetItemListResultPostProcessor(){
 			public void postProcessResult(GetItemListResult result) {
 				if (result.isSucceed()){
@@ -33,25 +40,60 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 		
 		new GetItemListTask(resultPostProcessor).execute();
 		
-		//следующий запуск сервиса (пока без учета активно окно или нет)
-		setAlarm(context, getNextServiceRunTime(context));
+		setNextAlarm(context);
 		
 	}
 	
-	//первичная настройка сервиса, немедленный запуск обновления списка загрузок
-	public void setup(Context context){
-		 if (!isAlarmUp(context)){
-			 setAlarm(context, System.currentTimeMillis());
-		 }
-	 }
+
 	
-	private long getNextServiceRunTime(Context context){
-		return System.currentTimeMillis() + PreferenceAccessor.getInstance(context).getServiceAutorefreshInterval() * 60 * 1000;
+	private long getServiceInterval(Context context){
+		long interval;
+		if (_isAppInForeground)
+			interval = PreferenceAccessor.getInstance(context).getForegroundAutorefreshInterval() * 1000;
+		else 
+			interval = PreferenceAccessor.getInstance(context).getBackgroundAutorefreshInterval() * 60 * 1000;
+		return interval;
 	}
 	
 	private void setLastServiceRunTimeNow(Context context){
 		 PreferenceAccessor.getInstance(context).setLastItemListRefreshedAt(System.currentTimeMillis());
 	}
+	
+	private long getLastServiceRunTime(Context context){
+		long lastServiceRunAt = PreferenceAccessor.getInstance(context).getLastItemListRefreshedAt();
+		return lastServiceRunAt;
+	}
+	
+	 private void setNextAlarm(Context context)
+	 {
+	     long nextRunTime = System.currentTimeMillis() + getServiceInterval(context);
+	     setAlarm(context, nextRunTime);
+	 }
+	 
+	 
+	 public void setFirstAlarm(Context context){
+		 if (!isAlarmUp(context)){
+			 long nextRunTime = getLastServiceRunTime(context) + getServiceInterval(context);
+			 setAlarm(context, nextRunTime);
+		 }
+	 }
+	
+	 public void resetAlarm(Context context){
+		 cancelAlarm(context);
+		 long nextRunTime = Math.max((getLastServiceRunTime(context) + getServiceInterval(context)), System.currentTimeMillis());
+		 setAlarm(context, nextRunTime);
+	 } 
+	 
+	 public void runAlarmImmidiately(Context context){
+		 cancelAlarm(context);
+		 long nextRunTime = System.currentTimeMillis();
+		 setAlarm(context, nextRunTime);
+	 } 
+	 
+	 private void cancelAlarm(Context context)
+	 {
+		 getAlarmManager(context).cancel(getAlarmPendingIntent(context));
+	 }
 	
 	 private boolean isAlarmUp(Context context){
 		 return getAlarmPendingIntent(context, PendingIntent.FLAG_NO_CREATE) != null;
@@ -71,7 +113,8 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 	 
 	 private PendingIntent getAlarmPendingIntent(Context context, int flags){
 	     Intent i = new Intent(context, RefreshItemListBroadcastReceiver.class);
-	     return PendingIntent.getBroadcast(context, 0, i, flags);    	 
+	     PendingIntent intent =  PendingIntent.getBroadcast(context, 0, i, flags);   
+	     return intent;
 	 }
 
 }

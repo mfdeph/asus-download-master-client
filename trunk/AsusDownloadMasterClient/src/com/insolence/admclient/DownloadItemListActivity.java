@@ -36,6 +36,7 @@ import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.listmanagers.*;
 import com.insolence.admclient.network.DownloadMasterNetworkDalc;
+import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 
 public class DownloadItemListActivity extends SherlockListActivity implements IProcessResultConsumer, IDisabler, OnSelectItemListener{
 	
@@ -53,16 +54,23 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	@Override
 	public void onResume(){
 		super.onResume();
+		
+		setIsActivityOnForeground(true);
+		
 		ActualizeInstance();
 		setRefreshMenuButtonVisibility();
-		_autoRefreshEnabled = true;
 		handleIntent(getIntent());
 	}
 	
 	@Override
 	public void onPause(){
 		super.onPause();
-		_autoRefreshEnabled = false;
+		setIsActivityOnForeground(false);
+	}
+	
+	private void setIsActivityOnForeground(boolean isOnForeground){
+		RefreshItemListBroadcastReceiver.setAppInForeground(isOnForeground, this);
+		_autoRefreshEnabled = isOnForeground;		
 	}
 	
 	public void applyPreferences(){	

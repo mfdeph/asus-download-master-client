@@ -36,6 +36,8 @@
 		        android:name="com.insolence.admclient.Preferences"
 		        android:label="Preferences">
 		</activity>
+		<receiver android:name="com.insolence.admclient.service.RefreshItemListBroadcastReceiver">
+		</receiver>
     </application>
 
 </manifest>
