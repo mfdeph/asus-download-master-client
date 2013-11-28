@@ -33,11 +33,26 @@ public class PreferenceAccessor {
 	private SharedPreferences.Editor getPrefsToEdit(){
 		return getPrefs().edit();
 	}
+
+	private static final String autorefreshEnabledPref = "autorefreshEnabledPref";	
+	
+	public boolean isAutorefreshEnabled(){
+		return getPrefs().getBoolean(autorefreshEnabledPref, true);
+	}
 	
 	private static final String serviceAutorefreshIntervalPref = "serviceAutorefreshIntervalPref";	
 	
-	public int getServiceAutorefreshInterval(){
-		return getPrefs().getInt(serviceAutorefreshIntervalPref, 30);
+	//интервал обновления при свернутом приложении - не чаще чем раз в минуту
+	//TODO: не плодить сущности и завязаться на тот же параметр, что и форграундное обновление
+	public int getBackgroundAutorefreshInterval(){
+		return Math.max(1, Integer.valueOf(getPrefs().getString(serviceAutorefreshIntervalPref, "30")));
+	}
+	
+	private static final String autorefreshIntervalPref = "autorefreshIntervalPref";	
+	
+	//интервал обновления при открытом приложении - не чаще чем раз в 5 секунд
+	public int getForegroundAutorefreshInterval(){
+		return Math.max(5, Integer.valueOf(getPrefs().getString(autorefreshIntervalPref, "30")));
 	}
 		
 	private static final String lastItemListRefreshedAtPref = "lastItemListRefreshedAt";
@@ -47,7 +62,9 @@ public class PreferenceAccessor {
 	}
 	
 	public void setLastItemListRefreshedAt(long refreshTime){
-		getPrefsToEdit().putLong(lastItemListRefreshedAtPref, refreshTime);
+		SharedPreferences.Editor editor = getPrefsToEdit();
+		editor.putLong(lastItemListRefreshedAtPref, refreshTime);
+		editor.commit();
 	}
 
 }
