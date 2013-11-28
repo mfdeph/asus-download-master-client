@@ -1,4 +1,4 @@
-package com.insolence.admclient.listmanagers;
+/*package com.insolence.admclient.listmanagers;
 
 import java.util.ArrayList;
 
@@ -68,5 +68,5 @@ public abstract class DownloadItemListManagerBase implements IDownloadItemListMa
 		return nextManager;
 	}
 
-}
+}*/
 

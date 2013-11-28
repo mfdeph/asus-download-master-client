@@ -1,4 +1,4 @@
-package com.insolence.admclient.listmanagers;
+/*package com.insolence.admclient.listmanagers;
 
 import android.os.Handler;
 
@@ -48,4 +48,4 @@ public class AutoRefreshItemListManager extends DownloadItemListManagerBase {
 	};
 
 
-}
+}*/

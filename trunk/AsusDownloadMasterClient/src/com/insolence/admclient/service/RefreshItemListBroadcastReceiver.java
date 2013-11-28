@@ -1,10 +1,9 @@
 package com.insolence.admclient.service;
 
+import com.insolence.admclient.DownloadItemListActivity;
 import com.insolence.admclient.asynctasks.GetItemListResult;
 import com.insolence.admclient.asynctasks.GetItemListTask;
-import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.entity.IGetItemListResultPostProcessor;
-import com.insolence.admclient.notification.NotificationBuilder;
 import com.insolence.admclient.notification.NotifyWhenDownloadCompletedListener;
 import com.insolence.admclient.storage.DownloadItemStorage;
 import com.insolence.admclient.storage.PreferenceAccessor;
@@ -14,41 +13,52 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 
-	private static boolean _isAppInForeground;
-	
-	public static void setAppInForeground(boolean isAppInForeground, Context context){
-		_isAppInForeground = isAppInForeground;
-		new RefreshItemListBroadcastReceiver().resetAlarm(context);
-	}
+	private static boolean _locked;
 	
 	@Override
 	public void onReceive(final Context context, Intent intent) {
-		IGetItemListResultPostProcessor resultPostProcessor = new IGetItemListResultPostProcessor(){
-			public void postProcessResult(GetItemListResult result) {
-				if (result.isSucceed()){
-					DownloadItemStorage.getInstance(context).saveDownloadItems(
-							result.getDownloadItems(), 
-							new NotifyWhenDownloadCompletedListener(context));
-					setLastServiceRunTimeNow(context);
+		if (!_locked){
+			_locked = true;
+			IGetItemListResultPostProcessor resultPostProcessor = new IGetItemListResultPostProcessor(){
+				public void postProcessResult(GetItemListResult result) {
+					if (result.isSucceed()){
+						DownloadItemStorage.getInstance(context).saveDownloadItems(
+								result.getDownloadItems(), 
+								new NotifyWhenDownloadCompletedListener(context));
+						setLastServiceRunTimeNow(context);
+						if (getMainActivity() != null)
+							getMainActivity().updateListView();
+						
+					}
+					if (getMainActivity() != null)
+						getMainActivity().setUpdateProgressAnimation(false);
+					_locked = false;
 				}
-			}
-		};
-		
-		new GetItemListTask(resultPostProcessor).execute();
+			};
+			
+			if (getMainActivity() != null)
+				getMainActivity().setUpdateProgressAnimation(true);		
+			new GetItemListTask(resultPostProcessor).execute();
+		}
 		
 		setNextAlarm(context);
 		
 	}
 	
-
+	private boolean isMainActivityActive(){
+		return getMainActivity() != null;
+	}
+	
+	private DownloadItemListActivity getMainActivity(){
+		return DownloadItemListActivity.getCurrent();
+	}
 	
 	private long getServiceInterval(Context context){
 		long interval;
-		if (_isAppInForeground)
+		if (isMainActivityActive())
 			interval = PreferenceAccessor.getInstance(context).getForegroundAutorefreshInterval() * 1000;
 		else 
 			interval = PreferenceAccessor.getInstance(context).getBackgroundAutorefreshInterval() * 60 * 1000;
@@ -69,19 +79,13 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 	     long nextRunTime = System.currentTimeMillis() + getServiceInterval(context);
 	     setAlarm(context, nextRunTime);
 	 }
-	 
-	 
-	 public void setFirstAlarm(Context context){
-		 if (!isAlarmUp(context)){
-			 long nextRunTime = getLastServiceRunTime(context) + getServiceInterval(context);
-			 setAlarm(context, nextRunTime);
-		 }
-	 }
 	
 	 public void resetAlarm(Context context){
 		 cancelAlarm(context);
-		 long nextRunTime = Math.max((getLastServiceRunTime(context) + getServiceInterval(context)), System.currentTimeMillis());
-		 setAlarm(context, nextRunTime);
+		 if (PreferenceAccessor.getInstance(context).isAutorefreshEnabled()){
+			 long nextRunTime = Math.max((getLastServiceRunTime(context) + getServiceInterval(context)), System.currentTimeMillis());
+			 setAlarm(context, nextRunTime);
+		 }
 	 } 
 	 
 	 public void runAlarmImmidiately(Context context){

@@ -1,4 +1,4 @@
-package com.insolence.admclient;
+/*package com.insolence.admclient;
 
 public class AutoRefreshProperties {
 
@@ -30,4 +30,4 @@ public class AutoRefreshProperties {
 		AutoRefreshProperties otherObject = (AutoRefreshProperties)object;
 		return(otherObject.getAutoRefreshInterval() == getAutoRefreshInterval() && otherObject.isAutoRefreshEnabled() == isAutoRefreshEnabled());
 	}
-}
+}*/

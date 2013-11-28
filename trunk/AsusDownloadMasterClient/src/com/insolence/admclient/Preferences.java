@@ -39,11 +39,11 @@ public class Preferences extends SherlockPreferenceActivity implements OnSharedP
     	return true;
     }
 
-	@Override
+	/*@Override
 	protected void onPause() {
 		DownloadItemListActivity.instance.applyPreferences();
 		super.onPause();
-	}
+	}*/
 	
     private void initSummary(Preference p) {
         if (p instanceof PreferenceCategory) {

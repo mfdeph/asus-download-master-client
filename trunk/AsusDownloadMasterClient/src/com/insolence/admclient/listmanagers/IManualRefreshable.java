@@ -1,7 +1,8 @@
-package com.insolence.admclient.listmanagers;
+/*package com.insolence.admclient.listmanagers;
 
 public interface IManualRefreshable {
 
 	void manualRefresh();
 	
 }
+*/

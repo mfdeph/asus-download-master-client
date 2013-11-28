@@ -7,8 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockListActivity;
@@ -37,27 +35,42 @@ import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.listmanagers.*;
 import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
+import com.insolence.admclient.storage.DownloadItemStorage;
+import com.insolence.admclient.storage.PreferenceAccessor;
 
-public class DownloadItemListActivity extends SherlockListActivity implements IProcessResultConsumer, IDisabler, OnSelectItemListener{
+public class DownloadItemListActivity extends SherlockListActivity implements IProcessResultConsumer, /*IDisabler, */OnSelectItemListener{
 	
 	static boolean _autoRefreshEnabled = true;
 	
 	String selectedItemName;
 	
-	public static DownloadItemListActivity instance;
+	//TODO: избавиться!
+	//public static DownloadItemListActivity instance;
 	
-	private void ActualizeInstance(){
+	public static DownloadItemListActivity _current;
+	
+	public static DownloadItemListActivity getCurrent(){
+		return _current;
+	}
+	
+	public void setUpdateProgressAnimation(boolean show){
+		findViewById(R.id.download_item_list_updating_message).setVisibility(show ? View.VISIBLE : View.GONE);
+	}
+	
+	/*private void ActualizeInstance(){
 		_manager.Actualize(this);
 		instance = this;
-	}
+	}*/
 	
 	@Override
 	public void onResume(){
 		super.onResume();
 		
-		setIsActivityOnForeground(true);
+		_autoRefreshEnabled = true;
+		_current = this;
+		new RefreshItemListBroadcastReceiver().resetAlarm(this);
 		
-		ActualizeInstance();
+		//ActualizeInstance();
 		setRefreshMenuButtonVisibility();
 		handleIntent(getIntent());
 	}
@@ -65,18 +78,15 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	@Override
 	public void onPause(){
 		super.onPause();
-		setIsActivityOnForeground(false);
+		_autoRefreshEnabled = false;
+		_current = null;
+		new RefreshItemListBroadcastReceiver().resetAlarm(this);
 	}
 	
-	private void setIsActivityOnForeground(boolean isOnForeground){
-		RefreshItemListBroadcastReceiver.setAppInForeground(isOnForeground, this);
-		_autoRefreshEnabled = isOnForeground;		
-	}
-	
-	public void applyPreferences(){	
+	/*public void applyPreferences(){	
 		if (updatePreferencesIfNessesary())
 			setDownloadItemListManager();
-	}
+	}*/
 	
 	
 	private void handleIntent(Intent intent) {
@@ -185,9 +195,10 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);         
         setContentView(R.layout.download_item_list_activity);      
-        applyPreferences(); 
-        ActualizeInstance();
-        showResult(_manager.getDownloadItems());
+        //applyPreferences(); 
+        //ActualizeInstance();
+        //showResult(_manager.getDownloadItems());
+        updateListView();
     }
 
     
@@ -203,7 +214,8 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
     
     private void setRefreshMenuButtonVisibility(){
     	if (updateMenuItem != null)
-    		updateMenuItem.setVisible(!getPreferences().isAutoRefreshEnabled());
+    		//updateMenuItem.setVisible(!getPreferences().isAutoRefreshEnabled());
+    		updateMenuItem.setVisible(!PreferenceAccessor.getInstance().isAutorefreshEnabled());
     }
     
     @Override
@@ -244,7 +256,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 		           .show();        	
 	        	return true;
 	        case R.id.refresh_list:
-	        	sendRefreshRequestIfNesessary();
+	        	sendRefreshRequest();
 	     		return true;
 	        default:
 	            return false;
@@ -266,31 +278,37 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 		//set default label visibility
 		setDefaultMessageVisibility();	
 	}
+	
+	
+	public void updateListView(){
+		showResult(DownloadItemStorage.getInstance(this).getDownloadItems());
+	}
+	
 
 	@Override
 	public void showErrorMessage(String errorMessage) {
 		Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
 	}
 
-	@Override
+	/*@Override
 	public boolean IsEnabled() {
 		return _autoRefreshEnabled;
-	}
+	}*/
 	
 	
-	private static AutoRefreshProperties _preferences;
+	//private static AutoRefreshProperties _preferences;
 	
-	private AutoRefreshProperties getPreferences(){
+	/*private AutoRefreshProperties getPreferences(){
 		if (_preferences == null)
 			setPreferences(buildCurrentPreferences());
 		return _preferences;	
-	}
+	}*/
 	
-	private void setPreferences(AutoRefreshProperties preferences){
+	/*private void setPreferences(AutoRefreshProperties preferences){
 		_preferences = preferences;
-	}
+	}*/
 	
-	private boolean updatePreferencesIfNessesary(){
+	/*private boolean updatePreferencesIfNessesary(){
 		
 		DownloadMasterNetworkDalc.setup(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
 		
@@ -301,9 +319,9 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 			setPreferences(newPreferences);
 			return true;
 		}
-	}
+	}*/
 	
-	private AutoRefreshProperties buildCurrentPreferences(){
+	/*private AutoRefreshProperties buildCurrentPreferences(){
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		boolean autorefreshEnabled = prefs.getBoolean("autorefreshEnabledPref", true);
 		int autorefreshInterval = 10;
@@ -313,12 +331,12 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 			
 		}
 		return new AutoRefreshProperties(autorefreshEnabled, autorefreshInterval);
-	}
+	}*/
 	
 	
-	private static IDownloadItemListManager _manager;
+	//private static IDownloadItemListManager _manager;
 	
-	private void setDownloadItemListManager(){
+	/*private void setDownloadItemListManager(){
 		DownloadItemListManagerBase newManager =
 				getPreferences().isAutoRefreshEnabled()?
 				new AutoRefreshItemListManager(this, getPreferences().getAutoRefreshInterval()).setDisabler(this) :
@@ -328,13 +346,18 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 			_manager = newManager;
 		else
 			_manager = _manager.switchToNext(newManager);
-	}
+	}*/
 	
 	@Override
 	public void sendRefreshRequestIfNesessary(){
-		if (_manager instanceof IManualRefreshable){
+		/*if (_manager instanceof IManualRefreshable){
 			((IManualRefreshable) _manager).manualRefresh();
-		}
+		}*/
+		sendRefreshRequest();
+	}
+	
+	public void sendRefreshRequest(){
+		new RefreshItemListBroadcastReceiver().runAlarmImmidiately(this);
 	}
 
 	@Override
