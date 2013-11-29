@@ -67,6 +67,8 @@ public class DownloadMasterNetworkDalc {
 	
 	protected static boolean tryGetItemList(Holder<String> result){
 		
+		try{ Thread.sleep(rand.nextInt(3000)); }catch(InterruptedException e){ }
+		
 		result.value = 
 				"[" + 
 				"[\"1\",\"Hunger_Games_BDRIP\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" +
