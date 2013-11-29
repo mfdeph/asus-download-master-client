@@ -48,20 +48,12 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 		return _current;
 	}
 	
-	public void setUpdateProgressAnimation(boolean show){
-		if (show){
-			startRefreshAnimation();
-		}else{
-			stopRefreshAnimation();
-		}
-	}
-	
 	@Override
 	public void onResume(){
 		super.onResume();		
 		_current = this;
 		new RefreshItemListBroadcastReceiver().resetAlarm(this);
-		stopRefreshAnimation();
+		switchRefreshAnimation(false);
 		handleIntent(getIntent());
 	}
 	
@@ -190,25 +182,23 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
     
     private MenuItem updateMenuItem;
     
-    private void startRefreshAnimation() {   	
+    public void switchRefreshAnimation(boolean enabled) {   	
     	if (updateMenuItem != null){
-	        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
-	        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh);
-	        rotation.setRepeatCount(Animation.INFINITE);
-	        iv.startAnimation(rotation);	
-	        updateMenuItem.setActionView(iv);
+    		if (enabled){
+		        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
+		        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh);
+		        rotation.setRepeatCount(Animation.INFINITE);
+		        iv.startAnimation(rotation);	
+		        updateMenuItem.setActionView(iv);
+    		}else{
+    			View actionView = updateMenuItem.getActionView();
+        		if (actionView != null)
+        			actionView.clearAnimation();
+    	    	updateMenuItem.setActionView(null);   			
+    		}
     	}
-    }
-    
-    private void stopRefreshAnimation() {
-    	if (updateMenuItem != null){
-    		if (updateMenuItem.getActionView() != null)
-    			updateMenuItem.getActionView().clearAnimation();
-	    	updateMenuItem.setActionView(null);
-    	}
-    }
-    
+    }  
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -52,13 +52,6 @@
 		                android:title="@string/preference_autorefresh_interval"
 		                android:inputType="number"
 		                android:key="autorefreshIntervalPref" />
-		        <EditTextPreference
-		                android:name="Service autorefresh interval"
-		                android:summary="Service autorefresh interval in minutes"
-		                android:defaultValue="30"
-		                android:title="Autorefresh interval for service (when application is not active)"
-		                android:inputType="number"
-		                android:key="serviceAutorefreshIntervalPref" />
         </PreferenceCategory> 
         <PreferenceCategory
                 android:title="@string/preference_category_display">
