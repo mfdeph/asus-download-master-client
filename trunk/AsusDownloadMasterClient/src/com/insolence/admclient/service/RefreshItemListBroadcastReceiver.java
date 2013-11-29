@@ -99,10 +99,6 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 		 getAlarmManager(context).cancel(getAlarmPendingIntent(context));
 	 }
 	
-	 private boolean isAlarmUp(Context context){
-		 return getAlarmPendingIntent(context, PendingIntent.FLAG_NO_CREATE) != null;
-	 }
-	
 	 private void setAlarm(Context context, long nextRunTime){
 		 getAlarmManager(context).set(AlarmManager.RTC_WAKEUP, nextRunTime, getAlarmPendingIntent(context));
 	 }

@@ -16,11 +16,9 @@ import com.actionbarsherlock.view.MenuItem;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ListView;
@@ -32,22 +30,17 @@ import com.insolence.admclient.asynctasks.SendCommandTask;
 import com.insolence.admclient.asynctasks.SendMagnetTask;
 import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
-import com.insolence.admclient.listmanagers.*;
-import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
 import com.insolence.admclient.storage.PreferenceAccessor;
 
-public class DownloadItemListActivity extends SherlockListActivity implements IProcessResultConsumer, /*IDisabler, */OnSelectItemListener{
+public class DownloadItemListActivity extends SherlockListActivity implements OnSelectItemListener{
 	
 	static boolean _autoRefreshEnabled = true;
 	
 	String selectedItemName;
 	
-	//TODO: избавиться!
-	//public static DownloadItemListActivity instance;
-	
-	public static DownloadItemListActivity _current;
+	private static DownloadItemListActivity _current;
 	
 	public static DownloadItemListActivity getCurrent(){
 		return _current;
@@ -57,11 +50,6 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 		findViewById(R.id.download_item_list_updating_message).setVisibility(show ? View.VISIBLE : View.GONE);
 	}
 	
-	/*private void ActualizeInstance(){
-		_manager.Actualize(this);
-		instance = this;
-	}*/
-	
 	@Override
 	public void onResume(){
 		super.onResume();
@@ -69,8 +57,6 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 		_autoRefreshEnabled = true;
 		_current = this;
 		new RefreshItemListBroadcastReceiver().resetAlarm(this);
-		
-		//ActualizeInstance();
 		setRefreshMenuButtonVisibility();
 		handleIntent(getIntent());
 	}
@@ -82,13 +68,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 		_current = null;
 		new RefreshItemListBroadcastReceiver().resetAlarm(this);
 	}
-	
-	/*public void applyPreferences(){	
-		if (updatePreferencesIfNessesary())
-			setDownloadItemListManager();
-	}*/
-	
-	
+
 	private void handleIntent(Intent intent) {
     	
     	Uri data = intent.getData();
@@ -99,16 +79,15 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
     			
     			final String link = data.toString();
     			final String fileName = SendMagnetTask.GetNativeFileNameFromMagnetLink(link);
-            	final DownloadItemListActivity activityToTransfer = this;
             	
     			new AlertDialog.Builder(this)
     	           .setMessage(String.format(getStr(R.string.confirmation_message_download_magnet_link), fileName))
     	           .setCancelable(false)
     	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
     	               public void onClick(DialogInterface dialog, int id) {
-    	            	   new SendMagnetTask(activityToTransfer, link, activityToTransfer.getCacheDir()).execute();
+    	            	   new SendMagnetTask(link, DownloadItemListActivity.this.getCacheDir()).execute();
     	        		   Toast.makeText(
-    	        				   activityToTransfer,
+    	        				   DownloadItemListActivity.this,
     	        				   String.format(getStr(R.string.command_info_download_magnet_link), fileName), Toast.LENGTH_SHORT).show();
     	               }
     	           })
@@ -131,7 +110,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	    	           .setCancelable(false)
 	    	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 	    	               public void onClick(DialogInterface dialog, int id) {
-	    	            	   new SendTorrentTask(activityToTransfer, file).execute();
+	    	            	   new SendTorrentTask(file).execute();
 	    	        		   Toast.makeText(
 	    	        				   activityToTransfer,
 	    	        				   String.format(getStr(R.string.command_info_download_torrent), file.getName()), Toast.LENGTH_SHORT).show();
@@ -195,9 +174,6 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);         
         setContentView(R.layout.download_item_list_activity);      
-        //applyPreferences(); 
-        //ActualizeInstance();
-        //showResult(_manager.getDownloadItems());
         updateListView();
     }
 
@@ -214,7 +190,6 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
     
     private void setRefreshMenuButtonVisibility(){
     	if (updateMenuItem != null)
-    		//updateMenuItem.setVisible(!getPreferences().isAutoRefreshEnabled());
     		updateMenuItem.setVisible(!PreferenceAccessor.getInstance().isAutorefreshEnabled());
     }
     
@@ -228,27 +203,26 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	        	startActivity(settingsActivity);
 	            return true;
 	        case R.id.pause_all:
-	        	new SendCommandTask(this, "pause_all").execute();
+	        	new SendCommandTask("pause_all").execute();
 	     		Toast.makeText(
 	    				   this,
 	    				   getStr(R.string.command_info_pause_all), Toast.LENGTH_SHORT).show();
 	        	return true;
 	        case R.id.resume_all:
-	        	new SendCommandTask(this, "start_all").execute();
+	        	new SendCommandTask("start_all").execute();
 	     		Toast.makeText(
 	    				   this,
 	    				   getStr(R.string.command_info_resume_all), Toast.LENGTH_SHORT).show();
 	        	return true;
 	        case R.id.delete_finished:
-	        	final DownloadItemListActivity current = this;
 				new AlertDialog.Builder(this)
 		           .setMessage(getStr(R.string.confirmation_message_delete_finished))
 		           .setCancelable(false)
 		           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
-		            	   new SendCommandTask(current, "clear").execute();	            	   
+		            	   new SendCommandTask("clear").execute();	            	   
 		        		   Toast.makeText(
-		        				   current,
+		        				   DownloadItemListActivity.this,
 		        				   getStr(R.string.command_info_delete_finished), Toast.LENGTH_SHORT).show();
 		               }
 		           })
@@ -263,8 +237,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
         }
     }
 
-	@Override
-	public void showResult(List<DownloadItem> items) {
+	public void showDownloadItemList(List<DownloadItem> items) {
 		//set adapter
 		DownloadItemListAdapter adapter = new DownloadItemListAdapter(this, items, this);		
 		ListView list = getListView();
@@ -281,79 +254,11 @@ public class DownloadItemListActivity extends SherlockListActivity implements IP
 	
 	
 	public void updateListView(){
-		showResult(DownloadItemStorage.getInstance(this).getDownloadItems());
+		showDownloadItemList(DownloadItemStorage.getInstance(this).getDownloadItems());
 	}
 	
-
-	@Override
 	public void showErrorMessage(String errorMessage) {
 		Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-	}
-
-	/*@Override
-	public boolean IsEnabled() {
-		return _autoRefreshEnabled;
-	}*/
-	
-	
-	//private static AutoRefreshProperties _preferences;
-	
-	/*private AutoRefreshProperties getPreferences(){
-		if (_preferences == null)
-			setPreferences(buildCurrentPreferences());
-		return _preferences;	
-	}*/
-	
-	/*private void setPreferences(AutoRefreshProperties preferences){
-		_preferences = preferences;
-	}*/
-	
-	/*private boolean updatePreferencesIfNessesary(){
-		
-		DownloadMasterNetworkDalc.setup(PreferenceManager.getDefaultSharedPreferences(getBaseContext()));
-		
-		AutoRefreshProperties newPreferences = buildCurrentPreferences();
-		if (newPreferences.equals(_preferences)){
-			return false;
-		}else{
-			setPreferences(newPreferences);
-			return true;
-		}
-	}*/
-	
-	/*private AutoRefreshProperties buildCurrentPreferences(){
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		boolean autorefreshEnabled = prefs.getBoolean("autorefreshEnabledPref", true);
-		int autorefreshInterval = 10;
-		try{
-			autorefreshInterval = Integer.parseInt(prefs.getString("autorefreshIntervalPref", "10"));
-		}catch(NumberFormatException e){
-			
-		}
-		return new AutoRefreshProperties(autorefreshEnabled, autorefreshInterval);
-	}*/
-	
-	
-	//private static IDownloadItemListManager _manager;
-	
-	/*private void setDownloadItemListManager(){
-		DownloadItemListManagerBase newManager =
-				getPreferences().isAutoRefreshEnabled()?
-				new AutoRefreshItemListManager(this, getPreferences().getAutoRefreshInterval()).setDisabler(this) :
-				new ManualRefreshItemListManager(this);
-		
-		if (_manager == null)
-			_manager = newManager;
-		else
-			_manager = _manager.switchToNext(newManager);
-	}*/
-	
-	@Override
-	public void sendRefreshRequestIfNesessary(){
-		/*if (_manager instanceof IManualRefreshable){
-			((IManualRefreshable) _manager).manualRefresh();
-		}*/
-		sendRefreshRequest();
 	}
 	
 	public void sendRefreshRequest(){

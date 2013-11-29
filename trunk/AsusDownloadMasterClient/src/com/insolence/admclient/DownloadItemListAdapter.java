@@ -1,7 +1,6 @@
 package com.insolence.admclient;
 
 import java.util.List;
-import java.util.Locale;
 
 import com.actionbarsherlock.internal.view.menu.MenuBuilder;
 import com.actionbarsherlock.internal.view.menu.MenuPopupHelper;
@@ -14,9 +13,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.opengl.Visibility;
 import android.preference.PreferenceManager;
-import android.text.AndroidCharacter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,7 +53,6 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         		);
         
         TextView summaryHolder = (TextView) v.findViewById(R.id.download_item_summary);
-        //summaryHolder.setText("Status: " + downloadItem.getStatus() + ", progress: " + Math.round(downloadItem.getPercentage()*100) + "% of " + downloadItem.getVolume());
         
         String summary = String.format(getStr(R.string.download_item_status), downloadItem.getStatus(), Math.round(downloadItem.getPercentage()*100),  downloadItem.getVolume());
         
@@ -208,7 +204,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 		           .setCancelable(false)
 		           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
-		            	   new SendCommandTask((DownloadItemListActivity)getContext(), _command, _item.getId()).execute();	       			
+		            	   new SendCommandTask(_command, _item.getId()).execute();	       			
 		        		   Toast.makeText(
 		        				   getContext(),
 		        				   getStr(R.string.command_info_part_download) + " \"" + _item.getName() + "\" " + _postText + ".", Toast.LENGTH_SHORT).show();
@@ -219,7 +215,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
 				
 			}else{
-				new SendCommandTask((DownloadItemListActivity)getContext(), _command, _item.getId()).execute();
+				new SendCommandTask(_command, _item.getId()).execute();
 				Toast.makeText(
 						getContext(),
 						getStr(R.string.command_info_part_download) + " \"" + _item.getName() + "\" " + _postText + ".", Toast.LENGTH_SHORT).show();
