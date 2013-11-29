@@ -1,6 +1,5 @@
 package com.insolence.admclient.asynctasks;
 
-import com.insolence.admclient.listmanagers.IProcessResultConsumer;
 import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 
 public class SendCommandTask extends SendTaskBase{
@@ -8,13 +7,13 @@ public class SendCommandTask extends SendTaskBase{
 	private String _command;
 	private String _id = null;
 	
-	public SendCommandTask(IProcessResultConsumer target, String command){
-		super(target);
+	public SendCommandTask(String command){
+		super();
 		_command = command;
 	}
 	
-	public SendCommandTask(IProcessResultConsumer target, String command, String id){
-		this(target, command);
+	public SendCommandTask(String command, String id){
+		this(command);
 		_id = id;
 	}
 

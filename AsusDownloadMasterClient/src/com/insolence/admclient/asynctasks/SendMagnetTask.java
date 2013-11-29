@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.apache.http.util.EncodingUtils;
 
-import com.insolence.admclient.listmanagers.IProcessResultConsumer;
 import com.insolence.admclient.util.RandomGuid;
 
 public class SendMagnetTask extends SendFileTaskBase {
@@ -22,8 +21,8 @@ public class SendMagnetTask extends SendFileTaskBase {
 	String _magnetLink;
 	File _cacheDirectory;
 	
-	public SendMagnetTask(IProcessResultConsumer target, String magnetLink, File cacheDirectory) {
-		super(target);
+	public SendMagnetTask(String magnetLink, File cacheDirectory) {
+		super();
 		_magnetLink = magnetLink;
 		_cacheDirectory = cacheDirectory;
 		fileIsNullExceptionText = "Failed to get magnet link data";

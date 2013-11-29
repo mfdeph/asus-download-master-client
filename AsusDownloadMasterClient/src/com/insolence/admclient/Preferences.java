@@ -27,10 +27,7 @@ public class Preferences extends SherlockPreferenceActivity implements OnSharedP
             initSummary(getPreferenceScreen().getPreference(i));
         }
 		
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
-
-		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);	
 	}
 	
     @Override
@@ -38,12 +35,6 @@ public class Preferences extends SherlockPreferenceActivity implements OnSharedP
     	this.finish();
     	return true;
     }
-
-	/*@Override
-	protected void onPause() {
-		DownloadItemListActivity.instance.applyPreferences();
-		super.onPause();
-	}*/
 	
     private void initSummary(Preference p) {
         if (p instanceof PreferenceCategory) {
