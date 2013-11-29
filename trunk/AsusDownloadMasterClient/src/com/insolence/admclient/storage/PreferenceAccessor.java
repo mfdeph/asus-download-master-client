@@ -40,18 +40,10 @@ public class PreferenceAccessor {
 		return getPrefs().getBoolean(autorefreshEnabledPref, true);
 	}
 	
-	private static final String serviceAutorefreshIntervalPref = "serviceAutorefreshIntervalPref";	
-	
-	//интервал обновления при свернутом приложении - не чаще чем раз в минуту
-	//TODO: не плодить сущности и завязаться на тот же параметр, что и форграундное обновление
-	public int getBackgroundAutorefreshInterval(){
-		return Math.max(1, Integer.valueOf(getPrefs().getString(serviceAutorefreshIntervalPref, "30")));
-	}
-	
 	private static final String autorefreshIntervalPref = "autorefreshIntervalPref";	
 	
-	//интервал обновления при открытом приложении - не чаще чем раз в 5 секунд
-	public int getForegroundAutorefreshInterval(){
+	//интервал обновления - не чаще чем раз в 5 секунд (или минут, если приложение свернуто)
+	public int getAutorefreshInterval(){
 		return Math.max(5, Integer.valueOf(getPrefs().getString(autorefreshIntervalPref, "30")));
 	}
 		

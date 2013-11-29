@@ -41,13 +41,13 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 							getMainActivity().showErrorMessage(result.getMessage());
 					}
 					if (getMainActivity() != null)
-						getMainActivity().setUpdateProgressAnimation(false);
+						getMainActivity().switchRefreshAnimation(false);
 					_currentRefreshTask = null;
 				}
 			};
 			
 			if (getMainActivity() != null)
-				getMainActivity().setUpdateProgressAnimation(true);	
+				getMainActivity().switchRefreshAnimation(true);	
 			GetItemListTask getItemListTask = new GetItemListTask(resultPostProcessor);
 			_currentRefreshTask = getItemListTask;
 			new GetItemListTask(resultPostProcessor).execute();
@@ -66,11 +66,10 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 	}
 	
 	private long getServiceInterval(Context context){
-		long interval;
-		if (isMainActivityActive())
-			interval = PreferenceAccessor.getInstance(context).getForegroundAutorefreshInterval() * 1000;
-		else 
-			interval = PreferenceAccessor.getInstance(context).getBackgroundAutorefreshInterval() * 60 * 1000;
+		long interval = PreferenceAccessor.getInstance(context).getAutorefreshInterval() * 1000;
+		//если приложение работает в фоне, то обновляем список в 60 раз реже ^^
+		if (!isMainActivityActive())
+			interval = interval * 60;		
 		return interval;
 	}
 	

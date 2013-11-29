@@ -46,7 +46,7 @@ public class NotificationBuilder {
 	private NotificationCompat.Builder buildBaseNotificationBuilder(Context context){
 		return new NotificationCompat.Builder(context)
 					//TODO: нормальная иконка
-			        .setSmallIcon(R.drawable.ic_launcher)
+			        .setSmallIcon(R.drawable.notification_download)
 			        .setAutoCancel(true);
 	}
 	
