@@ -14,13 +14,18 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,11 +37,8 @@ import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
-import com.insolence.admclient.storage.PreferenceAccessor;
 
 public class DownloadItemListActivity extends SherlockListActivity implements OnSelectItemListener{
-	
-	static boolean _autoRefreshEnabled = true;
 	
 	String selectedItemName;
 	
@@ -47,24 +49,25 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 	}
 	
 	public void setUpdateProgressAnimation(boolean show){
-		findViewById(R.id.download_item_list_updating_message).setVisibility(show ? View.VISIBLE : View.GONE);
+		if (show){
+			startRefreshAnimation();
+		}else{
+			stopRefreshAnimation();
+		}
 	}
 	
 	@Override
 	public void onResume(){
-		super.onResume();
-		
-		_autoRefreshEnabled = true;
+		super.onResume();		
 		_current = this;
 		new RefreshItemListBroadcastReceiver().resetAlarm(this);
-		setRefreshMenuButtonVisibility();
+		stopRefreshAnimation();
 		handleIntent(getIntent());
 	}
 	
 	@Override
 	public void onPause(){
 		super.onPause();
-		_autoRefreshEnabled = false;
 		_current = null;
 		new RefreshItemListBroadcastReceiver().resetAlarm(this);
 	}
@@ -182,16 +185,30 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.main, menu);
         updateMenuItem = menu.findItem(R.id.refresh_list);
-        setRefreshMenuButtonVisibility();
         return super.onCreateOptionsMenu(menu);  
     }
     
     private MenuItem updateMenuItem;
     
-    private void setRefreshMenuButtonVisibility(){
-    	if (updateMenuItem != null)
-    		updateMenuItem.setVisible(!PreferenceAccessor.getInstance().isAutorefreshEnabled());
+    private void startRefreshAnimation() {   	
+    	if (updateMenuItem != null){
+	        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
+	        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh);
+	        rotation.setRepeatCount(Animation.INFINITE);
+	        iv.startAnimation(rotation);	
+	        updateMenuItem.setActionView(iv);
+    	}
     }
+    
+    private void stopRefreshAnimation() {
+    	if (updateMenuItem != null){
+    		if (updateMenuItem.getActionView() != null)
+    			updateMenuItem.getActionView().clearAnimation();
+	    	updateMenuItem.setActionView(null);
+    	}
+    }
+    
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

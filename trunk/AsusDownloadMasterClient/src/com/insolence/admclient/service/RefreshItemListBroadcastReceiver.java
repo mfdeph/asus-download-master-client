@@ -13,15 +13,19 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask.Status;
 
 public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 
-	private static boolean _locked;
+	private static GetItemListTask _currentRefreshTask;
+	
+	private static boolean IsLocked(){
+		return !(_currentRefreshTask == null || _currentRefreshTask.getStatus() == Status.FINISHED);
+	}
 	
 	@Override
 	public void onReceive(final Context context, Intent intent) {
-		if (!_locked){
-			_locked = true;
+		if (!IsLocked()){
 			IGetItemListResultPostProcessor resultPostProcessor = new IGetItemListResultPostProcessor(){
 				public void postProcessResult(GetItemListResult result) {
 					if (result.isSucceed()){
@@ -32,15 +36,20 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 						if (getMainActivity() != null)
 							getMainActivity().updateListView();
 						
+					} else {
+						if (getMainActivity() != null)
+							getMainActivity().showErrorMessage(result.getMessage());
 					}
 					if (getMainActivity() != null)
 						getMainActivity().setUpdateProgressAnimation(false);
-					_locked = false;
+					_currentRefreshTask = null;
 				}
 			};
 			
 			if (getMainActivity() != null)
-				getMainActivity().setUpdateProgressAnimation(true);		
+				getMainActivity().setUpdateProgressAnimation(true);	
+			GetItemListTask getItemListTask = new GetItemListTask(resultPostProcessor);
+			_currentRefreshTask = getItemListTask;
 			new GetItemListTask(resultPostProcessor).execute();
 		}
 		
