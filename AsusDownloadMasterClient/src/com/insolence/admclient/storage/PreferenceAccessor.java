@@ -26,7 +26,7 @@ public class PreferenceAccessor {
 		_context = context;
 	}
 	
-	private SharedPreferences getPrefs(){
+	public SharedPreferences getPrefs(){
 		return PreferenceManager.getDefaultSharedPreferences(_context);
 	}
 	
@@ -58,5 +58,36 @@ public class PreferenceAccessor {
 		editor.putLong(lastItemListRefreshedAtPref, refreshTime);
 		editor.commit();
 	}
+	
+	private static final String webServerAddrPref = "webServerAddrPref";
+	
+	public String getWebServerAddress(){
+		return getPrefs().getString(webServerAddrPref, "192.168.1.1");
+	}
+	
+	private static final String webServerPortPref = "webServerPortPref";
+	
+	public String getWebServerPort(){
+		return getPrefs().getString(webServerPortPref, "8081");
+	}
+	
+	private static final String postfixEnabledPref = "postfixEnabledPref";
+	
+	public boolean isPathPostfixEnabled(){
+		return getPrefs().getBoolean(postfixEnabledPref, true);
+	}
+	
+	private static final String loginPref = "loginPref";
+	
+	public String getLogin(){
+		return getPrefs().getString(loginPref, "admin");
+	}
+	
+	private static final String passwordPref = "passwordPref";
+	
+	public String getPassword(){
+		return getPrefs().getString(passwordPref, "admin");
+	}
 
+	
 }

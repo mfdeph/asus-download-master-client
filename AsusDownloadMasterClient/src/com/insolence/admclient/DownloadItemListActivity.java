@@ -80,7 +80,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
     	           .setCancelable(false)
     	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
     	               public void onClick(DialogInterface dialog, int id) {
-    	            	   new SendMagnetTask(link, DownloadItemListActivity.this.getCacheDir()).execute();
+    	            	   new SendMagnetTask(DownloadItemListActivity.this, link, DownloadItemListActivity.this.getCacheDir()).execute();
     	        		   Toast.makeText(
     	        				   DownloadItemListActivity.this,
     	        				   String.format(getStr(R.string.command_info_download_magnet_link), fileName), Toast.LENGTH_SHORT).show();
@@ -105,7 +105,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 	    	           .setCancelable(false)
 	    	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 	    	               public void onClick(DialogInterface dialog, int id) {
-	    	            	   new SendTorrentTask(file).execute();
+	    	            	   new SendTorrentTask(DownloadItemListActivity.this, file).execute();
 	    	        		   Toast.makeText(
 	    	        				   activityToTransfer,
 	    	        				   String.format(getStr(R.string.command_info_download_torrent), file.getName()), Toast.LENGTH_SHORT).show();
@@ -210,13 +210,13 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 	        	startActivity(settingsActivity);
 	            return true;
 	        case R.id.pause_all:
-	        	new SendCommandTask("pause_all").execute();
+	        	new SendCommandTask(DownloadItemListActivity.this, "pause_all").execute();
 	     		Toast.makeText(
 	    				   this,
 	    				   getStr(R.string.command_info_pause_all), Toast.LENGTH_SHORT).show();
 	        	return true;
 	        case R.id.resume_all:
-	        	new SendCommandTask("start_all").execute();
+	        	new SendCommandTask(DownloadItemListActivity.this, "start_all").execute();
 	     		Toast.makeText(
 	    				   this,
 	    				   getStr(R.string.command_info_resume_all), Toast.LENGTH_SHORT).show();
@@ -227,7 +227,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 		           .setCancelable(false)
 		           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
-		            	   new SendCommandTask("clear").execute();	            	   
+		            	   new SendCommandTask(DownloadItemListActivity.this, "clear").execute();	            	   
 		        		   Toast.makeText(
 		        				   DownloadItemListActivity.this,
 		        				   getStr(R.string.command_info_delete_finished), Toast.LENGTH_SHORT).show();
