@@ -16,58 +16,64 @@ import java.util.regex.Pattern;
 
 
 import com.insolence.admclient.entity.DownloadItem;
+import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.RandomGuid;
 
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.util.Base64;
 
 public class DownloadMasterNetworkDalc {
 	
-	public static DownloadMasterNetworkDalc _instance;
+	private final PreferenceAccessor _preferences;
 	
-	public static DownloadMasterNetworkDalc getInstance(){
-		if (_instance == null)
-			_instance = new DownloadMasterNetworkDalc();
-		return _instance;
+	public DownloadMasterNetworkDalc(PreferenceAccessor preferences){
+		_preferences = preferences;
 	}
 	
-	private DownloadMasterNetworkDalc(){
+	public DownloadMasterNetworkDalc(Context context){
+		_preferences = PreferenceAccessor.getInstance(context);
 	}
 	
+	private String _connectionString;
+	protected String getConnectionString(){
+		if (_connectionString == null){
+			_connectionString = _preferences.getWebServerAddress() + ":" + _preferences.getWebServerPort();
+			if (_preferences.isPathPostfixEnabled())
+				_connectionString = _connectionString + "/downloadmaster";
+		}
+		return _connectionString;
+	}
 	
-	public static void setup(SharedPreferences prefs){
-		_connectionString = prefs.getString("webServerAddrPref", "192.168.1.1") + ":" + prefs.getString("webServerPortPref", "8081") + (prefs.getBoolean("postfixEnabledPref", false) ? "/downloadmaster" : "");
-		_userName = prefs.getString("loginPref", "admin");
-		_password = prefs.getString("passwordPref", "admin");
+	private String _authorizationString;
+	protected String getAuthorizationString(){
+		if (_authorizationString == null){
+			_authorizationString = "Basic " + Base64.encodeToString((_preferences.getLogin() + ":" + _preferences.getPassword()).getBytes(), Base64.DEFAULT).trim();
+		}
+		return _authorizationString;
+	}
 		
-	}
-	private static String _connectionString;
-	private static String _userName;
-	private static String _password;
-	
-	
-	private static String getListUrlString(){
-		return "http://" + _connectionString + "/dm_print_status.cgi?action_mode=All";
+	private String getListUrlString(){
+		return "http://" + getConnectionString() + "/dm_print_status.cgi?action_mode=All";
 	}
 	
 	private String sendCommandUrlString(){
-		return "http://" + _connectionString + "/dm_apply.cgi?action_mode=DM_CTRL&dm_ctrl=%s&task_id=%s&download_type=BT";
+		return "http://" + getConnectionString() + "/dm_apply.cgi?action_mode=DM_CTRL&dm_ctrl=%s&task_id=%s&download_type=BT";
 	}
 	
 	private String sendGroupCommandUrlString(){
-		return "http://" + _connectionString + "/dm_apply.cgi?action_mode=DM_CTRL&dm_ctrl=%s&download_type=ALL";
+		return "http://" + getConnectionString() + "/dm_apply.cgi?action_mode=DM_CTRL&dm_ctrl=%s&download_type=ALL";
 	}
 	
 	private String uploadFileUrlString(){
-		return "http://" + _connectionString + "/dm_uploadbt.cgi";
+		return "http://" + getConnectionString() + "/dm_uploadbt.cgi";
 	}
 	 
-	private static final Random rand = new Random();
+	//private static final Random rand = new Random();
 	
-	protected static boolean tryGetItemList(Holder<String> result){
+	protected boolean tryGetItemList(Holder<String> result){
 		
-		try{ Thread.sleep(rand.nextInt(3000)); }catch(InterruptedException e){ }
+		/*try{ Thread.sleep(rand.nextInt(3000)); }catch(InterruptedException e){ }
 		
 		result.value = 
 				"[" + 
@@ -77,13 +83,13 @@ public class DownloadMasterNetworkDalc {
 				"[\"4\",\"охоеж! DVDRIP\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" + 
 				"[\"5\",\"Hunger_games_catching_fire_720p_dvdrip.avi\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" + 
 				"]";
-		return true;
+		return true;*/
 		
-		/*try{
+		try{
 			
 			URL url = new URL(getListUrlString());
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
-		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());		
+		    con.addRequestProperty("Authorization", getAuthorizationString());		
 			InputStream stream = con.getInputStream();
 		    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
 		    String temp;
@@ -95,7 +101,7 @@ public class DownloadMasterNetworkDalc {
 			return false;
 		}finally{
 			
-		}*/
+		}
 	}
 	
 	public ArrayList<DownloadItem> getDownloadItems(){
@@ -110,7 +116,7 @@ public class DownloadMasterNetworkDalc {
 			
 			URL url = new URL(String.format(sendGroupCommandUrlString(), command));
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
-		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
+		    con.addRequestProperty("Authorization", getAuthorizationString());
 		    con.getInputStream();
 			return true;
 		} catch (Exception e) {
@@ -123,7 +129,7 @@ public class DownloadMasterNetworkDalc {
 			
 			URL url = new URL(String.format(sendCommandUrlString(), command, id));
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
-		    con.addRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
+		    con.addRequestProperty("Authorization", getAuthorizationString());
 			con.getInputStream();
 			return true;
 		} catch (Exception e) {
@@ -148,7 +154,7 @@ public class DownloadMasterNetworkDalc {
 		    con.setUseCaches(false);
 		    con.setRequestMethod("POST");
 		    con.setRequestProperty("Connection", "Keep-Alive");
-		    con.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((_userName + ":" + _password).getBytes(), Base64.DEFAULT).trim());
+		    con.setRequestProperty("Authorization", getAuthorizationString());
 		    con.setRequestProperty("Content-Type",
 		        "multipart/form-data;boundary=" + boundary);
 		    DataOutputStream dos = new DataOutputStream(con.getOutputStream());

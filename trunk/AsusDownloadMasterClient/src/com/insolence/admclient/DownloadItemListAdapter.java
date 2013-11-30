@@ -204,7 +204,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 		           .setCancelable(false)
 		           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
-		            	   new SendCommandTask(_command, _item.getId()).execute();	       			
+		            	   new SendCommandTask(getContext(), _command, _item.getId()).execute();	       			
 		        		   Toast.makeText(
 		        				   getContext(),
 		        				   getStr(R.string.command_info_part_download) + " \"" + _item.getName() + "\" " + _postText + ".", Toast.LENGTH_SHORT).show();
@@ -215,7 +215,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
 				
 			}else{
-				new SendCommandTask(_command, _item.getId()).execute();
+				new SendCommandTask(getContext(), _command, _item.getId()).execute();
 				Toast.makeText(
 						getContext(),
 						getStr(R.string.command_info_part_download) + " \"" + _item.getName() + "\" " + _postText + ".", Toast.LENGTH_SHORT).show();

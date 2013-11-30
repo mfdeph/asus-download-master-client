@@ -2,11 +2,17 @@ package com.insolence.admclient.asynctasks;
 
 import java.io.File;
 
+import android.content.Context;
+
 import com.insolence.admclient.R;
 import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 
 public abstract class SendFileTaskBase extends SendTaskBase{
 	
+	public SendFileTaskBase(Context context) {
+		super(context);
+	}
+
 	protected String fileIsNullExceptionText = "Torrent file not exists";
 
 	@Override
@@ -14,7 +20,7 @@ public abstract class SendFileTaskBase extends SendTaskBase{
 		File file = getFile();
 		if (file == null)
 			return new AsyncTaskResult(false, fileIsNullExceptionText);
-		if (DownloadMasterNetworkDalc.getInstance().sendFile(file)){
+		if (new DownloadMasterNetworkDalc(_context).sendFile(file)){
 			return new AsyncTaskResult(true, "Succeed");
 		}else{
 			return new AsyncTaskResult(false, getStr(R.string.command_info_cannot_connect));

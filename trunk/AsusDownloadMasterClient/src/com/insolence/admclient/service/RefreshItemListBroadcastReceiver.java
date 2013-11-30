@@ -4,6 +4,7 @@ import com.insolence.admclient.DownloadItemListActivity;
 import com.insolence.admclient.asynctasks.GetItemListResult;
 import com.insolence.admclient.asynctasks.GetItemListTask;
 import com.insolence.admclient.entity.IGetItemListResultPostProcessor;
+import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 import com.insolence.admclient.notification.NotifyWhenDownloadCompletedListener;
 import com.insolence.admclient.storage.DownloadItemStorage;
 import com.insolence.admclient.storage.PreferenceAccessor;
@@ -48,9 +49,9 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 			
 			if (getMainActivity() != null)
 				getMainActivity().switchRefreshAnimation(true);	
-			GetItemListTask getItemListTask = new GetItemListTask(resultPostProcessor);
+			GetItemListTask getItemListTask = new GetItemListTask(context, resultPostProcessor);
 			_currentRefreshTask = getItemListTask;
-			new GetItemListTask(resultPostProcessor).execute();
+			getItemListTask.execute();
 		}
 		
 		setNextAlarm(context);

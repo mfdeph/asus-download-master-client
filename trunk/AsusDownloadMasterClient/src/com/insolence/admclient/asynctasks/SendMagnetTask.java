@@ -14,6 +14,8 @@ import java.util.List;
 
 import org.apache.http.util.EncodingUtils;
 
+import android.content.Context;
+
 import com.insolence.admclient.util.RandomGuid;
 
 public class SendMagnetTask extends SendFileTaskBase {
@@ -21,8 +23,8 @@ public class SendMagnetTask extends SendFileTaskBase {
 	String _magnetLink;
 	File _cacheDirectory;
 	
-	public SendMagnetTask(String magnetLink, File cacheDirectory) {
-		super();
+	public SendMagnetTask(Context context, String magnetLink, File cacheDirectory) {
+		super(context);
 		_magnetLink = magnetLink;
 		_cacheDirectory = cacheDirectory;
 		fileIsNullExceptionText = "Failed to get magnet link data";
