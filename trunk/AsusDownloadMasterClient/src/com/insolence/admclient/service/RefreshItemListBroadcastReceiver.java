@@ -34,20 +34,20 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 								result.getDownloadItems(), 
 								new NotifyWhenDownloadCompletedListener(context));
 						setLastServiceRunTimeNow(context);
-						if (getMainActivity() != null)
+						if (isMainActivityActive())
 							getMainActivity().updateListView();
 						
 					} else {
-						if (getMainActivity() != null)
+						if (isMainActivityActive())
 							getMainActivity().showErrorMessage(result.getMessage());
 					}
-					if (getMainActivity() != null)
+					if (isMainActivityActive())
 						getMainActivity().switchRefreshAnimation(false);
 					_currentRefreshTask = null;
 				}
 			};
 			
-			if (getMainActivity() != null)
+			if (isMainActivityActive())
 				getMainActivity().switchRefreshAnimation(true);	
 			GetItemListTask getItemListTask = new GetItemListTask(context, resultPostProcessor);
 			_currentRefreshTask = getItemListTask;

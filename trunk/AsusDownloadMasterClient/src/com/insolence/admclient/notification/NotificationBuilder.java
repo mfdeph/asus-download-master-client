@@ -45,7 +45,6 @@ public class NotificationBuilder {
 	
 	private NotificationCompat.Builder buildBaseNotificationBuilder(Context context){
 		return new NotificationCompat.Builder(context)
-					//TODO: нормальная иконка
 			        .setSmallIcon(R.drawable.notification_download)
 			        .setAutoCancel(true);
 	}
@@ -53,8 +52,12 @@ public class NotificationBuilder {
 	private NotificationCompat.Builder buildDownloadItemNotificationBuilder(Context context, DownloadItem event){
 		
 		return buildBaseNotificationBuilder(context)
-		        .setContentTitle("Загрузка завершена")
-		        .setContentText("Загрузка \"" + event.getName() + "\" успешно завершена.");
+		        .setContentTitle(
+		        		context.getResources().getString(R.string.notification_download_completed_title))
+		        .setContentText(
+		        		String.format(
+		        				context.getResources().getString(R.string.notification_download_completed_text), 
+		        				event.getName()));
 		        
 	}
 }

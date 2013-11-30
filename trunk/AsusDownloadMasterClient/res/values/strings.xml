@@ -64,4 +64,8 @@
     <string name="download_item_expanded_lifetime">Torrent lifetime: </string>
     <string name="download_item_expanded_upload_speed">Upload speed: </string>
     <string name="download_item_expanded_download_speed">Download speed: </string>
+    
+    <!-- Notification strings -->
+    <string name="notification_download_completed_title">Download completed</string>
+    <string name="notification_download_completed_text" formatted="false">Task "%s" successfully downloaded</string>
 </resources>
