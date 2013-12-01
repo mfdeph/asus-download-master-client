@@ -54,7 +54,7 @@
     
     <string name="confirmation_message_download_magnet_link" formatted="false">Начать закачку magnet-ссылки %s?</string>
     <string name="command_info_download_magnet_link" formatted="false">Magnet-ссылка %s поставлена в очередь на скачивание.</string>
-   <string name="confirmation_message_download_torrent" formatted="false">Начать закачку торрента "%s"?</string>
+    <string name="confirmation_message_download_torrent" formatted="false">Начать закачку торрента "%s"?</string>
     <string name="command_info_download_torrent" formatted="false">Торрент "%s" поставлен в очередь на скачивание.</string>
     
     <!-- Download item UI strings -->

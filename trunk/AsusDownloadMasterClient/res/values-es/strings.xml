@@ -64,4 +64,9 @@
     <string name="download_item_expanded_lifetime">Tiempo del torrent: </string>
     <string name="download_item_expanded_upload_speed">Velocidad de subida: </string>
     <string name="download_item_expanded_download_speed">Velocidad de descarga: </string>
+ 
+    <!-- Notification strings -->
+    <string name="notification_download_completed_title">Descarga finalizada</string>
+    <string name="notification_download_completed_text" formatted="false">"%s" se ha descargado correctamente.</string>
+    
 </resources>
