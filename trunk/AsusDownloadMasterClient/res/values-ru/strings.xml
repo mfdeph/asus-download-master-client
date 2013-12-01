@@ -64,4 +64,8 @@
     <string name="download_item_expanded_lifetime">Время жизни: </string>
     <string name="download_item_expanded_upload_speed">Скорость раздачи: </string>
     <string name="download_item_expanded_download_speed">Скорость загрузки: </string>
+    
+    <!-- Notification strings -->
+    <string name="notification_download_completed_title">Загрузка завершена</string>
+    <string name="notification_download_completed_text" formatted="false">"%s" успешно загружена.</string>
 </resources>

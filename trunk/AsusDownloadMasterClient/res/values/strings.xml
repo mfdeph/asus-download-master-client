@@ -54,7 +54,7 @@
     
     <string name="confirmation_message_download_magnet_link" formatted="false">Do you really want to start download %s magnet link?</string>
     <string name="command_info_download_magnet_link" formatted="false">Magnet link %s is queued for download.</string>
-   <string name="confirmation_message_download_torrent" formatted="false">Do you really want to start download "%s" torrent?</string>
+    <string name="confirmation_message_download_torrent" formatted="false">Do you really want to start download "%s" torrent?</string>
     <string name="command_info_download_torrent" formatted="false">Torrent "%s" is queued for download.</string>
     
     <!-- Download item UI strings -->
@@ -67,5 +67,6 @@
     
     <!-- Notification strings -->
     <string name="notification_download_completed_title">Download completed</string>
-    <string name="notification_download_completed_text" formatted="false">Task "%s" successfully downloaded</string>
+    <string name="notification_download_completed_text" formatted="false">"%s" successfully downloaded.</string>
+    
 </resources>
