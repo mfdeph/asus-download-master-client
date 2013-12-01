@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Random;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -124,14 +125,16 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 		
 		try {
 			
-			String fileName = Math.round(10000*Math.random()) + ".torrent";
+			String fileName = "attachment_" + (1000 + new Random().nextInt(8999)) + ".torrent";
 			
 		    String[] proj = { MediaStore.Images.Media.TITLE };
 		    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
 		    if (cursor != null && cursor.getCount() != 0) {
 		        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
 		        cursor.moveToFirst();
-		        fileName = cursor.getString(columnIndex);
+		        String result = cursor.getString(columnIndex);
+		        if (result != null)
+		        	fileName = result;
 		    }
 			
 			InputStream is = getContentResolver().openInputStream(uri);	
