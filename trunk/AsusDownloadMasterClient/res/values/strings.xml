@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ASUS Download Master Cleint</string>
+    <string name="app_name">ASUS Download Master Client</string>
     
     <!-- Basics -->
     <string name="basic_yes">Yes</string>
