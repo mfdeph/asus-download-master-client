@@ -13,7 +13,7 @@ public abstract class SendFileTaskBase extends SendTaskBase{
 		super(context);
 	}
 
-	protected String fileIsNullExceptionText = "Torrent file not exists";
+	protected String fileIsNullExceptionText = "Torrent file does not exists";
 
 	@Override
 	protected AsyncTaskResult doInBackground(Void... arg0) {
