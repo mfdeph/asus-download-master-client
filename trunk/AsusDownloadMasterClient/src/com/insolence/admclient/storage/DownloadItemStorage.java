@@ -93,8 +93,8 @@ public class DownloadItemStorage {
 		Cursor cursor = db.query(
 				DownloadItemStorageOpenHelper.DOWNLOAD_ITEMS_TABLE_NAME, 
 				new String[]{DownloadItemStorageOpenHelper.DOWNLOAD_ITEM_STATUS}, 
-				DownloadItemStorageOpenHelper.DOWNLOAD_ITEM_ID + " LIKE '" + item.getId() + "' AND " + DownloadItemStorageOpenHelper.DOWNLOAD_ITEM_NAME + " LIKE '" + item.getName() + "'", 
-				null, null, null,
+				DownloadItemStorageOpenHelper.DOWNLOAD_ITEM_ID + " = ? AND " + DownloadItemStorageOpenHelper.DOWNLOAD_ITEM_NAME + " = ?", 
+				new String[] {item.getId(), item.getName()}, null, null,
 				DownloadItemStorageOpenHelper.DOWNLOAD_ITEM_ID, 
 				"1");
 		
