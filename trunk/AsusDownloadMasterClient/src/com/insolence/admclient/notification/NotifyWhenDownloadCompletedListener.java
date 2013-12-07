@@ -20,7 +20,8 @@ public class NotifyWhenDownloadCompletedListener implements IOnDownloadStatusCha
 			if (previousStatus != null && 
 				previousStatus.equalsIgnoreCase("downloading") && 
 					(item.getStatus().equalsIgnoreCase("seeding") || 
-					item.getStatus().equalsIgnoreCase("completed"))){
+					item.getStatus().equalsIgnoreCase("completed") || 
+					item.getStatus().equalsIgnoreCase("finished"))){
 				NotificationBuilder.getInstance().BuildNotification(_context, item);
 			}
 	}
