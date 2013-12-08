@@ -44,7 +44,11 @@ public class PreferenceAccessor {
 	
 	//интервал обновления - не чаще чем раз в 5 секунд (или минут, если приложение свернуто)
 	public int getAutorefreshInterval(){
-		return Math.max(5, Integer.valueOf(getPrefs().getString(autorefreshIntervalPref, "30")));
+		try{
+			return Math.max(5, Integer.valueOf(getPrefs().getString(autorefreshIntervalPref, "30")));
+		}catch(NumberFormatException e){
+			return 30;
+		}
 	}
 		
 	private static final String lastItemListRefreshedAtPref = "lastItemListRefreshedAt";
