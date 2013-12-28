@@ -4,7 +4,6 @@ import com.insolence.admclient.DownloadItemListActivity;
 import com.insolence.admclient.asynctasks.GetItemListResult;
 import com.insolence.admclient.asynctasks.GetItemListTask;
 import com.insolence.admclient.entity.IGetItemListResultPostProcessor;
-import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 import com.insolence.admclient.notification.NotifyWhenDownloadCompletedListener;
 import com.insolence.admclient.storage.DownloadItemStorage;
 import com.insolence.admclient.storage.PreferenceAccessor;
