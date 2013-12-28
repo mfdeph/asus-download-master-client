@@ -4,13 +4,15 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,19 +21,19 @@ import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.RandomGuid;
+import com.insolence.admclient.util.UriUtil;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Base64;
 
 public class DownloadMasterNetworkDalc {
 	
-	private final PreferenceAccessor _preferences;
-	
-	public DownloadMasterNetworkDalc(PreferenceAccessor preferences){
-		_preferences = preferences;
-	}
+	private final PreferenceAccessor _preferences;	
+	private final Context _context;
 	
 	public DownloadMasterNetworkDalc(Context context){
+		_context = context;
 		_preferences = PreferenceAccessor.getInstance(context);
 	}
 	
@@ -67,6 +69,11 @@ public class DownloadMasterNetworkDalc {
 	
 	private String uploadFileUrlString(){
 		return "http://" + getConnectionString() + "/dm_uploadbt.cgi";
+	}
+	
+	private String sendLinkUrlString(){
+		//TODO: Написать реальный путь для ссылки
+		return "http://" + getConnectionString() + "%s";
 	}
 
 	
@@ -113,77 +120,88 @@ public class DownloadMasterNetworkDalc {
 	}
 
 	public boolean sendGroupCommand(String command){
-		try{
-			
-			URL url = new URL(String.format(sendGroupCommandUrlString(), command));
-		    URLConnection con = (HttpURLConnection) url.openConnection();	    
-		    con.addRequestProperty("Authorization", getAuthorizationString());
-		    con.getInputStream();
-			return true;
-		} catch (Exception e) {
-			return false;
-		}		
+		String groupCommandUrlPath = String.format(sendGroupCommandUrlString(), command);
+		return sendGetRequest(groupCommandUrlPath);
 	}	
 	
 	public boolean sendCommand(String command, String id){
+		String commandUrlPath = String.format(sendCommandUrlString(), command, id);
+		return sendGetRequest(commandUrlPath);
+	}
+	
+	public boolean sendLink(String link){
+		String commandUrlPath = String.format(sendLinkUrlString(), URLEncoder.encode(link));
+		return sendGetRequest(commandUrlPath);
+	}
+	
+	private boolean sendGetRequest(String urlPath){
 		try{
 			
-			URL url = new URL(String.format(sendCommandUrlString(), command, id));
+			URL url = new URL(urlPath);
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
 		    con.addRequestProperty("Authorization", getAuthorizationString());
 			con.getInputStream();
 			return true;
 		} catch (Exception e) {
 			return false;
-		}
+		}		
 	}
 	
 
-	
+	@Deprecated
 	public boolean sendFile(File file){
-		try {		
-			String newLine = "\r\n";
-			String boundary = "---------------------------" + new RandomGuid().toString(13);
-		    
-		    int bufferSize;
-		    int maxBufferSize = 4096;
-		    int bytesRead;
-		    
-		    HttpURLConnection con = (HttpURLConnection) new URL(uploadFileUrlString()).openConnection();
-		    con.setDoInput(true);
-		    con.setDoOutput(true);
-		    con.setUseCaches(false);
-		    con.setRequestMethod("POST");
-		    con.setRequestProperty("Connection", "Keep-Alive");
-		    con.setRequestProperty("Authorization", getAuthorizationString());
-		    con.setRequestProperty("Content-Type",
-		        "multipart/form-data;boundary=" + boundary);
-		    DataOutputStream dos = new DataOutputStream(con.getOutputStream());
-
-		    dos.writeBytes("--" + boundary + newLine);
-		    dos.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\""
-		        + file.getName() + "\"" + newLine);
-		    dos.writeBytes("Content-Type: application/x-bittorrent" + newLine + newLine);
-		    bufferSize = maxBufferSize;
-		    byte[] buffer = new byte[bufferSize];
-		    FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-		    
-		    while ((bytesRead = fis.read(buffer)) > -1)
-		        dos.write(buffer, 0, bytesRead);
-		    
-		    dos.writeBytes(newLine);
-		    dos.writeBytes("--" + boundary + "--" + newLine);
-
-		    dos.flush();
-		    int respCode = con.getResponseCode(); 
-		    if (respCode == 200)
-		    	return true;
-
-		} catch (Exception e) {
-		    return false;
+		try{
+			FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+			return sendFilePostRequest(file.getName(), fis);
+		}catch(Exception e){
+			return false;
 		}
-		return false;
+	}
+	
+	public boolean sendFile(Uri uri, String fileName){
+		try{
+			InputStream is = _context.getContentResolver().openInputStream(uri);
+			return sendFilePostRequest(fileName, is);
+		}catch(Exception e){
+			return false;
+		}
+	}
+	
+	private static String newLine = "\r\n";
+	private static int maxBufferSize = 4096;
+	
+	private boolean sendFilePostRequest(String fileName, InputStream bodyInputStream) throws MalformedURLException, IOException {
+		
+		String boundary = "---------------------------" + new RandomGuid().toString(13);	    
+		    
+		HttpURLConnection con = (HttpURLConnection) new URL(uploadFileUrlString()).openConnection();
+		con.setDoInput(true);
+		con.setDoOutput(true);
+		con.setUseCaches(false);
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Connection", "Keep-Alive");
+		con.setRequestProperty("Authorization", getAuthorizationString());
+		con.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+		    
+		DataOutputStream dos = new DataOutputStream(con.getOutputStream());
 
+		dos.writeBytes("--" + boundary + newLine);
+		dos.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + fileName + "\"" + newLine);
+		dos.writeBytes("Content-Type: application/x-bittorrent" + newLine + newLine);
+		    
+		int bytesRead;
+		byte[] buffer = new byte[maxBufferSize];
+		    
+		while ((bytesRead = bodyInputStream.read(buffer)) > -1)
+		    dos.write(buffer, 0, bytesRead);
+		    
+		dos.writeBytes(newLine);
+		dos.writeBytes("--" + boundary + "--" + newLine);
+		dos.flush();
+		    
+		int respCode = con.getResponseCode(); 
+		
+		return (respCode == 200);	
 	}
 	
 	private static ArrayList<DownloadItem> fillDownloadItems(String data){
