@@ -33,11 +33,13 @@ import android.widget.Toast;
 
 import com.insolence.admclient.DownloadItemListAdapter.OnSelectItemListener;
 import com.insolence.admclient.asynctasks.SendCommandTask;
+import com.insolence.admclient.asynctasks.SendLinkTask;
 import com.insolence.admclient.asynctasks.SendMagnetTask;
 import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
+import com.insolence.admclient.util.UriUtil;
 
 public class DownloadItemListActivity extends SherlockListActivity implements OnSelectItemListener{
 	
@@ -67,7 +69,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 
 	private void handleIntent(Intent intent) {
     	
-    	Uri data = intent.getData();
+    	final Uri data = intent.getData();
     	
     	if (data != null && data.getScheme() != null) {
     		
@@ -81,7 +83,8 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
     	           .setCancelable(false)
     	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
     	               public void onClick(DialogInterface dialog, int id) {
-    	            	   new SendMagnetTask(DownloadItemListActivity.this, link, DownloadItemListActivity.this.getCacheDir()).execute();
+    	            	   //new SendMagnetTask(DownloadItemListActivity.this, link, DownloadItemListActivity.this.getCacheDir()).execute();
+    	            	   new SendLinkTask(DownloadItemListActivity.this, link).execute();
     	        		   Toast.makeText(
     	        				   DownloadItemListActivity.this,
     	        				   String.format(getStr(R.string.command_info_download_magnet_link), fileName), Toast.LENGTH_SHORT).show();
@@ -92,72 +95,27 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
     			
     		} 
     		else {
-    			
-    			File fileTmp = null;   			
-    			if (data.getScheme().equals("file"))
-    				fileTmp = new File(data.getPath());
-    			else if (data.getScheme().equals("content"))
-					fileTmp = getTorrentFileFromUri(data);    			
-            	final File file = fileTmp;       	
-            	if (file != null){           	
-	            	final DownloadItemListActivity activityToTransfer = this;	            	
-	    			new AlertDialog.Builder(this)
-	    	           .setMessage(String.format(getStr(R.string.confirmation_message_download_torrent), file.getName()))
+	
+    			final String fileName = new UriUtil(this).getUriFileName(data);
+    			            	
+	    		new AlertDialog.Builder(this)
+	    	           .setMessage(String.format(getStr(R.string.confirmation_message_download_torrent), fileName))
 	    	           .setCancelable(false)
 	    	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 	    	               public void onClick(DialogInterface dialog, int id) {
-	    	            	   new SendTorrentTask(DownloadItemListActivity.this, file).execute();
+	    	            	   new SendTorrentTask(DownloadItemListActivity.this, data, fileName).execute();
 	    	        		   Toast.makeText(
-	    	        				   activityToTransfer,
-	    	        				   String.format(getStr(R.string.command_info_download_torrent), file.getName()), Toast.LENGTH_SHORT).show();
+	    	        				   DownloadItemListActivity.this,
+	    	        				   String.format(getStr(R.string.command_info_download_torrent), fileName), Toast.LENGTH_SHORT).show();
 	    	               }
-	    	           })
-	    	           .setNegativeButton(getStr(R.string.basic_no), null)
-	    	           .show();
-            	}
-    		}	   		
+	    	     }).setNegativeButton(getStr(R.string.basic_no), null)
+	    	     .show();
+            }
+	
     		intent.setData(null);
     		setIntent(intent);
     	}
     }
-	
-	private File getTorrentFileFromUri(Uri uri){
-		
-		try {
-			
-			String fileName = "attachment_" + (1000 + new Random().nextInt(8999)) + ".torrent";
-			
-		    String[] proj = { MediaStore.Images.Media.TITLE };
-		    Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
-		    if (cursor != null && cursor.getCount() != 0) {
-		        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
-		        cursor.moveToFirst();
-		        String result = cursor.getString(columnIndex);
-		        if (result != null)
-		        	fileName = result;
-		    }
-			
-			InputStream is = getContentResolver().openInputStream(uri);	
-			File tempFile = new File(getCacheDir(), fileName);
-			
-			OutputStream stream = new BufferedOutputStream(new FileOutputStream(tempFile)); 
-			int bufferSize = 1024;
-			byte[] buffer = new byte[bufferSize];
-			int len = 0;
-			while ((len = is.read(buffer)) != -1)
-			    stream.write(buffer, 0, len);
-			if(stream != null)
-			    stream.close();
-			
-			return tempFile;
-		
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	private String getStr(int resourceId){
 		return getResources().getString(resourceId);
