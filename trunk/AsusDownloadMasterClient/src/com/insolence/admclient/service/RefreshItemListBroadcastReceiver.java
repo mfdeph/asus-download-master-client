@@ -102,7 +102,7 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 		 setAlarm(context, nextRunTime);
 	 } 
 	 
-	 private void cancelAlarm(Context context)
+	 public void cancelAlarm(Context context)
 	 {
 		 getAlarmManager(context).cancel(getAlarmPendingIntent(context));
 	 }

@@ -21,7 +21,7 @@ import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.RandomGuid;
-import com.insolence.admclient.util.UriUtil;
+import com.insolence.admclient.util.FriendlyNameUtil;
 
 import android.content.Context;
 import android.net.Uri;
@@ -72,8 +72,7 @@ public class DownloadMasterNetworkDalc {
 	}
 	
 	private String sendLinkUrlString(){
-		//TODO: Написать реальный путь для ссылки
-		return "http://" + getConnectionString() + "%s";
+		return "http://" + getConnectionString() + "/dm_apply.cgi?action_mode=DM_ADD&usb_dm_url=%s&download_type=5&again=no";
 	}
 
 	

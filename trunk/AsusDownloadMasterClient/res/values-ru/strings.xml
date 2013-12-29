@@ -6,6 +6,8 @@
     <!-- Basics -->
     <string name="basic_yes">Да</string>
     <string name="basic_no">Нет</string>
+    <string name="basic_cancel">Отмена</string>
+    
     
     <!-- Preferences screen -->
     <string name="preference_category_server">Настройки сервера Download Master</string>
@@ -31,9 +33,12 @@
     <!-- Menus and commands -->
     <string name="menu_item_refresh_list">Обновить список</string>
     <string name="menu_group_manage_downloads">Управление загрузками</string>
+    <string name="menu_item_add_torrent">Добавить торрент</string>
+    <string name="menu_item_add_link">Добавить ссылку</string>
     <string name="menu_item_pause_all">Приостановить все</string>
     <string name="menu_item_resume_all">Возобновить все</string>
     <string name="menu_item_delete_completed">Удалить завершенные</string>
+    <string name="menu_item_kill_exit">Остановить службу</string>
     <string name="menu_item_preferences">Настройки</string>
     
     <string name="context_menu_item_pause">Приостановить</string>
@@ -68,4 +73,10 @@
     <!-- Notification strings -->
     <string name="notification_download_completed_title">Загрузка завершена</string>
     <string name="notification_download_completed_text" formatted="false">"%s" успешно загружена.</string>
+    
+    <!-- Add link alert -->
+    <string name="add_torrent_alert_title">Добавить торрент</string>
+    <string name="add_link_alert_title">Добавить ссылку</string>
+    <string name="add_link_alert_message">Download Master поддерживает ссылки http, ftp, Magnet, ed2k, torrent и nzb</string>
+    <string name="add_link_alert_hint">Вставьте ссылку сюда...</string>  
 </resources>
