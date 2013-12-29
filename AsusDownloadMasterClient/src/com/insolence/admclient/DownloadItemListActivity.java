@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,12 +25,13 @@ import android.widget.Toast;
 import com.insolence.admclient.DownloadItemListAdapter.OnSelectItemListener;
 import com.insolence.admclient.asynctasks.SendCommandTask;
 import com.insolence.admclient.asynctasks.SendLinkTask;
-import com.insolence.admclient.asynctasks.SendMagnetTask;
 import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
-import com.insolence.admclient.util.UriUtil;
+import com.insolence.admclient.util.ClipboardUtil;
+import com.insolence.admclient.util.Holder;
+import com.insolence.admclient.util.FriendlyNameUtil;
 
 public class DownloadItemListActivity extends SherlockListActivity implements OnSelectItemListener{
 	
@@ -57,55 +59,55 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 		new RefreshItemListBroadcastReceiver().resetAlarm(this);
 	}
 
-	private void handleIntent(Intent intent) {
-    	
-    	final Uri data = intent.getData();
-    	
-    	if (data != null && data.getScheme() != null) {
-    		
-    		if (data.getScheme().equals("magnet")) {
-    			
+	private void handleIntent(Intent intent) {   	
+    	final Uri data = intent.getData();   	
+    	if (data != null && data.getScheme() != null) {   		
+    		if (data.getScheme().equals("magnet")) {   			
     			final String link = data.toString();
-    			final String fileName = SendMagnetTask.GetNativeFileNameFromMagnetLink(link);
-            	
-    			new AlertDialog.Builder(this)
-    	           .setMessage(String.format(getStr(R.string.confirmation_message_download_magnet_link), fileName))
-    	           .setCancelable(false)
-    	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
-    	               public void onClick(DialogInterface dialog, int id) {
-    	            	   //new SendMagnetTask(DownloadItemListActivity.this, link, DownloadItemListActivity.this.getCacheDir()).execute();
-    	            	   new SendLinkTask(DownloadItemListActivity.this, link).execute();
-    	        		   Toast.makeText(
-    	        				   DownloadItemListActivity.this,
-    	        				   String.format(getStr(R.string.command_info_download_magnet_link), fileName), Toast.LENGTH_SHORT).show();
-    	               }
-    	           })
-    	           .setNegativeButton(getStr(R.string.basic_no), null)
-    	           .show();
-    			
+    			final String fileName = FriendlyNameUtil.GetNativeFileNameFromMagnetLink(link);           	
+    			sendLinkToServer(link, fileName);	
     		} 
     		else {
-	
-    			final String fileName = new UriUtil(this).getUriFileName(data);
-    			            	
-	    		new AlertDialog.Builder(this)
-	    	           .setMessage(String.format(getStr(R.string.confirmation_message_download_torrent), fileName))
-	    	           .setCancelable(false)
-	    	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
-	    	               public void onClick(DialogInterface dialog, int id) {
-	    	            	   new SendTorrentTask(DownloadItemListActivity.this, data, fileName).execute();
-	    	        		   Toast.makeText(
-	    	        				   DownloadItemListActivity.this,
-	    	        				   String.format(getStr(R.string.command_info_download_torrent), fileName), Toast.LENGTH_SHORT).show();
-	    	               }
-	    	     }).setNegativeButton(getStr(R.string.basic_no), null)
-	    	     .show();
+    			sendTorrentFileToServer(data);
             }
-	
     		intent.setData(null);
     		setIntent(intent);
     	}
     }
+	
+	private void sendTorrentFileToServer(final Uri fileUri){
+		final String fileName = new FriendlyNameUtil(this).getUriFileName(fileUri);
+    	
+		new AlertDialog.Builder(this)
+	           .setMessage(String.format(getStr(R.string.confirmation_message_download_torrent), fileName))
+	           .setCancelable(false)
+	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int id) {
+	            	   new SendTorrentTask(DownloadItemListActivity.this, fileUri, fileName).execute();
+	        		   Toast.makeText(
+	        				   DownloadItemListActivity.this,
+	        				   String.format(getStr(R.string.command_info_download_torrent), fileName), Toast.LENGTH_SHORT).show();
+	               }
+	     }).setNegativeButton(getStr(R.string.basic_no), null)
+	     .show();		
+	}
+	
+	private void sendLinkToServer(final String link, final String linkName){
+		new AlertDialog.Builder(this)
+        .setMessage(String.format(getStr(R.string.confirmation_message_download_magnet_link), linkName))
+        .setCancelable(false)
+        .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+         	   //new SendMagnetTask(DownloadItemListActivity.this, link, DownloadItemListActivity.this.getCacheDir()).execute();
+         	   new SendLinkTask(DownloadItemListActivity.this, link).execute();
+     		   Toast.makeText(
+     				   DownloadItemListActivity.this,
+     				   String.format(getStr(R.string.command_info_download_magnet_link), linkName), Toast.LENGTH_SHORT).show();
+            }
+        })
+        .setNegativeButton(getStr(R.string.basic_no), null)
+        .show();		
+	}
 	
 	private String getStr(int resourceId){
 		return getResources().getString(resourceId);
@@ -151,6 +153,8 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
     	}
     }  
     
+    private static int fileSelectorRequestCode = 12412;
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection	
@@ -160,6 +164,36 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
                         Preferences.class);
 	        	startActivity(settingsActivity);
 	            return true;
+	        case R.id.add_torrent:
+	            Intent intent = new Intent();
+	            intent.addCategory(Intent.CATEGORY_OPENABLE);
+	            intent.setType("application/x-bittorrent");
+	            intent.setAction(Intent.ACTION_GET_CONTENT);
+	            startActivityForResult(Intent.createChooser(intent, getStr(R.string.add_torrent_alert_title)), fileSelectorRequestCode);	
+	            return true;
+	        case R.id.add_link:
+	        	final EditText txtUrl = new EditText(this);
+	        	txtUrl.setSingleLine();
+	        	txtUrl.setHint(getStr(R.string.add_link_alert_hint));       	
+	        	Holder<String> clipboardText = new Holder<String>("");
+	        	if (ClipboardUtil.TryGetTextFromClipboard(this, clipboardText))
+	        		txtUrl.setText(clipboardText.value);
+	        	new AlertDialog.Builder(this)
+		        	 .setTitle(getStr(R.string.add_link_alert_title))
+		        	 .setMessage(getStr(R.string.add_link_alert_message))
+		        	 .setView(txtUrl)
+		        	 .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
+		        	    public void onClick(DialogInterface dialog, int whichButton) {
+			        	    String link = txtUrl.getText().toString();
+			        	    if (link == null || link.length() == 0)
+			        	    	return;
+			      			final String fileName = FriendlyNameUtil.GetNativeFileNameFromMagnetLink(link);     	
+			    			sendLinkToServer(link, fileName);       	      
+		        	    }
+		        	  })
+		        	 .setNegativeButton(getStr(R.string.basic_cancel), null)
+		        	 .show(); 	        	
+	        	return true;
 	        case R.id.pause_all:
 	        	new SendCommandTask(DownloadItemListActivity.this, "pause_all").execute();
 	     		Toast.makeText(
@@ -187,6 +221,10 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 		           .setNegativeButton(getStr(R.string.basic_no), null)
 		           .show();        	
 	        	return true;
+	        case R.id.kill_exit:
+	        	new RefreshItemListBroadcastReceiver().cancelAlarm(this);
+	        	finish();
+	        	return true;
 	        case R.id.refresh_list:
 	        	sendRefreshRequest();
 	     		return true;
@@ -195,6 +233,18 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if (requestCode == fileSelectorRequestCode){
+    		if (data != null){
+	    		Uri selected = data.getData();
+	    		if (selected != null)
+	    			sendTorrentFileToServer(selected);
+    		}
+    	}
+    	super.onActivityResult(requestCode, resultCode, data);
+    }
+    
 	public void showDownloadItemList(List<DownloadItem> items) {
 		//set adapter
 		DownloadItemListAdapter adapter = new DownloadItemListAdapter(this, items, this);		

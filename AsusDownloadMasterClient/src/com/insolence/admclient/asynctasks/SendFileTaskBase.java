@@ -7,6 +7,7 @@ import android.content.Context;
 import com.insolence.admclient.R;
 import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 
+@Deprecated
 public abstract class SendFileTaskBase extends SendTaskBase{
 	
 	public SendFileTaskBase(Context context) {

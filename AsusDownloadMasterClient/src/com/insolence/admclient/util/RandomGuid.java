@@ -20,7 +20,7 @@ public class RandomGuid extends Object {
         myRand = new Random(secureInitializer);
         try {
             s_id = InetAddress.getLocalHost().toString();
-        } catch (UnknownHostException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

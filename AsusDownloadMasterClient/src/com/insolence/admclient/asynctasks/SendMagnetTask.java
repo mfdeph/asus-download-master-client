@@ -18,6 +18,7 @@ import android.content.Context;
 
 import com.insolence.admclient.util.RandomGuid;
 
+@Deprecated
 public class SendMagnetTask extends SendFileTaskBase {
 
 	String _magnetLink;
@@ -34,21 +35,6 @@ public class SendMagnetTask extends SendFileTaskBase {
 	protected File getFile() {
 		return GetTorrentFileFromMagnetLink(_magnetLink);
 	}
-	
-	
-	public static String GetNativeFileNameFromMagnetLink(String magnetLink){
-		try {
-			String[] splitted = magnetLink.split("&dn=");
-			if (splitted.length < 2)
-				return "";
-			return "\"" + URLDecoder.decode(splitted[1].split("&")[0], "UTF-8") + "\"";
-		} 
-		catch (UnsupportedEncodingException e) {
-			
-		}
-		return "";
-	}
-	
 	
 	private String getTorrentIdFromMagnetLink(String magnetLink){
 		return magnetLink.split("urn:btih:")[1].split("&")[0].toUpperCase();
