@@ -38,7 +38,7 @@
     <string name="menu_item_pause_all">Приостановить все</string>
     <string name="menu_item_resume_all">Возобновить все</string>
     <string name="menu_item_delete_completed">Удалить завершенные</string>
-    <string name="menu_item_kill_exit">Остановить службу</string>
+    <string name="menu_item_kill_exit">Убить сервис и выйти</string>
     <string name="menu_item_preferences">Настройки</string>
     
     <string name="context_menu_item_pause">Приостановить</string>
