@@ -6,6 +6,7 @@
     <!-- Basics -->
     <string name="basic_yes">Sí</string>
     <string name="basic_no">No</string>
+    <string name="basic_cancel">Cancelar</string>
     
     <!-- Preferences screen -->
     <string name="preference_category_server">Preferencias del servidor</string>
@@ -31,10 +32,13 @@
     <!-- Menus and commands -->
     <string name="menu_item_refresh_list">Refrescar lista</string>
     <string name="menu_group_manage_downloads">Gestionar descargas</string>
+    <string name="menu_item_add_torrent">Añadir torrent</string>
+    <string name="menu_item_add_link">Añadir enlace</string>
     <string name="menu_item_pause_all">Pausar todos</string>
     <string name="menu_item_resume_all">Continuar todos</string>
     <string name="menu_item_delete_completed">Eliminar finalizados</string>
     <string name="menu_item_preferences">Preferencias</string>
+    <string name="menu_item_kill_exit">Parar servicio y salir</string>
     
     <string name="context_menu_item_pause">Suspender</string>
     <string name="context_menu_item_resume">Continuar</string>
@@ -68,5 +72,11 @@
     <!-- Notification strings -->
     <string name="notification_download_completed_title">Descarga finalizada</string>
     <string name="notification_download_completed_text" formatted="false">"%s" se ha descargado correctamente.</string>
+    
+    <!-- Add link alert -->
+    <string name="add_torrent_alert_title">Añadir torrent</string>
+    <string name="add_link_alert_title">Añadir enlace directo</string>
+    <string name="add_link_alert_message">Download Master soporta enlaces http, ftp, Magnet, ed2k, torrent, o nzb</string>
+    <string name="add_link_alert_hint">Pega tu enlace aquí...</string>
     
 </resources>
