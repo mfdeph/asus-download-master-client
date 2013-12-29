@@ -6,6 +6,7 @@
     <!-- Basics -->
     <string name="basic_yes">Si</string>
     <string name="basic_no">No</string>
+    <string name="basic_cancel">Cancellare</string>
     
     <!-- Preferences screen -->
     <string name="preference_category_server">Regolazione del server Download Master</string>
