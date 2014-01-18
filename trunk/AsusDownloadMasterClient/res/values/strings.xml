@@ -27,7 +27,13 @@
     
     <string name="preference_category_display">Display preferences</string>
     <string name="preference_show_expanded">Show expanded</string>
-    <string name="preference_show_expanded_summary">Display full info for all downloads in your list</string>
+    <string name="preference_show_expanded_summary">Display full info for all downloads in your list</string>    
+    <string name="preference_language">App language</string>
+    <string name="preference_language_based_on_device_locale">Automatically</string>
+    
+    <string name="preference_category_other">Others</string>   
+    <string name="preference_donate">Donate</string>
+    <string name="preference_donate_summary">Say thank you to the developer via Google Play</string>
     
     <!-- Menus and commands -->
     <string name="menu_item_refresh_list">Refresh list</string>

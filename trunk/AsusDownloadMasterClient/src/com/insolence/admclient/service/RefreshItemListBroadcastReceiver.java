@@ -1,5 +1,7 @@
 package com.insolence.admclient.service;
 
+import java.util.Locale;
+
 import com.insolence.admclient.DownloadItemListActivity;
 import com.insolence.admclient.asynctasks.GetItemListResult;
 import com.insolence.admclient.asynctasks.GetItemListTask;
@@ -7,13 +9,17 @@ import com.insolence.admclient.entity.IGetItemListResultPostProcessor;
 import com.insolence.admclient.notification.NotifyWhenDownloadCompletedListener;
 import com.insolence.admclient.storage.DownloadItemStorage;
 import com.insolence.admclient.storage.PreferenceAccessor;
+import com.insolence.admclient.util.LanguageHelper;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.AsyncTask.Status;
+import android.util.DisplayMetrics;
 
 public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 
@@ -22,10 +28,14 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 	private static boolean IsLocked(){
 		return !(_currentRefreshTask == null || _currentRefreshTask.getStatus() == Status.FINISHED);
 	}
+	 
 	
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		if (!IsLocked()){
+			
+			LanguageHelper.setLanguage(context);
+			
 			IGetItemListResultPostProcessor resultPostProcessor = new IGetItemListResultPostProcessor(){
 				public void postProcessResult(GetItemListResult result) {
 					if (result.isSucceed()){
@@ -63,6 +73,12 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 	
 	private DownloadItemListActivity getMainActivity(){
 		return DownloadItemListActivity.getCurrent();
+	}
+	
+	public void stopMainActivity(){
+		if (isMainActivityActive()){
+			DownloadItemListActivity.getCurrent().finish();
+		}
 	}
 	
 	private long getServiceInterval(Context context){

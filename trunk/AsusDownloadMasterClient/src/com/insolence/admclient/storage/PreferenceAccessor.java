@@ -92,6 +92,12 @@ public class PreferenceAccessor {
 	public String getPassword(){
 		return getPrefs().getString(passwordPref, "admin");
 	}
+	
+	private static final String languagePref = "languagePref";
+	
+	public String getLanguage(){
+		return getPrefs().getString(languagePref, "auto");
+	}	
 
 	
 }

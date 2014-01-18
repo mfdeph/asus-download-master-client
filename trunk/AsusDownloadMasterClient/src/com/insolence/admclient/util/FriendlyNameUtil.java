@@ -16,17 +16,21 @@ public class FriendlyNameUtil {
 	}
 	
 	public String getUriFileName(Uri uri){
-		String scheme = uri.getScheme();
-		if (scheme.equals("content")) {
-		    String[] proj = { MediaStore.Images.Media.TITLE };
-		    Cursor cursor = _context.getContentResolver().query(uri, proj, null, null, null);
-		    if (cursor != null && cursor.getCount() != 0) {
-		        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
-		        cursor.moveToFirst();
-		        String result = cursor.getString(columnIndex);
-		        if (result != null)
-		        	return result;
-		    }
+		try{
+			String scheme = uri.getScheme();
+			if (scheme.equals("content")) {
+			    String[] proj = { MediaStore.Images.Media.TITLE };
+			    Cursor cursor = _context.getContentResolver().query(uri, proj, null, null, null);
+			    if (cursor != null && cursor.getCount() != 0) {
+			        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
+			        cursor.moveToFirst();
+			        String result = cursor.getString(columnIndex);
+			        if (result != null)
+			        	return result;
+			    }
+			}
+		}catch(Exception e){
+			
 		}
 		String result =  uri.getLastPathSegment();
 		if (!result.contains("."))
