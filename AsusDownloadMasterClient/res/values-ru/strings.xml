@@ -85,4 +85,9 @@
     <string name="add_link_alert_title">Добавить ссылку</string>
     <string name="add_link_alert_message">Download Master поддерживает ссылки http, ftp, Magnet, ed2k, torrent и nzb</string>
     <string name="add_link_alert_hint">Вставьте ссылку сюда...</string>  
+    
+    <!-- Donation answer texts -->
+    <string name="donation_succeed">Платеж успешно отправлен, спасибо!</string>
+    <string name="donation_failed">Не удалось отправить платеж...</string>
+    
 </resources>
