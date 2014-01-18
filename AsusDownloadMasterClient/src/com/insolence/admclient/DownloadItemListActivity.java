@@ -1,6 +1,7 @@
 package com.insolence.admclient;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -10,8 +11,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -29,9 +32,11 @@ import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
+import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.ClipboardUtil;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.FriendlyNameUtil;
+import com.insolence.admclient.util.LanguageHelper;
 
 public class DownloadItemListActivity extends SherlockListActivity implements OnSelectItemListener{
 	
@@ -120,11 +125,11 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);         
+        super.onCreate(savedInstanceState);
+        LanguageHelper.setLanguage(this);
         setContentView(R.layout.download_item_list_activity);      
         updateListView();
     }
-
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -222,8 +227,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 		           .show();        	
 	        	return true;
 	        case R.id.kill_exit:
-	        	new RefreshItemListBroadcastReceiver().cancelAlarm(this);
-	        	finish();
+	        	stopAppAndService();
 	        	return true;
 	        case R.id.refresh_list:
 	        	sendRefreshRequest();
@@ -231,6 +235,11 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 	        default:
 	            return false;
         }
+    }
+    
+    private void stopAppAndService(){
+    	new RefreshItemListBroadcastReceiver().cancelAlarm(this);
+    	finish();   	
     }
 
     @Override

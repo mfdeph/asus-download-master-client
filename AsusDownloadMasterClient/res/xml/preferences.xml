@@ -61,5 +61,19 @@
 		                android:defaultValue="false"
 		                android:title="@string/preference_show_expanded"
 		                android:key="showExpandedPref" />
-        </PreferenceCategory>   
+		        <ListPreference
+		                android:title="@string/preference_language"
+                        android:key="languagePref"
+                        android:entries="@array/LanguageNames"
+                        android:entryValues="@array/LanguageValues"
+                		android:defaultValue="auto" />
+        </PreferenceCategory> 
+        <PreferenceCategory
+                android:title="@string/preference_category_other">
+		        <Preference
+		                android:name="Donate"
+		                android:summary="@string/preference_donate_summary"
+		                android:title="@string/preference_donate"
+		                android:key="showExpandedPref" />
+        </PreferenceCategory> 
 </PreferenceScreen>

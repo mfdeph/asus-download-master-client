@@ -5,10 +5,13 @@ import com.actionbarsherlock.internal.view.menu.MenuBuilder;
 import com.actionbarsherlock.internal.view.menu.MenuPopupHelper;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -67,11 +70,22 @@ public class Preferences extends SherlockPreferenceActivity implements OnSharedP
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
+    
+    private void restartApp(){
+    	Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage( getBaseContext().getPackageName() );
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(i);
+    }
+    
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
-		Preference pref = findPreference(key);
-		updatePrefSummary(pref);
 		
+		if (key.equals("languagePref"))
+			restartApp();
+		else{		
+			Preference pref = findPreference(key);
+			updatePrefSummary(pref);		
+		}
 	}
 }
