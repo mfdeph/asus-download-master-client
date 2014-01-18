@@ -1,7 +1,6 @@
 package com.insolence.admclient;
 
 import java.util.List;
-import java.util.Locale;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -11,10 +10,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -32,7 +29,6 @@ import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
-import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.ClipboardUtil;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.FriendlyNameUtil;

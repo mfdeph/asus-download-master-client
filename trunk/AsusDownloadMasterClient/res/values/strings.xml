@@ -83,5 +83,10 @@
     <string name="add_torrent_alert_title">Add torrent file</string>
     <string name="add_link_alert_title">Add direct link</string>
     <string name="add_link_alert_message">Download Master supports http, ftp, Magnet, ed2k, torrent, or nzb links</string>
-    <string name="add_link_alert_hint">Paste your link here...</string>        
+    <string name="add_link_alert_hint">Paste your link here...</string> 
+    
+    <!-- Donation answer texts -->
+    <string name="donation_succeed">Donation successfully sent. Thank you!</string>
+    <string name="donation_failed">Donation failed or cancelled...</string>
+    
 </resources>

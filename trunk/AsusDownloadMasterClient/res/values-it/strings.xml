@@ -27,7 +27,13 @@
     
     <string name="preference_category_display">Preferenze visualizzazione</string>
     <string name="preference_show_expanded">Visualizzazione estesa</string>
-    <string name="preference_show_expanded_summary">Visualizza dettagli completi per tutti i download in lista</string>
+    <string name="preference_show_expanded_summary">Visualizza dettagli completi per tutti i download in lista</string>  
+    <string name="preference_language">Lingua</string>
+	<string name="preference_language_based_on_device_locale">Automatica</string>
+	
+	<string name="preference_category_other">Altro</string>
+	<string name="preference_donate">Donazioni</string>
+	<string name="preference_donate_summary">Ringrazia l\'autore su Google Play</string>
     
     <!-- Menus and commands -->
     <string name="menu_item_refresh_list">Aggiorna lista</string>
