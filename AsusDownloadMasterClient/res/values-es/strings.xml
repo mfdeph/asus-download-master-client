@@ -28,6 +28,8 @@
     <string name="preference_category_display">Preferencias de pantalla</string>
     <string name="preference_show_expanded">Mostrar detallado</string>
     <string name="preference_show_expanded_summary">Muestra en la lista información completa para todos los torrent</string>
+    <string name="preference_language">Configuracion de Idioma</string>
+    <string name="preference_language_based_on_device_locale">Auto Elegir</string>
     
     <!-- Menus and commands -->
     <string name="menu_item_refresh_list">Refrescar lista</string>
