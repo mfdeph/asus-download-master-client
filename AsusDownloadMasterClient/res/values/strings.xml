@@ -38,7 +38,7 @@
     <!-- Menus and commands -->
     <string name="menu_item_refresh_list">Refresh list</string>
     <string name="menu_group_manage_downloads">Manage downloads</string>
-    <string name="menu_item_add_torrent">Add torrent file</string>
+    <string name="menu_item_add_torrent">Add torrent/nzb file</string>
     <string name="menu_item_add_link">Add link</string>
     <string name="menu_item_pause_all">Suspend all</string>
     <string name="menu_item_resume_all">Resume all</string>

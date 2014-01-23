@@ -3,10 +3,12 @@ package com.insolence.admclient.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.webkit.MimeTypeMap;
 
 public class FriendlyNameUtil {
 	
@@ -33,9 +35,14 @@ public class FriendlyNameUtil {
 			
 		}
 		String result =  uri.getLastPathSegment();
-		if (!result.contains("."))
-			return new RandomGuid().toString(16) + ".torrent";
-		return result;
+		if (result.contains("."))
+			return result;
+		String mimeType = _context.getContentResolver().getType(uri);
+		String extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
+		if (extension == null)
+			extension = mimeType.contains("-") ? mimeType.split("-")[1] : "bin";
+		return new RandomGuid().toString(16) + "." + extension;
+
 	}
 	
 	public static String GetNativeFileNameFromMagnetLink(String magnetLink){
