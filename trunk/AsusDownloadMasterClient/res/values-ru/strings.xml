@@ -39,7 +39,7 @@
     <!-- Menus and commands -->
     <string name="menu_item_refresh_list">Обновить список</string>
     <string name="menu_group_manage_downloads">Управление загрузками</string>
-    <string name="menu_item_add_torrent">Добавить торрент</string>
+    <string name="menu_item_add_torrent">Добавить торрент/nzb</string>
     <string name="menu_item_add_link">Добавить ссылку</string>
     <string name="menu_item_pause_all">Приостановить все</string>
     <string name="menu_item_resume_all">Возобновить все</string>

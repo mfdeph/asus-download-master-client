@@ -168,7 +168,7 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 	        case R.id.add_torrent:
 	            Intent intent = new Intent();
 	            intent.addCategory(Intent.CATEGORY_OPENABLE);
-	            intent.setType("application/x-bittorrent");
+	            intent.setType("application/*");
 	            intent.setAction(Intent.ACTION_GET_CONTENT);
 	            startActivityForResult(Intent.createChooser(intent, getStr(R.string.add_torrent_alert_title)), fileSelectorRequestCode);	
 	            return true;

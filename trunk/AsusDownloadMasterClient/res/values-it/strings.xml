@@ -39,7 +39,7 @@
     <!-- Menus and commands -->
     <string name="menu_item_refresh_list">Aggiorna lista</string>
     <string name="menu_group_manage_downloads">Gestione Download</string>
-	<string name="menu_item_add_torrent">Aggiungi file Torrent</string>
+	<string name="menu_item_add_torrent">Aggiungi file Torrent/nzb</string>
     <string name="menu_item_add_link">Aggiungi collegamento</string>
     <string name="menu_item_pause_all">Sospendi tutti</string>
     <string name="menu_item_resume_all">Riprendi tutti</string>
