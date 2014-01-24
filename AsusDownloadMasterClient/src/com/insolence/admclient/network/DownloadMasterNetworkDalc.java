@@ -13,10 +13,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 
 import com.insolence.admclient.entity.DownloadItem;
@@ -80,7 +78,7 @@ public class DownloadMasterNetworkDalc {
 	
 	protected boolean tryGetItemList(Holder<String> result){
 		
-		final Random rand = new Random();
+		/*final Random rand = new Random();
 		
 		try{ Thread.sleep(rand.nextInt(3000)); }catch(InterruptedException e){ }
 		
@@ -92,9 +90,9 @@ public class DownloadMasterNetworkDalc {
 				"[\"4\",\"охоеж! 'DVDRIP\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" + 
 				"[\"5\",\"Hunger_gam'es_catching_fire_720p_dvdrip.avi\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" + 
 				"]";
-		return true;
+		return true;*/
 		
-		/*try{
+		try{
 			
 			URL url = new URL(getListUrlString());
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
@@ -110,7 +108,7 @@ public class DownloadMasterNetworkDalc {
 			return false;
 		}finally{
 			
-		}*/
+		}
 	}
 	
 	public ArrayList<DownloadItem> getDownloadItems(){
