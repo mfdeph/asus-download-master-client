@@ -79,6 +79,12 @@ public class PreferenceAccessor {
 	
 	public boolean isPathPostfixEnabled(){
 		return getPrefs().getBoolean(postfixEnabledPref, true);
+	}	
+	
+	private static final String showExpandedPref = "showExpandedPref";
+	
+	public boolean isShowExpanded(){
+		return getPrefs().getBoolean(showExpandedPref, false);
 	}
 	
 	private static final String loginPref = "loginPref";

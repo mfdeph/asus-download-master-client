@@ -8,12 +8,12 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.insolence.admclient.asynctasks.SendCommandTask;
 import com.insolence.admclient.entity.DownloadItem;
+import com.insolence.admclient.expandable.IExpandCollapseManager;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,11 +25,15 @@ import android.widget.Toast;
 
 public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
-	private ISelectedItemKeeper _selectedItemKeeper;
+	private IExpandCollapseManager _expandCollapseManager;
 	
-	public DownloadItemListAdapter(Context context, List<DownloadItem> downloadItems, ISelectedItemKeeper keeper) {
+	public DownloadItemListAdapter(Context context, List<DownloadItem> downloadItems, IExpandCollapseManager expandCollapseManager) {
 		super(context, R.layout.download_item_block, downloadItems); 
-		_selectedItemKeeper = keeper;
+		setExpandCollapseManager(expandCollapseManager);
+	}
+	
+	public void setExpandCollapseManager(IExpandCollapseManager expandCollapseManager){
+		_expandCollapseManager = expandCollapseManager;
 	}
 	
 	@Override
@@ -76,12 +80,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         final ImageButton menuButtonHolder = (ImageButton) v.findViewById(R.id.download_item_menu_button);
         menuButtonHolder.setOnClickListener(buildContextMenuOpener(downloadItem));
         		
-        if (
-        		PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("showExpandedPref", false) || 
-        		_selectedItemKeeper.isItemSelected(downloadItem)
-        	){
-        	ExpandCollapseListViewItemHelper.expandItem(v);
-        }
+        _expandCollapseManager.setItemState(downloadItem, v);
 
         return v;
 	}
@@ -121,10 +120,6 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 		removeMenuItem.setOnMenuItemClickListener(new OnClickDownloadItemListener(downloadItem, "cancel", getStr(R.string.command_info_part_delete), getStr(R.string.confirmation_message_delete)));
 				
 	    return builder;
-	}
-
-	public interface ISelectedItemKeeper{
-		boolean isItemSelected(DownloadItem item);
 	}
 	
 	private String getStr(int resourceId){
