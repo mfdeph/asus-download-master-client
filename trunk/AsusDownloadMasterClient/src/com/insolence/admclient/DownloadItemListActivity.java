@@ -22,25 +22,25 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.insolence.admclient.DownloadItemListAdapter.ISelectedItemKeeper;
 import com.insolence.admclient.asynctasks.SendCommandTask;
 import com.insolence.admclient.asynctasks.SendLinkTask;
 import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
+import com.insolence.admclient.expandable.FullViewExpandCollapseManager;
+import com.insolence.admclient.expandable.IExpandCollapseManager;
+import com.insolence.admclient.expandable.CompactExpandCollapseManager;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
+import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.ClipboardUtil;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.FriendlyNameUtil;
 import com.insolence.admclient.util.LanguageHelper;
 
-public class DownloadItemListActivity extends SherlockListActivity implements ISelectedItemKeeper, OnItemClickListener, PullToRefreshAttacher.OnRefreshListener{
-	
-	String selectedItemName;
+public class DownloadItemListActivity extends SherlockListActivity implements OnItemClickListener, PullToRefreshAttacher.OnRefreshListener{
 	
 	private static DownloadItemListActivity _current;
 	
@@ -57,6 +57,10 @@ public class DownloadItemListActivity extends SherlockListActivity implements IS
 		new RefreshItemListBroadcastReceiver().resetAlarm(this);
 		switchRefreshAnimation(false);
 		handleIntent(getIntent());
+		if (_adapter != null){
+			_adapter.setExpandCollapseManager(getExpandCollapseManager());
+			_adapter.notifyDataSetChanged();
+		}
 	}
 	
 	@Override
@@ -265,60 +269,36 @@ public class DownloadItemListActivity extends SherlockListActivity implements IS
     
     private void actualizeAdapter(List<DownloadItem> items){
     	if (_adapter == null){
-    		_adapter = new DownloadItemListAdapter(this, items, this);
-    		setListAdapter(_adapter);
-    		
+    		_adapter = new DownloadItemListAdapter(this, items, getExpandCollapseManager());
+    		setListAdapter(_adapter);    		
     	}else{
     		_adapter.clear();
     		_adapter.addAll(items);
     		_adapter.notifyDataSetChanged();
     	}
     }
+   
+    private static IExpandCollapseManager _expandCollapseManager;
     
-    private View _currentExpandedItem;
+    private IExpandCollapseManager getExpandCollapseManager(){
+    	if (_expandCollapseManager == null)
+    		_expandCollapseManager = PreferenceAccessor.getInstance(this).isShowExpanded() ? new FullViewExpandCollapseManager() : new CompactExpandCollapseManager();
+    	return _expandCollapseManager;
+    }
+    
+    public static void resetExpandCollapseManager(){
+    	_expandCollapseManager = null;
+    }
     
     @Override
-	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
-		DownloadItem downloadItem = (DownloadItem) getListView().getItemAtPosition(position);
-		setDownloadItemSelected(downloadItem);
-		
-		if (_currentExpandedItem != null)
-			ExpandCollapseListViewItemHelper.collapseItem(_currentExpandedItem);
-		if (view == _currentExpandedItem){
-			setDownloadItemSelected(null);
-			_currentExpandedItem = null;
-		}else{
-			ExpandCollapseListViewItemHelper.expandItem(view);
-			_currentExpandedItem = view;
-		}
+	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {	
+		DownloadItem downloadItem = (DownloadItem) getListView().getItemAtPosition(position);		
+		getExpandCollapseManager().clickItem(downloadItem);		
+		_adapter.notifyDataSetChanged();
 	}
     
-    private int _savedPosition;
-    private int _savedListTop;
-    
-    private void saveListPosition(){
-		ListView list = getListView();
-		if (list == null)
-			return;
-		_savedPosition = list.getFirstVisiblePosition();
-	    View firstVisibleView = list.getChildAt(0);
-	    _savedListTop = (firstVisibleView == null) ? 0 : firstVisibleView.getTop();	    	
-    }
-    
-    private void restoreListPosition(){
-		if (_savedPosition >= 0){
-			ListView list = getListView();
-			if (list == null)
-				return;
-			list.setSelectionFromTop(_savedPosition, _savedListTop); 
-		}
-		      	
-    }
-    
 	public void showDownloadItemList(List<DownloadItem> items) {	
-		saveListPosition();
 	    actualizeAdapter(items);
-	    restoreListPosition();
 		setDefaultMessageVisibility();	
 	}
 	
@@ -334,24 +314,6 @@ public class DownloadItemListActivity extends SherlockListActivity implements IS
 	public void sendRefreshRequest(){
 		new RefreshItemListBroadcastReceiver().runAlarmImmidiately(this);
 	}
-
-	@Override
-	public boolean isItemSelected(DownloadItem item) {
-		if (item == null)
-			return false;
-		return (item.getId() + item.getName()).equals(selectedItemName);
-	}
-
-	public void setDownloadItemSelected(DownloadItem item) {
-		if (item == null){
-			selectedItemName = null;
-			return;
-		}
-		selectedItemName = (item.getId() + item.getName());
-		
-	}
-	
-	
 
 	@Override
 	public void onRefreshStarted(View view) {

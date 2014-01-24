@@ -87,12 +87,16 @@ public class Preferences extends SherlockPreferenceActivity implements OnSharedP
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		
-		if (key.equals("languagePref"))
+		if (key.equals("languagePref")){
 			restartApp();
-		else{		
-			Preference pref = findPreference(key);
-			updatePrefSummary(pref);		
+			return;	
 		}
+		
+		if (key.equals("showExpandedPref"))
+			DownloadItemListActivity.resetExpandCollapseManager();
+			
+		Preference pref = findPreference(key);
+		updatePrefSummary(pref);		
 	}
 	
 
