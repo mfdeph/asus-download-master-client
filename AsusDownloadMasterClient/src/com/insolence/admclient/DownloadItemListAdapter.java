@@ -25,11 +25,11 @@ import android.widget.Toast;
 
 public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
-	private OnSelectItemListener _onSelectItemListener;
+	private ISelectedItemKeeper _selectedItemKeeper;
 	
-	public DownloadItemListAdapter(Context context, List<DownloadItem> downloadItems, OnSelectItemListener listener) {
-		super(context, R.layout.download_item, downloadItems); 
-		_onSelectItemListener = listener;
+	public DownloadItemListAdapter(Context context, List<DownloadItem> downloadItems, ISelectedItemKeeper keeper) {
+		super(context, R.layout.download_item_block, downloadItems); 
+		_selectedItemKeeper = keeper;
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         View v = convertView;
         if (v == null) {
             LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.download_item, null);
+            v = vi.inflate(R.layout.download_item_block, null);
         }
         
         final DownloadItem downloadItem = getItem(position);
@@ -76,38 +76,13 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         final ImageButton menuButtonHolder = (ImageButton) v.findViewById(R.id.download_item_menu_button);
         menuButtonHolder.setOnClickListener(buildContextMenuOpener(downloadItem));
         		
-        if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("showExpandedPref", false)){
-        	expandItem(v);
-        	return v;
+        if (
+        		PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("showExpandedPref", false) || 
+        		_selectedItemKeeper.isItemSelected(downloadItem)
+        	){
+        	ExpandCollapseListViewItemHelper.expandItem(v);
         }
-               
-        v.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				
-				_onSelectItemListener.setDownloadItemSelected(downloadItem);
-				
-				if (currentExpandedItem != null)
-					collapseItem(currentExpandedItem);
-				if (v == currentExpandedItem){
-					_onSelectItemListener.setDownloadItemSelected(null);
-					currentExpandedItem = null;
-				}else{
-					expandItem(v);
-					currentExpandedItem = v;
-				}
-				
-			}
-        	
-        	
-        });
-        
-        if (_onSelectItemListener.isItemSelected(downloadItem)){
-        	expandItem(v);
-        	currentExpandedItem = v;
-        }
-        
         return v;
 	}
 	
@@ -147,26 +122,9 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 				
 	    return builder;
 	}
-	
-	private View currentExpandedItem;
-	
-	private void expandItem(View view){
-		view.findViewById(R.id.view_additional_info_1).setVisibility(View.VISIBLE);
-		view.findViewById(R.id.view_additional_info_2).setVisibility(View.VISIBLE);
-		view.findViewById(R.id.download_item_summary).setVisibility(View.GONE);
-		((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(4);
-	}
-	
-	private void collapseItem(View view){
-		view.findViewById(R.id.view_additional_info_1).setVisibility(View.GONE);
-		view.findViewById(R.id.view_additional_info_2).setVisibility(View.GONE);
-		view.findViewById(R.id.download_item_summary).setVisibility(View.VISIBLE);
-		((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(1);
-	}
 
-	public interface OnSelectItemListener{
+	public interface ISelectedItemKeeper{
 		boolean isItemSelected(DownloadItem item);
-		void setDownloadItemSelected(DownloadItem item);
 	}
 	
 	private String getStr(int resourceId){
