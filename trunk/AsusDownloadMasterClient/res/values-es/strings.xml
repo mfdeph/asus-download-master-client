@@ -26,8 +26,12 @@
     <string name="preference_autorefresh_interval">Intervalo de autorefresco</string>
     
     <string name="preference_category_display">Preferencias de pantalla</string>
-    <string name="preference_show_expanded">Mostrar detallado</string>
-    <string name="preference_show_expanded_summary">Muestra en la lista información completa para todos los torrent</string>
+
+    <string name="preference_display_mode">Modo de visualización</string>
+    <string name="preference_display_mode_collapsed">Compacto</string>
+    <string name="preference_display_mode_expanded">Expandido</string>
+    <string name="preference_display_mode_smart">Inteligente</string>  
+    
 	<string name="preference_language">Idioma</string>
     <string name="preference_language_based_on_device_locale">Automático</string>
     

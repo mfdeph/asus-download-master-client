@@ -27,8 +27,10 @@
     <string name="preference_autorefresh_interval">Intervallo auto-aggiornamento(sec.)</string>
     
     <string name="preference_category_display">Preferenze visualizzazione</string>
-    <string name="preference_show_expanded">Visualizzazione estesa</string>
-    <string name="preference_show_expanded_summary">Visualizza dettagli completi per tutti i download in lista</string>  
+	<string name="preference_display_mode">Stile visualizzazione</string>
+	<string name="preference_display_mode_collapsed">Compatto</string>
+	<string name="preference_display_mode_expanded">Esteso</string>
+	<string name="preference_display_mode_smart">Automatico</string>
     <string name="preference_language">Lingua</string>
 	<string name="preference_language_based_on_device_locale">Automatica</string>
 	

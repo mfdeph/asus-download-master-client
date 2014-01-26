@@ -15,6 +15,7 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="actionBarStyle">@style/MyTheme.ActionBar.BlueActionBar</item>
         <item name="android:listSeparatorTextViewStyle">@style/CustomListSeparator</item>
+        <item name="android:background">#E5E5E5</item>
     </style>
     
     

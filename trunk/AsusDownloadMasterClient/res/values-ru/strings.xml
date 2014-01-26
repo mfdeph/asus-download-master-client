@@ -27,8 +27,12 @@
     <string name="preference_autorefresh_interval">Интервал автообновления (в секундах)</string>
     
     <string name="preference_category_display">Настройки отображения</string>
-    <string name="preference_show_expanded">Показывать в развернутом виде</string>
-    <string name="preference_show_expanded_summary">В списке загрузок всегда будет отображаться полная информация по каждой из них</string>
+
+    <string name="preference_display_mode">Режим отображения списка</string>
+    <string name="preference_display_mode_collapsed">Компактный</string>
+    <string name="preference_display_mode_expanded">Развернутый</string>
+    <string name="preference_display_mode_smart">Умный</string>
+    
     <string name="preference_language">Язык приложения</string>
     <string name="preference_language_based_on_device_locale">Определять автоматически</string>
     

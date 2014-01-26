@@ -13,8 +13,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 
 import com.insolence.admclient.entity.DownloadItem;
@@ -84,11 +86,11 @@ public class DownloadMasterNetworkDalc {
 		
 		result.value = 
 				"[" + 
-				"[\"1\",\"Hunger_Games'_BDRIP\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" +
-				"[\"2\",\"HOT_CHICK_ASSES_IN_IBIZA_5'_BDRIP.avi\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" +
-				"[\"3\",\"Revolu'tion\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]"+
-				"[\"4\",\"охоеж! 'DVDRIP\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" + 
-				"[\"5\",\"Hunger_gam'es_catching_fire_720p_dvdrip.avi\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? "Downloading" : "Seeding") + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" + 
+				"[\"1\",\"Hunger_Games'_BDRIP\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"100GB\",\"" + (rand.nextBoolean() ? (rand.nextBoolean() ? "Downloading" : "Paused") : (rand.nextBoolean() ? "Paused" : "Seeding")) + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" +
+				"[\"2\",\"HOT_CHICK_ASSES_IN_IBIZA_5'_BDRIP.avi\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"23.6GB\",\"" + (rand.nextBoolean() ? (rand.nextBoolean() ? "Downloading" : "Seeding") : (rand.nextBoolean() ? "Paused" : "Seeding")) + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" +
+				"[\"3\",\"Revolu'tion\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"11.1GB\",\"" + (rand.nextBoolean() ? (rand.nextBoolean() ? "Downloading" : "Error") : (rand.nextBoolean() ? "Paused" : "Seeding")) + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]"+
+				"[\"4\",\"охоеж! 'DVDRIP\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"6.3GB\",\"" + (rand.nextBoolean() ? "Downloading" : (rand.nextBoolean() ? "Paused" : "Seeding")) + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" + 
+				"[\"5\",\"Hunger_gam'es_catching_fire_720p_dvdrip.avi\",\"" + String.format("%.2f", rand.nextFloat()).replace(',', '.') + "\",\"43GB\",\"" + (rand.nextBoolean() ? (rand.nextBoolean() ? "Downloading" : "Paused") : (rand.nextBoolean() ? "Paused" : "Seeding")) + "\",\"\",\"100500 hrs\",\"100 mbps\",\"200 mbps\",\"10\",\"11\"]" + 
 				"]";
 		return true;*/
 		

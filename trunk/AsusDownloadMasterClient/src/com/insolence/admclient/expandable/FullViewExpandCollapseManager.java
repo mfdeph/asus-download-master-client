@@ -13,4 +13,8 @@ public class FullViewExpandCollapseManager extends ExpandCollapseManagerBase{
 	public void clickItem(DownloadItem downloadItem) {
 
 	}
+	
+	public boolean isMultiColumnsAllowed(){
+		return true;
+	}
 }

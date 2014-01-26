@@ -55,12 +55,12 @@
         </PreferenceCategory> 
         <PreferenceCategory
                 android:title="@string/preference_category_display">
-		        <CheckBoxPreference
-		                android:name="Show expanded"
-		                android:summary="@string/preference_show_expanded_summary"
-		                android:defaultValue="false"
-		                android:title="@string/preference_show_expanded"
-		                android:key="showExpandedPref" />
+		        <ListPreference
+		                android:defaultValue="1"
+		                android:title="@string/preference_display_mode"
+		                android:entries="@array/DisplayModeNames"
+                        android:entryValues="@array/DisplayModeValues"
+		                android:key="displayModePref" />
 		        <ListPreference
 		                android:title="@string/preference_language"
                         android:key="languagePref"
