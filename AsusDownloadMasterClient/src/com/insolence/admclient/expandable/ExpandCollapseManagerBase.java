@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.insolence.admclient.R;
 import com.insolence.admclient.entity.DownloadItem;
 
-public class ExpandCollapseManagerBase implements IExpandCollapseManager {
+public abstract class ExpandCollapseManagerBase implements IExpandCollapseManager {
 	
 	public ExpandCollapseManagerBase(){
 		
@@ -43,14 +43,20 @@ public class ExpandCollapseManagerBase implements IExpandCollapseManager {
 			view.findViewById(R.id.view_additional_info_1).setVisibility(View.VISIBLE);
 			view.findViewById(R.id.view_additional_info_2).setVisibility(View.VISIBLE);
 			view.findViewById(R.id.download_item_summary).setVisibility(View.GONE);
-			((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(4);
+			((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(2);
+			((TextView)view.findViewById(R.id.download_item_name)).setMinLines(2);
 		}
 		else{
 			view.findViewById(R.id.view_additional_info_1).setVisibility(View.GONE);
 			view.findViewById(R.id.view_additional_info_2).setVisibility(View.GONE);
 			view.findViewById(R.id.download_item_summary).setVisibility(View.VISIBLE);
-			((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(1);			
+			((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(1);
+			((TextView)view.findViewById(R.id.download_item_name)).setMinLines(1);
 		}
+	}
+	
+	public boolean isMultiColumnsAllowed(){
+		return false;
 	}
 
 }

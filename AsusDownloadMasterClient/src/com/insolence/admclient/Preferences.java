@@ -92,7 +92,7 @@ public class Preferences extends SherlockPreferenceActivity implements OnSharedP
 			return;	
 		}
 		
-		if (key.equals("showExpandedPref"))
+		if (key.equals("displayModePref"))
 			DownloadItemListActivity.resetExpandCollapseManager();
 			
 		Preference pref = findPreference(key);

@@ -17,5 +17,17 @@
 	   <item>ru</item>
 	</string-array>
 	
+	<string-array name="DisplayModeValues">
+	   <item>1</item>
+	   <item>2</item>
+	   <item>3</item>
+	</string-array>
+	
+	<string-array name="DisplayModeNames">
+	   <item>@string/preference_display_mode_collapsed</item>
+	   <item>@string/preference_display_mode_expanded</item>
+	   <item>@string/preference_display_mode_smart</item>
+	</string-array>
+	
 	
 </resources>

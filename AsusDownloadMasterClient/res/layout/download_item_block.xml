@@ -4,34 +4,30 @@
     android:layout_height="fill_parent"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
-    android:paddingTop="8dp"
+    android:paddingTop="5dp"
     android:paddingLeft="6dp"
-    android:paddingRight="6dp"
-    android:paddingBottom="0dp"
-    android:background="#E5E5E5"
-    >
+    android:paddingRight="4dp"
+    android:paddingBottom="5dp">
 
     <LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal"
-	    android:background="@drawable/download_item_block_background"
-	    >  
+	    android:background="@drawable/download_item_block_background">  
     
-<LinearLayout
-    android:layout_marginBottom="2dp"
-    android:layout_width="8dp"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/download_item_tip_default"/>     
-    
+		<LinearLayout
+		    android:id="@+id/download_item_tip"
+		    android:layout_marginBottom="2dp"
+		    android:layout_width="6dp"
+		    android:layout_height="match_parent"
+		    android:orientation="vertical"
+		    android:background="@drawable/download_item_tip_default"/>     
     	
-<LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:paddingBottom="8dp"
-    >    
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:orientation="vertical"
+		    android:paddingBottom="8dp">    
     
             <LinearLayout
 			    android:layout_width="match_parent"
@@ -39,22 +35,21 @@
 			    android:layout_height="wrap_content"
 			    android:orientation="horizontal" 
 			    android:gravity="top">
-	       		 <ImageView
-			   		   android:layout_weight="1"
-			           android:layout_width="48dp"
-			           android:layout_marginLeft="3dp"
-			           android:layout_marginRight="9dp"
-			           android:layout_marginTop="4dp"
-			           android:layout_marginBottom="4dp"
-			           android:layout_height="48dp"
-			           android:background="@drawable/ic_menu_download_album"/>			    
-             <LinearLayout
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
-			    android:layout_weight="100"
-			    android:orientation="vertical">               
-                
-                
+			    
+	       		<ImageView
+					android:layout_weight="1"
+			        android:layout_width="48dp"
+			        android:layout_marginLeft="3dp"
+			        android:layout_marginRight="9dp"
+			        android:layout_marginTop="4dp"
+			        android:layout_marginBottom="4dp"
+			        android:layout_height="48dp"
+			        android:background="@drawable/ic_menu_download_album"/>			    
+	            <LinearLayout
+					android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="100"
+				    android:orientation="vertical">                              
 		        <TextView
 				      android:id="@+id/download_item_name"
 					  android:layout_width="match_parent"
@@ -64,8 +59,7 @@
 					  android:layout_marginRight="8dp"
 					  android:layout_marginBottom="0dp"
 					  android:textSize="18sp"
-					  android:ellipsize="end"
-					  
+					  android:ellipsize="end"				  
 					  android:maxLines="1"/>
 		       <TextView
 					      android:id="@+id/download_item_summary"
@@ -98,7 +92,7 @@
 				<TextView
 					      android:id="@+id/download_item_volume"					  
 						  android:layout_height="wrap_content"
-						  android:layout_width="66dp"
+						  android:layout_width="60dp"
 						  android:textStyle="bold"
 						  android:textSize="12sp"
 						  android:gravity="center"/>	
@@ -121,7 +115,7 @@
         <LinearLayout
             android:id = "@+id/view_additional_info_2"
             android:visibility="gone"
-            android:layout_marginLeft="66dp"
+            android:layout_marginLeft="60dp"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:orientation="vertical">        

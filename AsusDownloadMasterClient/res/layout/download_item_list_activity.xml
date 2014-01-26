@@ -2,15 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#E5E5E5">
+    android:orientation="vertical">
     
-    <LinearLayout 
+    <RelativeLayout 
 			  android:layout_width="match_parent"
-			  android:layout_height="20dp"
-			  android:orientation="vertical"
-			  android:background="@drawable/action_bar_background">
-	</LinearLayout>
+			  android:layout_height="3dp"
+			  android:background="#32536e">
+	</RelativeLayout>
     
     <TextView android:id="@+id/no_torrents_label"
 			  android:layout_width="match_parent"
@@ -20,13 +18,16 @@
 			  android:gravity="center"
 			  android:text="@string/item_list_no_downloads"/>
     
-    <ListView android:id="@id/android:list"
+    <GridView android:id="@+id/download_item_list"
               android:layout_width="match_parent"
               android:layout_height="match_parent"          
               android:drawSelectorOnTop="false"
               android:clickable="false"
               android:choiceMode="singleChoice"
               android:dividerHeight="0dp"
-			  android:divider="@null"/>
+              android:columnWidth="350dp"
+    		  android:numColumns="1"
+			  android:divider="@null"
+			  android:soundEffectsEnabled="false"/>
     
 </LinearLayout>

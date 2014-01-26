@@ -4,7 +4,7 @@ import java.util.List;
 
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
-import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -21,7 +21,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,18 +31,16 @@ import com.insolence.admclient.asynctasks.SendCommandTask;
 import com.insolence.admclient.asynctasks.SendLinkTask;
 import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
-import com.insolence.admclient.expandable.FullViewExpandCollapseManager;
+import com.insolence.admclient.expandable.ExpandCollapseManagerCreator;
 import com.insolence.admclient.expandable.IExpandCollapseManager;
-import com.insolence.admclient.expandable.CompactExpandCollapseManager;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
-import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.ClipboardUtil;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.FriendlyNameUtil;
 import com.insolence.admclient.util.LanguageHelper;
 
-public class DownloadItemListActivity extends SherlockListActivity implements OnItemClickListener, PullToRefreshAttacher.OnRefreshListener{
+public class DownloadItemListActivity extends SherlockActivity implements OnItemClickListener, PullToRefreshAttacher.OnRefreshListener{
 	
 	private static DownloadItemListActivity _current;
 	
@@ -61,6 +61,8 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 			_adapter.setExpandCollapseManager(getExpandCollapseManager());
 			_adapter.notifyDataSetChanged();
 		}
+		getListView().setNumColumns(_expandCollapseManager.isMultiColumnsAllowed() ? GridView.AUTO_FIT : 1);
+		updateListView();
 	}
 	
 	@Override
@@ -281,8 +283,9 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
     private static IExpandCollapseManager _expandCollapseManager;
     
     private IExpandCollapseManager getExpandCollapseManager(){
-    	if (_expandCollapseManager == null)
-    		_expandCollapseManager = PreferenceAccessor.getInstance(this).isShowExpanded() ? new FullViewExpandCollapseManager() : new CompactExpandCollapseManager();
+    	if (_expandCollapseManager == null){
+    		_expandCollapseManager = ExpandCollapseManagerCreator.createActual(this);
+    	}
     	return _expandCollapseManager;
     }
     
@@ -319,6 +322,14 @@ public class DownloadItemListActivity extends SherlockListActivity implements On
 	public void onRefreshStarted(View view) {
 		mPullToRefreshAttacher.setRefreshComplete();
 		sendRefreshRequest();
+	}
+	
+	private GridView getListView(){
+		return (GridView) findViewById(R.id.download_item_list);
+	}
+	
+	private void setListAdapter(ListAdapter adapter){
+		getListView().setAdapter(adapter);
 	}
 	
 

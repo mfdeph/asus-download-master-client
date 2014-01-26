@@ -26,8 +26,12 @@
     <string name="preference_autorefresh_interval">Autorefresh interval</string>
     
     <string name="preference_category_display">Display preferences</string>
-    <string name="preference_show_expanded">Show expanded</string>
-    <string name="preference_show_expanded_summary">Display full info for all downloads in your list</string>    
+
+    <string name="preference_display_mode">Display mode</string>
+    <string name="preference_display_mode_collapsed">Compact</string>
+    <string name="preference_display_mode_expanded">Expanded</string>
+    <string name="preference_display_mode_smart">Smart</string>
+    
     <string name="preference_language">App language</string>
     <string name="preference_language_based_on_device_locale">Automatically</string>
     

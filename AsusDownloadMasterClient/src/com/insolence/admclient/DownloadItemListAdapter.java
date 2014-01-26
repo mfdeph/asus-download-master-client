@@ -11,7 +11,6 @@ import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.expandable.IExpandCollapseManager;
 
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -20,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +46,13 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         }
         
         final DownloadItem downloadItem = getItem(position);
+        
+        fillView(v, downloadItem);
+        
+        return v;
+	}
+	
+    private void fillView(View v, DownloadItem downloadItem){
         
         TextView nameHolder = (TextView) v.findViewById(R.id.download_item_name);
         nameHolder.setText(downloadItem.getName());
@@ -77,12 +84,15 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         TextView timeOnHolder = (TextView) v.findViewById(R.id.download_item_time_on);
         timeOnHolder.setText(downloadItem.getTimeOnLine());
         
+        LinearLayout tipLayout = (LinearLayout) v.findViewById(R.id.download_item_tip);
+        tipLayout.setBackgroundResource(getResourceForLeftLine(downloadItem));
+        
         final ImageButton menuButtonHolder = (ImageButton) v.findViewById(R.id.download_item_menu_button);
         menuButtonHolder.setOnClickListener(buildContextMenuOpener(downloadItem));
         		
         _expandCollapseManager.setItemState(downloadItem, v);
 
-        return v;
+        
 	}
 	
 	private OnClickListener buildContextMenuOpener(final DownloadItem downloadItem){
@@ -152,7 +162,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 		public boolean onMenuItemClick(MenuItem item) {
 			if (_alertText != null){
 				
-				new AlertDialog.Builder((ListActivity)getContext())
+				new AlertDialog.Builder(getContext())
 		           .setMessage(_alertText)
 		           .setCancelable(false)
 		           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
@@ -175,6 +185,17 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 			}
 			return true;
 		}
+	}
+	
+	
+	private int getResourceForLeftLine(DownloadItem item){
+		if (item.getStatus().equalsIgnoreCase("downloading"))
+			return R.drawable.download_item_tip_downloading;
+		if (item.getStatus().equalsIgnoreCase("seeding"))
+			return R.drawable.download_item_tip_seeding;
+		if (item.getStatus().contains("rror"))
+			return R.drawable.download_item_tip_error;
+		return R.drawable.download_item_tip_default;
 	}
 
 }

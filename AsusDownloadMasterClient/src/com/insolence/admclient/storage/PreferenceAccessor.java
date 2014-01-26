@@ -4,6 +4,7 @@ import com.insolence.admclient.StaticContextApp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
 public class PreferenceAccessor {
@@ -24,6 +25,7 @@ public class PreferenceAccessor {
 	
 	private PreferenceAccessor(Context context){
 		_context = context;
+		initDisplayMode();
 	}
 	
 	public SharedPreferences getPrefs(){
@@ -79,12 +81,6 @@ public class PreferenceAccessor {
 	
 	public boolean isPathPostfixEnabled(){
 		return getPrefs().getBoolean(postfixEnabledPref, true);
-	}	
-	
-	private static final String showExpandedPref = "showExpandedPref";
-	
-	public boolean isShowExpanded(){
-		return getPrefs().getBoolean(showExpandedPref, false);
 	}
 	
 	private static final String loginPref = "loginPref";
@@ -104,6 +100,36 @@ public class PreferenceAccessor {
 	public String getLanguage(){
 		return getPrefs().getString(languagePref, "auto");
 	}	
+	
+	private static final String displayModePref = "displayModePref";
+	
+	public int getDisplayMode(){
+		try{
+			return Integer.valueOf(getPrefs().getString(displayModePref, "1"));
+		}catch(NumberFormatException e){
+			return 1;
+		}
+	}
+	
+	//obsolete, for initialization of new property on update only
+	private static final String showExpandedPref = "showExpandedPref";
+	private boolean isShowExpanded(){
+		return getPrefs().getBoolean(showExpandedPref, false);
+	}
 
+	public void initDisplayMode(){
+		if (getPrefs().contains(displayModePref))
+			return;
+		SharedPreferences.Editor editor = getPrefsToEdit();
+		//for tablets default value is "Expanded"
+		editor.putString(displayModePref, (isTablet() || isShowExpanded()) ? "2" : "1");
+		editor.commit();
+	}
+	
+	private boolean isTablet() {
+	    return (_context.getResources().getConfiguration().screenLayout
+	            & Configuration.SCREENLAYOUT_SIZE_MASK)
+	            >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+	}
 	
 }

@@ -9,4 +9,6 @@ public interface IExpandCollapseManager {
 	void setItemState(DownloadItem downloadItem, View view);
 	
 	void clickItem(DownloadItem downloadItem);
+	
+	boolean isMultiColumnsAllowed();
 }
