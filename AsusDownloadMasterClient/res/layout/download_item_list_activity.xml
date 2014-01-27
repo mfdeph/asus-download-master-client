@@ -3,31 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+   
+    	    <RelativeLayout 
+				  android:layout_width="match_parent"
+				  android:layout_height="3dp"
+				  android:background="#32536e">
+		</RelativeLayout>
     
-    <RelativeLayout 
-			  android:layout_width="match_parent"
-			  android:layout_height="3dp"
-			  android:background="#32536e">
-	</RelativeLayout>
+   <uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/ptr_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
     
-    <TextView android:id="@+id/no_torrents_label"
-			  android:layout_width="match_parent"
-			  android:layout_height="wrap_content"
-			  android:paddingTop="20dp"
-			  android:textSize="16sp"
-			  android:gravity="center"
-			  android:text="@string/item_list_no_downloads"/>
+
+	    
+	    <TextView android:id="@+id/no_torrents_label"
+				  android:layout_width="match_parent"
+				  android:layout_height="wrap_content"
+				  android:paddingTop="20dp"
+				  android:textSize="16sp"
+				  android:gravity="center"
+				  android:text="@string/item_list_no_downloads"/>
+	    
+	    <GridView android:id="@+id/download_item_list"
+	              android:layout_width="match_parent"
+	              android:layout_height="match_parent"          
+	              android:drawSelectorOnTop="false"
+	              android:clickable="false"
+	              android:choiceMode="singleChoice"
+	              android:dividerHeight="0dp"
+	              android:columnWidth="350dp"
+	    		  android:numColumns="1"
+				  android:divider="@null"
+				  android:soundEffectsEnabled="false"/>
     
-    <GridView android:id="@+id/download_item_list"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"          
-              android:drawSelectorOnTop="false"
-              android:clickable="false"
-              android:choiceMode="singleChoice"
-              android:dividerHeight="0dp"
-              android:columnWidth="350dp"
-    		  android:numColumns="1"
-			  android:divider="@null"
-			  android:soundEffectsEnabled="false"/>
+    </uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout>
     
 </LinearLayout>

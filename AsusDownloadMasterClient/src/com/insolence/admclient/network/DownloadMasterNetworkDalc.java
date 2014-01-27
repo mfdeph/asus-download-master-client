@@ -205,7 +205,7 @@ public class DownloadMasterNetworkDalc {
 		return (respCode == 200);	
 	}
 	
-	private static ArrayList<DownloadItem> fillDownloadItems(String data){
+	private ArrayList<DownloadItem> fillDownloadItems(String data){
 		
 		ArrayList<DownloadItem> result = new ArrayList<DownloadItem>();
 		
@@ -260,7 +260,7 @@ public class DownloadMasterNetworkDalc {
     	    	}
     	    	counter ++;
     	    }
-    	    result.add(item);	
+    	    result.add(item);
     	}
     	
     	return result;

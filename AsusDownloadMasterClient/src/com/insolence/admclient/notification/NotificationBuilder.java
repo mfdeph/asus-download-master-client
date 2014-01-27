@@ -26,7 +26,7 @@ public class NotificationBuilder {
 
 		NotificationCompat.Builder mBuilder = buildDownloadItemNotificationBuilder(context, item);
 
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+		TaskStackBuilder stackBuilder = TaskStackBuilder.from(context);
 		stackBuilder.addParentStack(DownloadItemListActivity.class);
 		stackBuilder.addNextIntent(
 				new Intent(context, DownloadItemListActivity.class));
@@ -37,7 +37,7 @@ public class NotificationBuilder {
 				));
 		NotificationManager mNotificationManager =
 		    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification =  mBuilder.build();
+		Notification notification =  mBuilder.getNotification();
 		notification.defaults = Notification.DEFAULT_ALL;		
 		mNotificationManager.notify(Math.round((float)Math.random()*1000), notification);
 
