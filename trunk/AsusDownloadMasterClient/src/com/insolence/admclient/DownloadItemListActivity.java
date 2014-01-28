@@ -290,7 +290,10 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
     		setListAdapter(_adapter);    		
     	}else{
     		_adapter.clear();
-    		_adapter.addAll(items);
+			
+			for (int i = 0; i < items.size(); i++)
+				_adapter.add(items.get(i));
+
     		_adapter.notifyDataSetChanged();
     	}
     }
