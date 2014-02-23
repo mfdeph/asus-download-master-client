@@ -31,5 +31,24 @@
 	   <item>@string/preference_display_mode_smart</item>
 	</string-array>
 	
+	<string-array name="TaskStatusNameNative">
+	   <item>Initialing</item>
+	   <item>Downloading</item>
+	   <item>Paused</item>
+	   <item>Finished</item>
+	   <item>Seeding</item>
+	   <item>Stop</item>
+	   <item>Error</item>
+	</string-array>
+	
+	<string-array name="TaskStatusNameTrans">
+	   <item>@string/task_status_trans_initialing</item>
+	   <item>@string/task_status_trans_downloading</item>
+	   <item>@string/task_status_trans_paused</item>
+	   <item>@string/task_status_trans_finished</item>
+	   <item>@string/task_status_trans_seeding</item>
+	   <item>@string/task_status_trans_stop</item>
+	   <item>@string/task_status_trans_error</item>
+	</string-array>
 	
 </resources>
