@@ -93,4 +93,13 @@
     <string name="donation_succeed">Dotacja pomyślnie wysłana. Dziękuję!</string>
     <string name="donation_failed">Dotacja nie udała się lub została anulowana...</string>
     
+    <!-- Task Status -->
+    <string name="task_status_trans_initialing">Inicjalizacja</string>
+	<string name="task_status_trans_downloading">Pobieranie</string>
+	<string name="task_status_trans_paused">Wstrzymane</string>
+	<string name="task_status_trans_finished">Zakończone</string>
+	<string name="task_status_trans_seeding">Udostępnianie</string>
+	<string name="task_status_trans_stop">Zatrzymane</string>
+	<string name="task_status_trans_error">Błąd</string>
+    
 </resources>

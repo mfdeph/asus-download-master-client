@@ -1,6 +1,8 @@
 package com.insolence.admclient;
 
 import java.util.List;
+import java.lang.String;
+import java.util.HashMap;
 
 import com.actionbarsherlock.internal.view.menu.MenuBuilder;
 import com.actionbarsherlock.internal.view.menu.MenuPopupHelper;
@@ -22,14 +24,25 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
 	private IExpandCollapseManager _expandCollapseManager;
 	
+	private HashMap<String, String> StatusTransMap = new HashMap<String, String>(); 
+	
 	public DownloadItemListAdapter(Context context, List<DownloadItem> downloadItems, IExpandCollapseManager expandCollapseManager) {
 		super(context, R.layout.download_item_block, downloadItems); 
 		setExpandCollapseManager(expandCollapseManager);
+		
+		String[] StatusNative = getStrArray(R.array.TaskStatusNameNative);
+		String[] StatusTrans = getStrArray(R.array.TaskStatusNameTrans);
+		
+		for (int i=0;i<StatusNative.length-1;i++)
+		{
+        	StatusTransMap.put(StatusNative[i], StatusTrans[i]);
+		}
 	}
 	
 	public void setExpandCollapseManager(IExpandCollapseManager expandCollapseManager){
@@ -65,7 +78,18 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         
         TextView summaryHolder = (TextView) v.findViewById(R.id.download_item_summary);
         
-        String summary = String.format(getStr(R.string.download_item_status), downloadItem.getStatus(), Math.round(downloadItem.getPercentage()*100),  downloadItem.getVolume());
+        String statusToShow = new String();
+        
+        if (StatusTransMap.get(downloadItem.getStatus()) != null){
+        	statusToShow = StatusTransMap.get(downloadItem.getStatus()); 
+        }
+       	else
+       	{
+        	statusToShow = downloadItem.getStatus();
+        }
+        
+        
+        String summary = String.format(getStr(R.string.download_item_status), statusToShow, Math.round(downloadItem.getPercentage()*100),  downloadItem.getVolume());
         
         summaryHolder.setText(summary);
         
@@ -76,7 +100,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         downSpeedHolder.setText(downloadItem.getUpSpeed());
         
         TextView ststusHolder = (TextView) v.findViewById(R.id.download_item_status);
-        ststusHolder.setText(downloadItem.getStatus());
+        ststusHolder.setText(statusToShow);
         
         TextView volumeHolder = (TextView) v.findViewById(R.id.download_item_volume);
         volumeHolder.setText(downloadItem.getVolume());
@@ -136,6 +160,9 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 		return getContext().getResources().getString(resourceId);
 	}
 	
+	private String[] getStrArray(int resourceId){
+		return getContext().getResources().getStringArray(resourceId);
+	}
 	
 	private class OnClickDownloadItemListener implements OnMenuItemClickListener{
 		
