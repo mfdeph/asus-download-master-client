@@ -6,6 +6,7 @@
 	   <item>English</item>
 	   <item>Español</item>
 	   <item>Italiano</item>
+	   <item>Polski</item>
 	   <item>Русский</item>
 	</string-array>
  
@@ -14,6 +15,7 @@
 	   <item>en</item>
 	   <item>es</item>
 	   <item>it</item>
+	   <item>pl</item>
 	   <item>ru</item>
 	</string-array>
 	
