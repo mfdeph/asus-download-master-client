@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nicolò Martini -->
+<resources>
+
+    <string name="app_name">ASUS Download Master Client</string>
+    
+    <!-- Basics -->
+    <string name="basic_yes">Sì</string>
+    <string name="basic_no">No</string>
+    <string name="basic_cancel">Annulla</string>
+    
+    <!-- Preferences screen -->
+    <string name="preference_category_server">Preferenze del server Web</string>
+    <string name="preference_server_address">Indirizzo del server Web</string>
+	<string name="preference_server_port">Porta del server Web</string>
+	<string name="preference_path_postfix">Posponi /downloadmaster all\'indirizzo</string>
+	<string name="preference_path_postfix_summary">Attiva questa opzione per Download Master 3.1.0.68 o successive</string>
+	
+	<string name="preference_category_auth">Preferenze d\'accesso</string>
+    <string name="preference_login">Login</string>
+    <string name="preference_password">Password</string>
+    <string name="preference_password_summary">Password del servizio Download Master</string>
+    
+    <string name="preference_category_autorefresh">Preferenze auto-aggiornamento</string>
+    <string name="preference_autorefresh_enabled">Attivare auto-aggiornamento</string>
+    <string name="preference_autorefresh_enabled_summary">Attivare questa opzione per aggiornare la lista download automaticamente</string>
+    <string name="preference_autorefresh_interval">Intervallo auto-aggiornamento(sec.)</string>
+    
+    <string name="preference_category_display">Preferenze visualizzazione</string>
+	<string name="preference_display_mode">Stile visualizzazione</string>
+	<string name="preference_display_mode_collapsed">Compatto</string>
+	<string name="preference_display_mode_expanded">Esteso</string>
+	<string name="preference_display_mode_smart">Automatico</string>
+    <string name="preference_language">Lingua</string>
+	<string name="preference_language_based_on_device_locale">Automatica</string>
+	
+	<string name="preference_category_other">Altro</string>
+	<string name="preference_donate">Donazioni</string>
+	<string name="preference_donate_summary">Ringrazia l\'autore su Google Play</string>
+    
+    <!-- Menus and commands -->
+    <string name="menu_item_refresh_list">Aggiorna lista</string>
+    <string name="menu_group_manage_downloads">Gestione Download</string>
+	<string name="menu_item_add_torrent">Aggiungi file Torrent/nzb</string>
+    <string name="menu_item_add_link">Aggiungi collegamento</string>
+    <string name="menu_item_pause_all">Sospendi tutti</string>
+    <string name="menu_item_resume_all">Riprendi tutti</string>
+    <string name="menu_item_delete_completed">Rimuovi completati</string>
+	<string name="menu_item_kill_exit">Ferma servizio ed esci</string>
+    <string name="menu_item_preferences">Preferenze</string>
+    
+    <string name="context_menu_item_pause">Sospendi</string>
+    <string name="context_menu_item_resume">Riprendi</string>
+    <string name="context_menu_item_delete">Interrompi e rimuovi</string>
+    
+    <!-- Commands and popups -->
+    <string name="command_info_part_download">Torrent</string>
+    <string name="command_info_part_pause">In sospensione</string>
+    <string name="command_info_part_resume">In ripresa</string>
+    <string name="command_info_part_delete">In cancellazione</string>
+    <string name="confirmation_message_delete">Stai per cancellare questo torrent. Tutti i dati scaricati saranno salvati. Continuare?</string>
+    <string name="command_info_cannot_connect">Impossibile collegarsi al servizio Download Master</string>
+    <string name="command_info_pause_all">Tutti i download verranno interrotti</string>
+    <string name="command_info_resume_all">Tutti i download verranno ripresi</string>
+    <string name="command_info_delete_finished">Tutti i download terminati verranno rimossi</string>
+    <string name="confirmation_message_delete_finished">Vuoi davvero rimuovere i download completati?</string>
+    
+    <string name="confirmation_message_download_magnet_link" formatted="false">Iniziare il download del link magnet %s?</string>
+    <string name="command_info_download_magnet_link" formatted="false">Il link magnet %s è stato aggiunto alla coda dei download.</string>
+    <string name="confirmation_message_download_torrent" formatted="false">Iniziare il download del torrent "%s"?</string>
+    <string name="command_info_download_torrent" formatted="false">Il torrent "%s" è stato aggiunto alla coda dei download.</string>
+    
+    <!-- Download item UI strings -->
+    <string name="item_list_no_downloads">Non sono stati trovati download attivi</string>
+    <string name="download_item_status" formatted="false">Stato: %s, Scaricati: %d%% di %s</string>
+    <string name="download_item_expanded_status">Stato: </string>
+    <string name="download_item_expanded_lifetime">Tempo: </string>
+    <string name="download_item_expanded_upload_speed">Velocità upload: </string>
+    <string name="download_item_expanded_download_speed">Velocità download: </string>
+    
+    <!-- Notification strings -->
+    <string name="notification_download_completed_title">Download completato</string>
+    <string name="notification_download_completed_text" formatted="false">"%s" è stato scaricato con successo.</string>
+	
+	<!-- Add link alert -->
+    <string name="add_torrent_alert_title">Aggiungi file torrent</string>
+    <string name="add_link_alert_title">Aggiungi collegamento diretto</string>
+    <string name="add_link_alert_message">Download Master supporta collegamenti http, ftp, Magnet, ed2k, torrent, o nzb</string>
+    <string name="add_link_alert_hint">Incolla qui il collegamento...</string>
+	
+</resources>
