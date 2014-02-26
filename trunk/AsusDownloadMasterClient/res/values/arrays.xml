@@ -8,6 +8,7 @@
 	   <item>Italiano</item>
 	   <item>Polski</item>
 	   <item>Русский</item>
+	   <item>Türk</item>
 	</string-array>
  
 	<string-array name="LanguageValues">
@@ -17,6 +18,7 @@
 	   <item>it</item>
 	   <item>pl</item>
 	   <item>ru</item>
+	   <item>tr</item>
 	</string-array>
 	
 	<string-array name="DisplayModeValues">
