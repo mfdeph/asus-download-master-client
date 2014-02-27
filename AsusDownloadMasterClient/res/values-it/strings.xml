@@ -88,4 +88,12 @@
     <string name="add_link_alert_message">Download Master supporta collegamenti http, ftp, Magnet, ed2k, torrent, o nzb</string>
     <string name="add_link_alert_hint">Incolla qui il collegamento...</string>
 	
+    <string name="task_status_initialing">Inizializzazione</string>
+    <string name="task_status_downloading">Downloading</string>
+    <string name="task_status_paused">Sospeso</string>
+    <string name="task_status_finished">Completato</string>
+    <string name="task_status_seeding">Seeding</string>
+    <string name="task_status_stop">Stop</string>
+    <string name="task_status_error">Errore</string>
+    
 </resources>

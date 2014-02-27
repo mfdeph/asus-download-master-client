@@ -72,7 +72,17 @@
   <string name="add_link_alert_title">Direct link ekle</string>
   <string name="add_link_alert_message">Download Master şunları destekler http, ftp, Magnet, ed2k, torrent, ve nzb linkleri</string>
   <string name="add_link_alert_hint">Linki buraya yapıştırın</string>
+  
   <!-- Donation answer texts -->
   <string name="donation_succeed">Bağış başarılı. Teşekkür ederiz</string>
   <string name="donation_failed">Bağış başarısız oldu ya da iptal edildi.</string>
+  
+    <!-- Task Status -->
+    <string name="task_status_initialing">Hazırlanıyor</string>
+    <string name="task_status_downloading">İndiriliyor</string>
+    <string name="task_status_paused">Duraklatıldı</string>
+    <string name="task_status_finished">Bitirildi</string>
+    <string name="task_status_seeding">Paylaşılıyor</string>
+    <string name="task_status_stop">Durdu</string>
+    <string name="task_status_error">Hata</string>
 </resources>
