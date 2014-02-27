@@ -1,6 +1,8 @@
 package com.insolence.admclient;
 
 import java.util.List;
+import java.lang.String;
+import java.util.HashMap;
 
 import com.actionbarsherlock.internal.view.menu.MenuBuilder;
 import com.actionbarsherlock.internal.view.menu.MenuPopupHelper;
@@ -27,9 +29,12 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 
 	private IExpandCollapseManager _expandCollapseManager;
 	
+	private HashMap<String, String> _statusLocalizationMap = new HashMap<String, String>(); 
+	
 	public DownloadItemListAdapter(Context context, List<DownloadItem> downloadItems, IExpandCollapseManager expandCollapseManager) {
 		super(context, R.layout.download_item_block, downloadItems); 
-		setExpandCollapseManager(expandCollapseManager);
+		setExpandCollapseManager(expandCollapseManager);	
+		initStatusLocalizationMap();
 	}
 	
 	public void setExpandCollapseManager(IExpandCollapseManager expandCollapseManager){
@@ -65,7 +70,12 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         
         TextView summaryHolder = (TextView) v.findViewById(R.id.download_item_summary);
         
-        String summary = String.format(getStr(R.string.download_item_status), downloadItem.getStatus(), Math.round(downloadItem.getPercentage()*100),  downloadItem.getVolume());
+        String statusToShow = 
+        		_statusLocalizationMap.containsKey(downloadItem.getStatus()) ? 
+        		_statusLocalizationMap.get(downloadItem.getStatus()) : 
+        		downloadItem.getStatus();
+        
+        String summary = String.format(getStr(R.string.download_item_status), statusToShow, Math.round(downloadItem.getPercentage()*100),  downloadItem.getVolume());
         
         summaryHolder.setText(summary);
         
@@ -76,7 +86,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         downSpeedHolder.setText(downloadItem.getUpSpeed());
         
         TextView ststusHolder = (TextView) v.findViewById(R.id.download_item_status);
-        ststusHolder.setText(downloadItem.getStatus());
+        ststusHolder.setText(statusToShow);
         
         TextView volumeHolder = (TextView) v.findViewById(R.id.download_item_volume);
         volumeHolder.setText(downloadItem.getVolume());
@@ -136,6 +146,16 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 		return getContext().getResources().getString(resourceId);
 	}
 	
+	private void initStatusLocalizationMap(){
+		String[] statusNative = getStrArray(R.array.TaskStatusNative);
+		String[] statusLocalized = getStrArray(R.array.TaskStatusLocalized);		
+		for (int i = 0; i < statusNative.length - 1; i++)
+			_statusLocalizationMap.put(statusNative[i], statusLocalized[i]);		
+	}
+	
+	private String[] getStrArray(int resourceId){
+		return getContext().getResources().getStringArray(resourceId);
+	}
 	
 	private class OnClickDownloadItemListener implements OnMenuItemClickListener{
 		

@@ -33,5 +33,24 @@
 	   <item>@string/preference_display_mode_smart</item>
 	</string-array>
 	
+	<string-array name="TaskStatusNative">
+	   <item>Initialing</item>
+	   <item>Downloading</item>
+	   <item>Paused</item>
+	   <item>Finished</item>
+	   <item>Seeding</item>
+	   <item>Stop</item>
+	   <item>Error</item>
+	</string-array>
+	
+	<string-array name="TaskStatusLocalized">
+	   <item>@string/task_status_initialing</item>
+	   <item>@string/task_status_downloading</item>
+	   <item>@string/task_status_paused</item>
+	   <item>@string/task_status_finished</item>
+	   <item>@string/task_status_seeding</item>
+	   <item>@string/task_status_stop</item>
+	   <item>@string/task_status_error</item>
+	</string-array>
 	
 </resources>

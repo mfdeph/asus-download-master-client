@@ -94,4 +94,13 @@
     <string name="donation_succeed">Платеж успешно отправлен, спасибо!</string>
     <string name="donation_failed">Не удалось отправить платеж...</string>
     
+    <!-- Task Status -->
+    <string name="task_status_initialing">Инициализация</string>
+    <string name="task_status_downloading">Загружается</string>
+    <string name="task_status_paused">Приостановлено</string>
+    <string name="task_status_finished">Завершено</string>
+    <string name="task_status_seeding">Раздается</string>
+    <string name="task_status_stop">Остановлено</string>
+    <string name="task_status_error">Ошибка</string>
+    
 </resources>

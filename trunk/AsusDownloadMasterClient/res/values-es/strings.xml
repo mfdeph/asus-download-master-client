@@ -89,4 +89,13 @@
     <string name="add_link_alert_message">Download Master soporta enlaces http, ftp, Magnet, ed2k, torrent, o nzb</string>
     <string name="add_link_alert_hint">Pega tu enlace aquí...</string>
     
+    <!-- Task Status -->
+	<string name="task_status_initialing">Iniciando</string>
+    <string name="task_status_downloading">Descargando</string>
+    <string name="task_status_paused">Pausado</string>
+    <string name="task_status_finished">Finalizado</string>
+	<string name="task_status_seeding">Compartiendo</string>
+    <string name="task_status_stop">Parado</string>
+    <string name="task_status_error">Error</string>
+    
 </resources>
