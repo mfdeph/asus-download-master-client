@@ -70,10 +70,13 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         
         TextView summaryHolder = (TextView) v.findViewById(R.id.download_item_summary);
         
-        String statusToShow = 
-        		_statusLocalizationMap.containsKey(downloadItem.getStatus()) ? 
-        		_statusLocalizationMap.get(downloadItem.getStatus()) : 
-        		downloadItem.getStatus();
+        String statusToShow = downloadItem.getStatus();
+        
+        if (_statusLocalizationMap.containsKey(downloadItem.getStatus())){
+        	String localizedStatus = _statusLocalizationMap.get(downloadItem.getStatus());
+        	if (!localizedStatus.isEmpty())
+        		statusToShow = localizedStatus;
+        }
         
         String summary = String.format(getStr(R.string.download_item_status), statusToShow, Math.round(downloadItem.getPercentage()*100),  downloadItem.getVolume());
         
