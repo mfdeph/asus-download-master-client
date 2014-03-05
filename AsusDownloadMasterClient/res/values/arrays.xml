@@ -34,6 +34,7 @@
 	</string-array>
 	
 	<string-array name="TaskStatusNative">
+	   <item>notbegin</item>
 	   <item>Initialing</item>
 	   <item>Downloading</item>
 	   <item>Paused</item>
@@ -44,6 +45,7 @@
 	</string-array>
 	
 	<string-array name="TaskStatusLocalized">
+	   <item>@string/task_status_initialing</item>
 	   <item>@string/task_status_initialing</item>
 	   <item>@string/task_status_downloading</item>
 	   <item>@string/task_status_paused</item>

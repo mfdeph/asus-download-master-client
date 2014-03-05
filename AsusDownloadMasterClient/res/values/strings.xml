@@ -94,12 +94,12 @@
     <string name="donation_failed">Donation failed or cancelled...</string>
     
     <!-- Task Status -->
-    <string name="task_status_trans_initialing">Initialing</string>
-	<string name="task_status_trans_downloading">Downloading</string>
-	<string name="task_status_trans_paused">Paused</string>
-	<string name="task_status_trans_finished">Finished</string>
-	<string name="task_status_trans_seeding">Seeding</string>
-	<string name="task_status_trans_stop">Stop</string>
-	<string name="task_status_trans_error">Error</string>
+    <string name="task_status_initialing">Initialing</string>
+	<string name="task_status_downloading">Downloading</string>
+	<string name="task_status_paused">Paused</string>
+	<string name="task_status_finished">Finished</string>
+	<string name="task_status_seeding">Seeding</string>
+	<string name="task_status_stop">Stop</string>
+	<string name="task_status_error">Error</string>
     
 </resources>
