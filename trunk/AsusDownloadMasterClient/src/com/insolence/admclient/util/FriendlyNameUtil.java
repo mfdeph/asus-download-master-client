@@ -18,6 +18,9 @@ public class FriendlyNameUtil {
 	}
 	
 	public String getUriFileName(Uri uri){
+		
+		String result = null;
+		
 		try{
 			String scheme = uri.getScheme();
 			if (scheme.equals("content")) {
@@ -26,22 +29,28 @@ public class FriendlyNameUtil {
 			    if (cursor != null && cursor.getCount() != 0) {
 			        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
 			        cursor.moveToFirst();
-			        String result = cursor.getString(columnIndex);
-			        if (result != null)
-			        	return result;
+			        result = cursor.getString(columnIndex);
 			    }
 			}
 		}catch(Exception e){
 			
 		}
-		String result =  uri.getLastPathSegment();
-		if (result.contains("."))
-			return result;
-		String mimeType = _context.getContentResolver().getType(uri);
-		String extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
-		if (extension == null)
-			extension = mimeType.contains("-") ? mimeType.split("-")[1] : "bin";
-		return new RandomGuid().toString(16) + "." + extension;
+		//if there's no file name in context title try to parse url string
+		if (result == null || result.isEmpty())
+			result = uri.getLastPathSegment();
+		//if there's still nothing generate random guid
+		if (result == null || result.isEmpty())
+			result = new RandomGuid().toString(16);
+		//if there's no valid extension in file name try to resolve extension manually
+		if (!(result.toLowerCase().endsWith(".torrent") || result.toLowerCase().endsWith(".nzb"))){
+			String mimeType = _context.getContentResolver().getType(uri);
+			String extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
+			if (extension == null)
+				extension = mimeType.contains("-") ? mimeType.split("-")[1] : "bin";
+			if (!result.toLowerCase().endsWith(extension.toLowerCase()))
+				result = result + "." + extension;
+		}
+		return result;
 
 	}
 	
