@@ -14,12 +14,25 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceCategory;
 import android.text.InputType;
+import com.google.analytics.tracking.android.EasyTracker;
 
 
 public class Preferences extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener, OnPreferenceClickListener {
 	
 	
-	private DonationHelper donationHelper;
+	private DonationHelper donationHelper;	
+	
+	@Override
+	public void onStart() {
+	    super.onStart();
+	    EasyTracker.getInstance(this).activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

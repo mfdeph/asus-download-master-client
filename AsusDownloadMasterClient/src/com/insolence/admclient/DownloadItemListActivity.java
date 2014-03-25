@@ -4,11 +4,9 @@ import java.util.List;
 
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -28,7 +26,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,26 +34,35 @@ import com.insolence.admclient.asynctasks.SendLinkTask;
 import com.insolence.admclient.asynctasks.SendTorrentTask;
 import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.expandable.ExpandCollapseManagerCreator;
-import com.insolence.admclient.expandable.FullViewExpandCollapseManager;
 import com.insolence.admclient.expandable.IExpandCollapseManager;
-import com.insolence.admclient.expandable.CompactExpandCollapseManager;
-import com.insolence.admclient.expandable.SmartExpandCollapseManager;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
-import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.ClipboardUtil;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.FriendlyNameUtil;
 import com.insolence.admclient.util.LanguageHelper;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class DownloadItemListActivity extends SherlockActivity implements OnItemClickListener, OnRefreshListener{
 	
 	private static DownloadItemListActivity _current;
 	
-	 private PullToRefreshLayout mPullToRefreshLayout;
+	private PullToRefreshLayout mPullToRefreshLayout;
 	
 	public static DownloadItemListActivity getCurrent(){
 		return _current;
+	}	
+	
+	@Override
+	public void onStart() {
+	    super.onStart();
+	    EasyTracker.getInstance(this).activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+	    super.onStop();
+	    EasyTracker.getInstance(this).activityStop(this);
 	}
 	
 	@Override
@@ -150,12 +156,10 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
         
         mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
         
-        // We can now setup the PullToRefreshLayout
         ActionBarPullToRefresh.from(this)
                 .theseChildrenArePullable(R.id.download_item_list)
                 .listener(this)
                 .setup(mPullToRefreshLayout);
-        //mPullToRefreshAttacher.addRefreshableView(getListView(), this);
     }
     
     @Override
