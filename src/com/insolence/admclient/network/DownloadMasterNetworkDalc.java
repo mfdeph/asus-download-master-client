@@ -11,7 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -19,12 +18,24 @@ import java.util.regex.Pattern;
 
 
 
+
+
+
+
+
+
+
+import com.insolence.admclient.SelectFilesDialog;
+import com.insolence.admclient.entity.DownloadFileInfo;
+import com.insolence.admclient.entity.DownloadInfo;
 import com.insolence.admclient.entity.DownloadItem;
+import com.insolence.admclient.entity.SendFileResult;
+import com.insolence.admclient.entity.SendFileResult.SendFileResultEnum;
 import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.RandomGuid;
-import com.insolence.admclient.util.FriendlyNameUtil;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Base64;
@@ -75,6 +86,10 @@ public class DownloadMasterNetworkDalc {
 	
 	private String sendLinkUrlString(){
 		return "http://" + getConnectionString() + "/dm_apply.cgi?action_mode=DM_ADD&usb_dm_url=%s&download_type=5&again=no";
+	}
+	
+	private String confirmDownloadUrlString(){
+		return "http://" + getConnectionString() + "/dm_uploadbt.cgi?filename=%s&download_type=All";
 	}
 
 	
@@ -131,7 +146,7 @@ public class DownloadMasterNetworkDalc {
 	}
 	
 	public boolean sendLink(String link){
-		String commandUrlPath = String.format(sendLinkUrlString(), URLEncoder.encode(link));
+		String commandUrlPath = String.format(sendLinkUrlString(), Uri.encode(link));
 		return sendGetRequest(commandUrlPath);
 	}
 	
@@ -148,30 +163,19 @@ public class DownloadMasterNetworkDalc {
 		}		
 	}
 	
-
-	@Deprecated
-	public boolean sendFile(File file){
-		try{
-			FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-			return sendFilePostRequest(file.getName(), fis);
-		}catch(Exception e){
-			return false;
-		}
-	}
-	
-	public boolean sendFile(Uri uri, String fileName){
+	public SendFileResult sendFile(Uri uri, String fileName){
 		try{
 			InputStream is = _context.getContentResolver().openInputStream(uri);
 			return sendFilePostRequest(fileName, is);
 		}catch(Exception e){
-			return false;
+			return new SendFileResult(SendFileResultEnum.Error);
 		}
 	}
 	
 	private static String newLine = "\r\n";
 	private static int maxBufferSize = 4096;
 	
-	private boolean sendFilePostRequest(String fileName, InputStream bodyInputStream) throws MalformedURLException, IOException {
+	private SendFileResult sendFilePostRequest(String fileName, InputStream bodyInputStream) throws MalformedURLException, IOException {
 		
 		String boundary = "---------------------------" + new RandomGuid().toString(13);	    
 		    
@@ -202,7 +206,28 @@ public class DownloadMasterNetworkDalc {
 		    
 		int respCode = con.getResponseCode(); 
 		
-		return (respCode == 200);	
+
+		BufferedReader streamReader = new BufferedReader(new InputStreamReader(con.getInputStream())); 		
+		StringBuilder responseStrBuilder = new StringBuilder();
+		String inputStr;
+		while ((inputStr = streamReader.readLine()) != null)
+		    responseStrBuilder.append(inputStr);
+		String result = responseStrBuilder.toString();
+		
+		if (result.contains("BT_ACK_SUCESS"))
+			/*confirmDownload(result);*/
+			return new SendFileResult(SendFileResultEnum.NeedSelectFiles, result);
+		
+		return new SendFileResult((respCode == 200) ? SendFileResultEnum.Succeed : SendFileResultEnum.Error);	
+	}
+	
+	private boolean confirmDownload(String response){
+		String[] parsedResponse = response.split("#");
+		if (response.length() < 3)
+			return false;
+		String fileName = Uri.encode(parsedResponse[1].substring(0, parsedResponse[1].length() - 2));	
+		String confirmDownloadUrlPath = String.format(confirmDownloadUrlString(), fileName);
+		return sendGetRequest(confirmDownloadUrlPath);
 	}
 	
 	private ArrayList<DownloadItem> fillDownloadItems(String data){

@@ -101,5 +101,8 @@
 	<string name="task_status_seeding">Seeding</string>
 	<string name="task_status_stop">Stop</string>
 	<string name="task_status_error">Error</string>
+	
+	<!-- Add files dialog title -->
+	<string name="select_files_to_download_title">Select files to download</string>
     
 </resources>
