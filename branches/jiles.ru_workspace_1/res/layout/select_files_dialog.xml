@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+         android:orientation="vertical"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="#FFFFFF">         
+         	<TextView
+				 android:textColor="#FFFFFF"
+	     	     android:layout_width="match_parent"
+				 android:layout_height="wrap_content"
+	     	     android:text="@string/select_files_to_download_title"
+	     	     android:padding="10dp"
+	     	     android:background="@drawable/action_bar_background"/>
+		    <ListView
+		        android:id="@+id/files_list"
+		        android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+		        android:layout_margin="5dp"
+		        />
+		    <LinearLayout
+		         android:orientation="horizontal"
+		         android:layout_width="match_parent"
+		         android:layout_height="wrap_content">
+		         
+		        <Button
+		            android:id="@+id/cancel_button"
+		            android:text="Cancel"
+		            android:layout_width="match_parent"
+		            android:layout_weight="5"
+		            android:layout_height="wrap_content"
+		            android:layout_margin="5dp"/>
+		          
+		        <Button
+		            android:id="@+id/ok_button"
+		            android:text="OK"
+		            android:layout_width="match_parent"
+		            android:layout_weight="5"
+		            android:layout_height="wrap_content"
+		            android:layout_margin="5dp"/>
+		         
+		    </LinearLayout>
+     </LinearLayout>
