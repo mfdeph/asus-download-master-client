@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	
+	<string-array name="LanguageNames">
+	   <item>@string/preference_language_based_on_device_locale</item>
+	   <item>English</item>
+	   <item>Español</item>
+	   <item>Italiano</item>
+	   <item>Polski</item>
+	   <item>Русский</item>
+	   <item>Türk</item>
+	</string-array>
+ 
+	<string-array name="LanguageValues">
+	   <item>auto</item>
+	   <item>en</item>
+	   <item>es</item>
+	   <item>it</item>
+	   <item>pl</item>
+	   <item>ru</item>
+	   <item>tr</item>
+	</string-array>
+	
+	<string-array name="DisplayModeValues">
+	   <item>1</item>
+	   <item>2</item>
+	   <item>3</item>
+	</string-array>
+	
+	<string-array name="DisplayModeNames">
+	   <item>@string/preference_display_mode_collapsed</item>
+	   <item>@string/preference_display_mode_expanded</item>
+	   <item>@string/preference_display_mode_smart</item>
+	</string-array>
+	
+	<string-array name="TaskStatusNative">
+	   <item>notbegin</item>
+	   <item>Initialing</item>
+	   <item>Downloading</item>
+	   <item>Paused</item>
+	   <item>Finished</item>
+	   <item>Seeding</item>
+	   <item>Stop</item>
+	   <item>Error</item>
+	</string-array>
+	
+	<string-array name="TaskStatusLocalized">
+	   <item>@string/task_status_initialing</item>
+	   <item>@string/task_status_initialing</item>
+	   <item>@string/task_status_downloading</item>
+	   <item>@string/task_status_paused</item>
+	   <item>@string/task_status_finished</item>
+	   <item>@string/task_status_seeding</item>
+	   <item>@string/task_status_stop</item>
+	   <item>@string/task_status_error</item>
+	</string-array>
+	
+</resources>

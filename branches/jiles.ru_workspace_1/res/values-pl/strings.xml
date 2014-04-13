@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ASUS Download Master Client</string>
+    
+    <!-- Basics -->
+    <string name="basic_yes">Tak</string>
+    <string name="basic_no">Nie</string>
+    <string name="basic_cancel">Anuluj</string>
+    
+    <!-- Preferences screen -->
+    <string name="preference_category_server">Web serwer</string>
+    <string name="preference_server_address">Adres web serwera</string>
+	<string name="preference_server_port">Port web serwera</string>
+	<string name="preference_path_postfix">Włączenie ścieżki postfix</string>
+	<string name="preference_path_postfix_summary">Zaznacz to pole w celu obsługi Download Master 3.1.0.68 lub nowszego</string>
+	
+	<string name="preference_category_auth">Autoryzacja</string>
+    <string name="preference_login">Login</string>
+    <string name="preference_password">Hasło</string>
+    <string name="preference_password_summary">Hasło do web serwera Download Master</string>
+    
+    <string name="preference_category_autorefresh">Auto-odświeżanie</string>
+    <string name="preference_autorefresh_enabled">Włączenie odświeżania</string>
+    <string name="preference_autorefresh_enabled_summary">Włącz tą opcję aby odświeżać listę zadań automatycznie</string>
+    <string name="preference_autorefresh_interval">Interwał odświeżania</string>
+    
+    <string name="preference_category_display">Wyświetlanie</string>
+
+    <string name="preference_display_mode">Typ wyświetlania</string>
+    <string name="preference_display_mode_collapsed">Kompaktowy</string>
+    <string name="preference_display_mode_expanded">Rozszerzony</string>
+    <string name="preference_display_mode_smart">Sprytny</string>
+    
+    <string name="preference_language">Język</string>
+    <string name="preference_language_based_on_device_locale">Domyślny</string>
+    
+    <string name="preference_category_other">Inne</string>   
+    <string name="preference_donate">Dotacja</string>
+    <string name="preference_donate_summary">Powiedz dziękuję dla developera przez Google Play</string>
+    
+    <!-- Menus and commands -->
+    <string name="menu_item_refresh_list">Odśwież listę</string>
+    <string name="menu_group_manage_downloads">Zarządzaj zadaniami</string>
+    <string name="menu_item_add_torrent">Dodaj plik torrent/nzb</string>
+    <string name="menu_item_add_link">Dodaj link</string>
+    <string name="menu_item_pause_all">Zawieś wszystko</string>
+    <string name="menu_item_resume_all">Wznów wszystko</string>
+    <string name="menu_item_delete_completed">Usuń zakończone</string>
+    <string name="menu_item_kill_exit">Zatrzymaj usługę i wyjdź</string>
+    <string name="menu_item_preferences">Właściwości</string>
+    
+    <string name="context_menu_item_pause">Zawieś bieżący</string>
+    <string name="context_menu_item_resume">Wznów bieżący</string>
+    <string name="context_menu_item_delete">Zatrzymaj i usuń bieżący</string>
+    
+    <!-- Commands and popups -->
+    <string name="command_info_part_download">Torrent</string>
+    <string name="command_info_part_pause">zakolejkowano do wstrzymania</string>
+    <string name="command_info_part_resume">zakolejkowano do wznowienia</string>
+    <string name="command_info_part_delete">zakolejkowano do usunięcia</string>
+    <string name="confirmation_message_delete">Zamierzasz usunąć ten torrent. Wszystkie pobrane dane zostaną zapisane. Jesteś pewien?</string>
+    <string name="command_info_cannot_connect">Nie można połączyć się z usługą Download Master</string>
+    <string name="command_info_pause_all">Wszystkie zadania są zakolejkowane do wstrzymania.</string>
+    <string name="command_info_resume_all">Wszystkie zadania są zakolejkowane do wznowienia.</string>
+    <string name="command_info_delete_finished">Wszystkie zakończone zadania są zakolejkowane do usunięcia.</string>
+    <string name="confirmation_message_delete_finished">Czy na pewno chcesz wyczyścić wszystkie zakończone zadania?</string>
+    
+    <string name="confirmation_message_download_magnet_link" formatted="false">Czy na pewno chcesz rozpocząć pobieranie liku magnat: %s ?</string>
+    <string name="command_info_download_magnet_link" formatted="false">Magnet link %s został zakolejkowany do pobrania.</string>
+    <string name="confirmation_message_download_torrent" formatted="false">Czy na pewno chcesz rozpocząć pobieranie pliku torrent: "%s" ?</string>
+    <string name="command_info_download_torrent" formatted="false">Torrent "%s" został zakolejkowany do pobrania.</string>
+    
+    <!-- Download item UI strings -->
+    <string name="item_list_no_downloads">Nie wykryto aktywnych zadań</string>
+    <string name="download_item_status" formatted="false">Status: %s, postęp: %d%% of %s</string>
+    <string name="download_item_expanded_status">Status: </string>
+    <string name="download_item_expanded_lifetime">Czas działania: </string>
+    <string name="download_item_expanded_upload_speed">Szybkość wysyłania: </string>
+    <string name="download_item_expanded_download_speed">Szybkość pobierania: </string>
+    
+    <!-- Notification strings -->
+    <string name="notification_download_completed_title">Pobieranie zakończone</string>
+    <string name="notification_download_completed_text" formatted="false">"%s" pomyślnie pobrany.</string>
+    
+    <!-- Add link alert -->
+    <string name="add_torrent_alert_title">Dodaj plik torrent</string>
+    <string name="add_link_alert_title">Dodaj bezpośredni link</string>
+    <string name="add_link_alert_message">Download Master wspiera linki http, ftp, Magnet, ed2k, torrent, lub nzb</string>
+    <string name="add_link_alert_hint">Wklej swój link tutaj...</string> 
+    
+    <!-- Donation answer texts -->
+    <string name="donation_succeed">Dotacja pomyślnie wysłana. Dziękuję!</string>
+    <string name="donation_failed">Dotacja nie udała się lub została anulowana...</string>
+    
+    <!-- Task Status -->
+    <string name="task_status_initialing">Inicjalizacja</string>
+	<string name="task_status_downloading">Pobieranie</string>
+	<string name="task_status_paused">Wstrzymane</string>
+	<string name="task_status_finished">Zakończone</string>
+	<string name="task_status_seeding">Udostępnianie</string>
+	<string name="task_status_stop">Zatrzymane</string>
+	<string name="task_status_error">Błąd</string>
+    
+</resources>

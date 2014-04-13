@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">ASUS Download Master Client</string>
+  <!-- Basics -->
+  <string name="basic_yes">Evet</string>
+  <string name="basic_no">Hayır</string>
+  <string name="basic_cancel">İptal</string>
+  <!-- Preferences screen -->
+  <string name="preference_category_server">Web Sunucu Ayarları</string>
+  <string name="preference_server_address">Web Sunucu Adresi</string>
+  <string name="preference_server_port">Web Sunucu Portu</string>
+  <string name="preference_path_postfix">Postfix yamasını etkinleştir</string>
+  <string name="preference_path_postfix_summary">Download Master 3.1.0.68 ve daha yenisi için işaretleyin.</string>
+  <string name="preference_category_auth">Giriş Ayarları</string>
+  <string name="preference_login">Kullanıcı adı</string>
+  <string name="preference_password">Şifre</string>
+  <string name="preference_password_summary">Download Master web sunucu şifresi</string>
+  <string name="preference_category_autorefresh">Oto–yenileme ayarları</string>
+  <string name="preference_autorefresh_enabled">Oto–yenileme etkinleştir</string>
+  <string name="preference_autorefresh_enabled_summary">İndirme listesinin otomatik yenilenmesi için işaretleyin</string>
+  <string name="preference_autorefresh_interval">Oto–yenileme süresi</string>
+  <string name="preference_category_display">Görünüş ayarları</string>
+  <string name="preference_display_mode">Görünüş modu</string>
+  <string name="preference_display_mode_collapsed">Kompakt</string>
+  <string name="preference_display_mode_expanded">Ayrıntılı</string>
+  <string name="preference_display_mode_smart">Akıllı</string>
+  <string name="preference_language">Uygulama dili</string>
+  <string name="preference_language_based_on_device_locale">Otomatik</string>
+  <string name="preference_category_other">Diğer</string>
+  <string name="preference_donate">Bağış</string>
+  <string name="preference_donate_summary">Geliştiriciye Google Play aracılığıyla teşekkür edin</string>
+  <!-- Menus and commands -->
+  <string name="menu_item_refresh_list">Listeyi yenile</string>
+  <string name="menu_group_manage_downloads">İndirmeleri yönet</string>
+  <string name="menu_item_add_torrent">Torrent/nzb dosyası ekle</string>
+  <string name="menu_item_add_link">Link ekle</string>
+  <string name="menu_item_pause_all">Hepsini durdur</string>
+  <string name="menu_item_resume_all">Hepsini devam ettir</string>
+  <string name="menu_item_delete_completed">Tamamlananları kaldır</string>
+  <string name="menu_item_kill_exit">Servisi durdur ve kapat</string>
+  <string name="menu_item_preferences">Özellikler</string>
+  <string name="context_menu_item_pause">Bunu durdur</string>
+  <string name="context_menu_item_resume">Bunu devam ettir</string>
+  <string name="context_menu_item_delete">Bunu durdur ve kaldır</string>
+  <!-- Commands and popups -->
+  <string name="command_info_part_download">Torrent</string>
+  <string name="command_info_part_pause">duraklatmak için sıraya alındı</string>
+  <string name="command_info_part_resume">Devam ettirmek için sıraya alındı</string>
+  <string name="command_info_part_delete">Silmek için sıraya alındı</string>
+  <string name="confirmation_message_delete">Bu torrenti silmek üzeresiniz. İndirilen tüm veri kaydedilecek. Emin misiniz?</string>
+  <string name="command_info_cannot_connect">Download Master servisine bağlanılamadı</string>
+  <string name="command_info_pause_all">Tüm indirmeler duraklatmak için sıraya alındı</string>
+  <string name="command_info_resume_all">Tüm indirmeler devam ettirmek için sıraya alındı</string>
+  <string name="command_info_delete_finished">Tamamlanan tüm indirmeler kaldırmak için sıraya alındı</string>
+  <string name="confirmation_message_delete_finished">Tamamlanan tüm indirmeleri kaldırmak istediğinize  emin misiniz ?</string>
+  <string name="confirmation_message_download_magnet_link" formatted="false"> %s magnet linkini indirmek istediğinize emin misiniz ?</string>
+  <string name="command_info_download_magnet_link" formatted="false">%s  magnet linki indirmek için sıraya alındı </string>
+  <string name="confirmation_message_download_torrent" formatted="false"> "%s" torrentini indirmek istediğinize emin misiniz?</string>
+  <string name="command_info_download_torrent" formatted="false"> "%s" torrenti indirmek için sıraya alındı</string>
+  <!-- Download item UI strings -->
+  <string name="item_list_no_downloads">Aktif bir indirme bulunamadı.</string>
+  <string name="download_item_status" formatted="false">Durum: %s, İlerleme: %d%% indirildi  %s toplam</string>
+  <string name="download_item_expanded_status">Durum: </string>
+  <string name="download_item_expanded_lifetime">Torrent ömrü: </string>
+  <string name="download_item_expanded_upload_speed">Yükleme hızı: </string>
+  <string name="download_item_expanded_download_speed">İndirme hızı: </string>
+  <!-- Notification strings -->
+  <string name="notification_download_completed_title">İndirme tamamlandı.</string>
+  <string name="notification_download_completed_text" formatted="false">"%s" başarılı bir şekilde indirildi.</string>
+  <!-- Add link alert -->
+  <string name="add_torrent_alert_title">Torrent dosyası ekle</string>
+  <string name="add_link_alert_title">Direct link ekle</string>
+  <string name="add_link_alert_message">Download Master şunları destekler http, ftp, Magnet, ed2k, torrent, ve nzb linkleri</string>
+  <string name="add_link_alert_hint">Linki buraya yapıştırın</string>
+  
+  <!-- Donation answer texts -->
+  <string name="donation_succeed">Bağış başarılı. Teşekkür ederiz</string>
+  <string name="donation_failed">Bağış başarısız oldu ya da iptal edildi.</string>
+  
+    <!-- Task Status -->
+    <string name="task_status_initialing">Hazırlanıyor</string>
+    <string name="task_status_downloading">İndiriliyor</string>
+    <string name="task_status_paused">Duraklatıldı</string>
+    <string name="task_status_finished">Bitirildi</string>
+    <string name="task_status_seeding">Paylaşılıyor</string>
+    <string name="task_status_stop">Durdu</string>
+    <string name="task_status_error">Hata</string>
+</resources>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CeeC -->
+<resources>
+    <string name="app_name">ASUS Download Master Client</string>
+    
+    <!-- Basics -->
+    <string name="basic_yes">Sí</string>
+    <string name="basic_no">No</string>
+    <string name="basic_cancel">Cancelar</string>
+    
+    <!-- Preferences screen -->
+    <string name="preference_category_server">Preferencias del servidor</string>
+    <string name="preference_server_address">Dirección del servidor</string>
+	<string name="preference_server_port">Puerto del servidor</string>
+	<string name="preference_path_postfix">Habilitar path postfix</string>
+	<string name="preference_path_postfix_summary">Marca esta casilla para Download Master v3.1.0.68 o superior</string>
+	
+	<string name="preference_category_auth">Preferencias de identificación</string>
+    <string name="preference_login">Usuario</string>
+    <string name="preference_password">Contraseña</string>
+    <string name="preference_password_summary">Contraseña para el servidor de Download Master</string>
+    
+    <string name="preference_category_autorefresh">Preferencias de autorefresco</string>
+    <string name="preference_autorefresh_enabled">Habilitar autorefresco</string>
+    <string name="preference_autorefresh_enabled_summary">Marca esta casilla para refrescar automáticamente la lista de torrent</string>
+    <string name="preference_autorefresh_interval">Intervalo de autorefresco</string>
+    
+    <string name="preference_category_display">Preferencias de pantalla</string>
+
+    <string name="preference_display_mode">Modo de visualización</string>
+    <string name="preference_display_mode_collapsed">Compacto</string>
+    <string name="preference_display_mode_expanded">Expandido</string>
+    <string name="preference_display_mode_smart">Inteligente</string>  
+    
+	<string name="preference_language">Idioma</string>
+    <string name="preference_language_based_on_device_locale">Automático</string>
+    
+    <string name="preference_category_other">Otros</string>
+    <string name="preference_donate">Donar</string>
+    <string name="preference_donate_summary">Agradecer al desarrollador por Google Play</string>
+    
+    <!-- Menus and commands -->
+    <string name="menu_item_refresh_list">Refrescar lista</string>
+    <string name="menu_group_manage_downloads">Gestionar descargas</string>
+    <string name="menu_item_add_torrent">Añadir torrent/nzb</string>
+    <string name="menu_item_add_link">Añadir enlace</string>
+    <string name="menu_item_pause_all">Pausar todos</string>
+    <string name="menu_item_resume_all">Continuar todos</string>
+    <string name="menu_item_delete_completed">Eliminar finalizados</string>
+    <string name="menu_item_preferences">Preferencias</string>
+    <string name="menu_item_kill_exit">Parar servicio y salir</string>
+    
+    <string name="context_menu_item_pause">Suspender</string>
+    <string name="context_menu_item_resume">Continuar</string>
+    <string name="context_menu_item_delete">Parar y eliminar</string>
+    
+    <!-- Commands and popups -->
+    <string name="command_info_part_download">Torrent</string>
+    <string name="command_info_part_pause">en cola para pausar</string>
+    <string name="command_info_part_resume">en cola para continuar</string>
+    <string name="command_info_part_delete">en cola para eliminar</string>
+    <string name="confirmation_message_delete">Vas a eliminar este torrent. Los datos descargados serán guardados. ¿Estás seguro?</string>
+    <string name="command_info_cannot_connect">No se pudo conectar al servicio Download Master</string>
+    <string name="command_info_pause_all">Todos los torrent en cola para pausarse.</string>
+    <string name="command_info_resume_all">Todos los torrent en cola para continuar.</string>
+    <string name="command_info_delete_finished">Todas las descargas finalizadas en cola para eliminarse.</string>
+    <string name="confirmation_message_delete_finished">¿Seguro que quieres eliminar todas las descargas finalizadas?</string>
+    
+    <string name="confirmation_message_download_magnet_link" formatted="false">¿Quieres empezar a descargar el enlace magnet %s?</string>
+    <string name="command_info_download_magnet_link" formatted="false">El enlace magnet %s se ha puesto en cola para descargar.</string>
+   <string name="confirmation_message_download_torrent" formatted="false">¿Quieres empezar a descargar el torrent "%s"</string>
+    <string name="command_info_download_torrent" formatted="false">El torrent "%s" se ha puesto en cola para descargar.</string>
+    
+    <!-- Download item UI strings -->
+    <string name="item_list_no_downloads">No se han detectado descargas activas</string>
+    <string name="download_item_status" formatted="false">Estado: %s, Progreso: %d%% de %s</string>
+    <string name="download_item_expanded_status">Estado: </string>
+    <string name="download_item_expanded_lifetime">Tiempo del torrent: </string>
+    <string name="download_item_expanded_upload_speed">Velocidad de subida: </string>
+    <string name="download_item_expanded_download_speed">Velocidad de descarga: </string>
+ 
+    <!-- Notification strings -->
+    <string name="notification_download_completed_title">Descarga finalizada</string>
+    <string name="notification_download_completed_text" formatted="false">"%s" se ha descargado correctamente.</string>
+    
+    <!-- Add link alert -->
+    <string name="add_torrent_alert_title">Añadir torrent</string>
+    <string name="add_link_alert_title">Añadir enlace directo</string>
+    <string name="add_link_alert_message">Download Master soporta enlaces http, ftp, Magnet, ed2k, torrent, o nzb</string>
+    <string name="add_link_alert_hint">Pega tu enlace aquí...</string>
+    
+    <!-- Task Status -->
+	<string name="task_status_initialing">Iniciando</string>
+    <string name="task_status_downloading">Descargando</string>
+    <string name="task_status_paused">Pausado</string>
+    <string name="task_status_finished">Finalizado</string>
+	<string name="task_status_seeding">Compartiendo</string>
+    <string name="task_status_stop">Parado</string>
+    <string name="task_status_error">Error</string>
+    
+</resources>
