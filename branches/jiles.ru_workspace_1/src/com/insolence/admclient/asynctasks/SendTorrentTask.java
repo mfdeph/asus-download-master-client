@@ -2,7 +2,6 @@ package com.insolence.admclient.asynctasks;
 
 import com.insolence.admclient.R;
 import com.insolence.admclient.SelectFilesDialog;
-import com.insolence.admclient.entity.DownloadFileInfo;
 import com.insolence.admclient.entity.DownloadInfo;
 import com.insolence.admclient.entity.SendFileResult;
 import com.insolence.admclient.entity.SendFileResult.SendFileResultEnum;
@@ -11,7 +10,6 @@ import com.insolence.admclient.network.DownloadMasterNetworkDalc;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
-import android.view.Window;
 
 public class SendTorrentTask extends SendTaskBase{
 

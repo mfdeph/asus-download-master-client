@@ -9,11 +9,13 @@ import com.insolence.admclient.entity.DownloadInfo;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
@@ -30,6 +32,15 @@ public class SelectFilesDialog extends Dialog{
 		setContentView(R.layout.select_files_dialog);
 		
 		filesListView = (ListView) findViewById(R.id.files_list);
+		
+		View footerView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.select_files_list_footer, null, false);
+		filesListView.addFooterView(footerView);
+		
+		filesListView.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SelectFilesDialog.this.cancel();
+			}
+		});
 		
 		DownloadFilesListAdapter adapter = new DownloadFilesListAdapter(context, R.layout.select_files_list_item, downloadInfo.getFiles().toArray(new DownloadFileInfo[0]));
 		filesListView.setAdapter(adapter);
