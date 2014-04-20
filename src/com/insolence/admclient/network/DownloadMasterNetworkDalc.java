@@ -2,8 +2,6 @@ package com.insolence.admclient.network;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,22 +10,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-
-
-
-
-
-
-
-
-import com.insolence.admclient.SelectFilesDialog;
-import com.insolence.admclient.entity.DownloadFileInfo;
-import com.insolence.admclient.entity.DownloadInfo;
 import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.entity.SendFileResult;
 import com.insolence.admclient.entity.SendFileResult.SendFileResultEnum;
@@ -35,7 +20,6 @@ import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.RandomGuid;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Base64;
@@ -89,7 +73,7 @@ public class DownloadMasterNetworkDalc {
 	}
 	
 	private String confirmDownloadUrlString(){
-		return "http://" + getConnectionString() + "/dm_uploadbt.cgi?filename=%s&download_type=All";
+		return "http://" + getConnectionString() + "/dm_uploadbt.cgi?filename=%s&download_type=%s";
 	}
 
 	
@@ -215,18 +199,13 @@ public class DownloadMasterNetworkDalc {
 		String result = responseStrBuilder.toString();
 		
 		if (result.contains("BT_ACK_SUCESS"))
-			/*confirmDownload(result);*/
 			return new SendFileResult(SendFileResultEnum.NeedSelectFiles, result);
 		
 		return new SendFileResult((respCode == 200) ? SendFileResultEnum.Succeed : SendFileResultEnum.Error);	
 	}
 	
-	private boolean confirmDownload(String response){
-		String[] parsedResponse = response.split("#");
-		if (response.length() < 3)
-			return false;
-		String fileName = Uri.encode(parsedResponse[1].substring(0, parsedResponse[1].length() - 2));	
-		String confirmDownloadUrlPath = String.format(confirmDownloadUrlString(), fileName);
+	public boolean confirmDownload(String fileName, String argument){
+		String confirmDownloadUrlPath = String.format(confirmDownloadUrlString(), Uri.encode(fileName), argument);
 		return sendGetRequest(confirmDownloadUrlPath);
 	}
 	
