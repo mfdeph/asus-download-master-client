@@ -26,7 +26,7 @@ public class DownloadInfo {
 		try{
 			String scriptParameter = response.split("\"")[1];
 			String[] parts = scriptParameter.split(",\\s#");
-			String torrentName = parts[1].trim().substring(1);
+			String torrentName = parts[1].trim();
 			DownloadInfo result = new DownloadInfo(torrentName);
 			for (int i = 2; i < parts.length; i++){
 				String[] subParts = parts[i].split("#");

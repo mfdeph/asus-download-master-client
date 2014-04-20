@@ -112,9 +112,6 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
 	           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
 	               public void onClick(DialogInterface dialog, int id) {
 	            	   new SendTorrentTask(DownloadItemListActivity.this, fileUri, fileName).execute();
-	        		   Toast.makeText(
-	        				   DownloadItemListActivity.this,
-	        				   String.format(getStr(R.string.command_info_download_torrent), fileName), Toast.LENGTH_SHORT).show();
 	               }
 	     }).setNegativeButton(getStr(R.string.basic_no), null)
 	     .show();		
