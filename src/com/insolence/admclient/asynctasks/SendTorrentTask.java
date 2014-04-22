@@ -37,12 +37,14 @@ public class SendTorrentTask extends SendTaskBase{
 			return new AsyncTaskResult(false, getStr(R.string.command_info_cannot_connect));
 		//the approval request comes but there's only one file or there's tick download everything in config
 		final DownloadInfo downloadInfo = DownloadInfo.parse(result.getAdditionalInfo());
-		if (PreferenceAccessor.getInstance(_context).isDownloadWholeTorrentEnabled() || downloadInfo.getFiles().size() < 2){
-			if (dalc.confirmDownload(downloadInfo.getTorrentName(), "All")){
-				return new AsyncTaskResult(true, "Succeed");
-			}else{
-				return new AsyncTaskResult(false, getStr(R.string.command_info_cannot_connect));
-			}	
+		if (PreferenceAccessor.getInstance(_context).isDownloadWholeTorrentEnabled() || 
+			downloadInfo == null || 
+			downloadInfo.getFiles().size() < 2){
+				if (dalc.confirmDownload(downloadInfo.getTorrentName(), "All")){
+					return new AsyncTaskResult(true, "Succeed");
+				}else{
+					return new AsyncTaskResult(false, getStr(R.string.command_info_cannot_connect));
+				}	
 		}			
 		return new AsyncTaskResult(true, "Need additional action", new Runnable(){		
 			public void run() {		

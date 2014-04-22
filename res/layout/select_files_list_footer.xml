@@ -8,18 +8,23 @@
 		         
 		        <Button
 		            android:id="@+id/cancel_button"
-		            android:text="Cancel"
+		            style="@style/Widget.Sherlock.ActionButton"
+		            android:text="@string/basic_cancel"
 		            android:layout_width="match_parent"
 		            android:layout_weight="5"
-		            android:layout_height="wrap_content"
-		            android:layout_margin="5dp"/>
+		            android:layout_height="wrap_content"/>
+		        
+		        <View
+				    android:layout_height="fill_parent"
+				    android:layout_width="1dp"
+				    android:background="@drawable/abs__list_divider_holo_light"/>
 		          
 		        <Button
 		            android:id="@+id/ok_button"
-		            android:text="OK"
+		            style="@style/Widget.Sherlock.ActionButton"
+		            android:text="@string/basic_yes"
 		            android:layout_width="match_parent"
 		            android:layout_weight="5"
-		            android:layout_height="wrap_content"
-		            android:layout_margin="5dp"/>
+		            android:layout_height="wrap_content"/>
 		         
 </LinearLayout>
