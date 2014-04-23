@@ -70,6 +70,12 @@
         </PreferenceCategory> 
         <PreferenceCategory
                 android:title="@string/preference_category_other">
+		        <CheckBoxPreference
+		                android:name="Always download the whole torrent"
+		                android:summary="@string/preference_download_whole_torrent_summary"
+		                android:defaultValue="false"
+		                android:title="@string/preference_download_whole_torrent"
+		                android:key="downloadWholeTorrentPref" />
 		        <Preference
 		                android:name="Donate"
 		                android:summary="@string/preference_donate_summary"

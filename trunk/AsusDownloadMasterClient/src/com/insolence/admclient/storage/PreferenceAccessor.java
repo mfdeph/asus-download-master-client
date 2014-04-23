@@ -132,4 +132,9 @@ public class PreferenceAccessor {
 	            >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
 	
+	private static final String downloadWholeTorrentPref = "downloadWholeTorrentPref";	
+	
+	public boolean isDownloadWholeTorrentEnabled(){
+		return getPrefs().getBoolean(downloadWholeTorrentPref, false);
+	}
 }

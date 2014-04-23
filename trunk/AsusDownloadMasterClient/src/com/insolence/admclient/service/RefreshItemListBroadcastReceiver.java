@@ -1,7 +1,5 @@
 package com.insolence.admclient.service;
 
-import java.util.Locale;
-
 import com.insolence.admclient.DownloadItemListActivity;
 import com.insolence.admclient.asynctasks.GetItemListResult;
 import com.insolence.admclient.asynctasks.GetItemListTask;
@@ -16,10 +14,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.AsyncTask.Status;
-import android.util.DisplayMetrics;
 
 public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 
