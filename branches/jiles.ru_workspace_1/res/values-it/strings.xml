@@ -96,4 +96,9 @@
     <string name="task_status_stop">Stop</string>
     <string name="task_status_error">Errore</string>
     
+    <!-- Add files dialog and prefs -->
+    <string name="dialog_select_files_to_download_title">Seleziona i files da scaricare</string>
+	<string name="preference_download_whole_torrent">Scarica l\'intero torrent</string>
+	<string name="preference_download_whole_torrent_summary">Non chiedere quali files scaricare, ma scaricali tutti</string>
+	
 </resources>
