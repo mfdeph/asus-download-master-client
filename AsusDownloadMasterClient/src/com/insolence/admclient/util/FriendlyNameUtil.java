@@ -3,7 +3,6 @@ package com.insolence.admclient.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -36,10 +35,10 @@ public class FriendlyNameUtil {
 			
 		}
 		//if there's no file name in context title try to parse url string
-		if (result == null || result.isEmpty())
+		if (result == null || result.equals(""))
 			result = uri.getLastPathSegment();
 		//if there's still nothing generate random guid
-		if (result == null || result.isEmpty())
+		if (result == null || result.equals(""))
 			result = new RandomGuid().toString(16);
 		//if there's no valid extension in file name try to resolve extension manually
 		if (!(result.toLowerCase().endsWith(".torrent") || result.toLowerCase().endsWith(".nzb"))){
