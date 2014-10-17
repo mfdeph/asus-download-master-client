@@ -69,7 +69,7 @@ public class DownloadMasterNetworkDalc {
 	}
 	
 	private String sendLinkUrlString(){
-		return "http://" + getConnectionString() + "/dm_apply.cgi?action_mode=DM_ADD&usb_dm_url=%s&download_type=5&again=no";
+		return "http://" + getConnectionString() + "/dm_apply.cgi?action_mode=DM_ADD&download_type=5&again=no&usb_dm_url=%s";
 	}
 	
 	private String confirmDownloadUrlString(){
@@ -130,7 +130,7 @@ public class DownloadMasterNetworkDalc {
 	}
 	
 	public boolean sendLink(String link){
-		String commandUrlPath = String.format(sendLinkUrlString(), Uri.encode(link));
+		String commandUrlPath = String.format(sendLinkUrlString(), Uri.encode(Uri.decode(link)));
 		return sendGetRequest(commandUrlPath);
 	}
 	
@@ -140,6 +140,7 @@ public class DownloadMasterNetworkDalc {
 			URL url = new URL(urlPath);
 		    URLConnection con = (HttpURLConnection) url.openConnection();	    
 		    con.addRequestProperty("Authorization", getAuthorizationString());
+		    con.addRequestProperty("X-Requested-With", "XMLHttpRequest");
 			con.getInputStream();
 			return true;
 		} catch (Exception e) {
