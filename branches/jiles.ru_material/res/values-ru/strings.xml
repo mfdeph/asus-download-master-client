@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ASUS Download Master Client</string>
+    
+    <!-- Basics -->
+    <string name="basic_yes">Да</string>
+    <string name="basic_no">Нет</string>
+    <string name="basic_cancel">Отмена</string>
+    
+    
+    <!-- Preferences screen -->
+    <string name="preference_category_server">Настройки сервера Download Master</string>
+    <string name="preference_server_address">Адрес веб-сервера</string>
+	<string name="preference_server_port">Порт веб-сервера</string>
+	<string name="preference_path_postfix">Добавлять к пути /downloadmaster</string>
+	<string name="preference_path_postfix_summary">Включите эту опцию для Download Master версии 3.1.0.68 или более поздних</string>
+	
+	<string name="preference_category_auth">Настройки авторизации</string>
+    <string name="preference_login">Логин</string>
+    <string name="preference_password">Пароль</string>
+    <string name="preference_password_summary">Введите пароль для авторизации на сервисе Download Master</string>
+    
+    <string name="preference_category_autorefresh">Настройки автообновлений</string>
+    <string name="preference_autorefresh_enabled">Использовать автообновление</string>
+    <string name="preference_autorefresh_enabled_summary">Включите эту опцию, чтобы список загрузок обновлялся автоматически по таймеру</string>
+    <string name="preference_autorefresh_interval">Интервал автообновления (в секундах)</string>
+    
+    <string name="preference_category_display">Настройки отображения</string>
+
+    <string name="preference_display_mode">Режим отображения списка</string>
+    <string name="preference_display_mode_collapsed">Компактный</string>
+    <string name="preference_display_mode_expanded">Развернутый</string>
+    <string name="preference_display_mode_smart">Умный</string>
+    
+    <string name="preference_language">Язык приложения</string>
+    <string name="preference_language_based_on_device_locale">Определять автоматически</string>
+    
+    <string name="preference_category_other">Прочее</string>   
+    <string name="preference_donate">Помочь проекту</string>
+    <string name="preference_donate_summary">Скажите разработчику \"Спасибо\" с помощью Google Play</string>
+    
+    <!-- Menus and commands -->
+    <string name="menu_item_refresh_list">Обновить список</string>
+    <string name="menu_group_manage_downloads">Управление загрузками</string>
+    <string name="menu_item_add_torrent">Добавить торрент/nzb</string>
+    <string name="menu_item_add_link">Добавить ссылку</string>
+    <string name="menu_item_pause_all">Приостановить все</string>
+    <string name="menu_item_resume_all">Возобновить все</string>
+    <string name="menu_item_delete_completed">Удалить завершенные</string>
+    <string name="menu_item_kill_exit">Убить сервис и выйти</string>
+    <string name="menu_item_preferences">Настройки</string>
+    
+    <string name="context_menu_item_pause">Приостановить</string>
+    <string name="context_menu_item_resume">Возобновить</string>
+    <string name="context_menu_item_delete">Остановить и удалить</string>
+    
+    <!-- Commands and popups -->
+    <string name="command_info_part_download">Закачка</string>
+    <string name="command_info_part_pause">поставлена на паузу</string>
+    <string name="command_info_part_resume">возобновлена</string>
+    <string name="command_info_part_delete">будет удалена</string>
+    <string name="confirmation_message_delete">Вы собираетесь удалить из очереди загрузку. Все загруженные на данный момент файлы будут сохранены. Продолжить?</string>
+    <string name="command_info_cannot_connect">Не удалось подключиться к серверу Download Master</string>
+    <string name="command_info_pause_all">Отправлена команда на приосановку всех загрузок.</string>
+    <string name="command_info_resume_all">Отправлена команда на возобновление всех загрузок.</string>
+    <string name="command_info_delete_finished">Отправлена команда на удаление всех завершенных загрузок.</string>
+    <string name="confirmation_message_delete_finished">Вы собираетесь удалить все завершенные загрузки. Все загруженные файлы будут сохранены. Продолжить?</string>
+    
+    <string name="confirmation_message_download_magnet_link" formatted="false">Начать закачку magnet-ссылки %s?</string>
+    <string name="command_info_download_magnet_link" formatted="false">Magnet-ссылка %s поставлена в очередь на скачивание.</string>
+    <string name="confirmation_message_download_torrent" formatted="false">Начать закачку торрента "%s"?</string>
+    <string name="command_info_download_torrent" formatted="false">Торрент "%s" поставлен в очередь на скачивание.</string>
+    
+    <!-- Download item UI strings -->
+    <string name="item_list_no_downloads">Нет активных загрузок</string>
+    <string name="download_item_status" formatted="false">Статус: %s, загружено: %d%% of %s</string>
+    <string name="download_item_expanded_status">Статус: </string>
+    <string name="download_item_expanded_lifetime">Время жизни: </string>
+    <string name="download_item_expanded_upload_speed">Скорость раздачи: </string>
+    <string name="download_item_expanded_download_speed">Скорость загрузки: </string>
+    
+    <!-- Notification strings -->
+    <string name="notification_download_completed_title">Загрузка завершена</string>
+    <string name="notification_download_completed_text" formatted="false">"%s" успешно загружена.</string>
+    
+    <!-- Add link alert -->
+    <string name="add_torrent_alert_title">Добавить торрент</string>
+    <string name="add_link_alert_title">Добавить ссылку</string>
+    <string name="add_link_alert_message">Download Master поддерживает ссылки http, ftp, Magnet, ed2k, torrent и nzb</string>
+    <string name="add_link_alert_hint">Вставьте ссылку сюда...</string>  
+    
+    <!-- Donation answer texts -->
+    <string name="donation_succeed">Платеж успешно отправлен, спасибо!</string>
+    <string name="donation_failed">Не удалось отправить платеж...</string>
+    
+    <!-- Task Status -->
+    <string name="task_status_initialing">Инициализация</string>
+    <string name="task_status_downloading">Загружается</string>
+    <string name="task_status_paused">Приостановлено</string>
+    <string name="task_status_finished">Завершено</string>
+    <string name="task_status_seeding">Раздается</string>
+    <string name="task_status_stop">Остановлено</string>
+    <string name="task_status_error">Ошибка</string>
+    
+    <!-- Add files dialog and prefs -->
+	<string name="dialog_select_files_to_download_title">Выберите файлы для загрузки</string>
+	<string name="preference_download_whole_torrent">Скачивать торрент полностью</string>
+	<string name="preference_download_whole_torrent_summary">При добавлении торрента не показывать перечень файлов, сразу скачивать все</string>
+    
+</resources>

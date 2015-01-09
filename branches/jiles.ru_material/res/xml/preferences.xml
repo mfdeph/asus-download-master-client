@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <PreferenceCategory
+                android:title="@string/preference_category_server">
+		        <EditTextPreference
+		                android:name="Web server address"
+		                android:summary="Network path to Download Master web server"
+		                android:defaultValue="192.168.1.1"
+		                android:title="@string/preference_server_address"
+		                android:key="webServerAddrPref" />
+		        <EditTextPreference
+		                android:name="Web server port"
+		                android:summary="Port of Download Master web server"
+		                android:defaultValue="8081"
+		                 android:title="@string/preference_server_port"
+		                android:key="webServerPortPref" />
+		        <CheckBoxPreference
+		                android:name="Enable path postfix"
+		                android:summary="@string/preference_path_postfix_summary"
+		                android:defaultValue="true"
+		                android:title="@string/preference_path_postfix"
+		                android:key="postfixEnabledPref" />
+        </PreferenceCategory>
+        <PreferenceCategory
+                android:title="@string/preference_category_auth">
+		        <EditTextPreference
+		                android:name="Login"
+		                android:summary="Login to Download Master web server"
+		                android:defaultValue="admin"
+		                android:title="@string/preference_login"
+		                android:key="loginPref" />
+		        <EditTextPreference
+		                android:name="Password"
+		                android:summary="@string/preference_password_summary"
+		                android:defaultValue="admin"
+		                android:title="@string/preference_password"
+		                android:inputType="textPassword"
+		                android:key="passwordPref" />
+        </PreferenceCategory>
+        <PreferenceCategory
+                android:title="@string/preference_category_autorefresh">
+		        <CheckBoxPreference
+		                android:name="Enable autorefresh"
+		                android:summary="@string/preference_autorefresh_enabled_summary"
+		                android:defaultValue="false"
+		                android:title="@string/preference_autorefresh_enabled"
+		                android:key="autorefreshEnabledPref" />
+		        <EditTextPreference
+		                android:name="Autorefresh interval"
+		                android:summary="Autorefresh interval in seconds"
+		                android:defaultValue="30"
+		                android:title="@string/preference_autorefresh_interval"
+		                android:inputType="number"
+		                android:key="autorefreshIntervalPref" />
+        </PreferenceCategory> 
+        <PreferenceCategory
+                android:title="@string/preference_category_display">
+		        <ListPreference
+		                android:defaultValue="1"
+		                android:title="@string/preference_display_mode"
+		                android:entries="@array/DisplayModeNames"
+                        android:entryValues="@array/DisplayModeValues"
+		                android:key="displayModePref" />
+		        <ListPreference
+		                android:title="@string/preference_language"
+                        android:key="languagePref"
+                        android:entries="@array/LanguageNames"
+                        android:entryValues="@array/LanguageValues"
+                		android:defaultValue="auto" />
+        </PreferenceCategory> 
+        <PreferenceCategory
+                android:title="@string/preference_category_other">
+		        <CheckBoxPreference
+		                android:name="Always download the whole torrent"
+		                android:summary="@string/preference_download_whole_torrent_summary"
+		                android:defaultValue="false"
+		                android:title="@string/preference_download_whole_torrent"
+		                android:key="downloadWholeTorrentPref" />
+		        <Preference
+		                android:name="Donate"
+		                android:summary="@string/preference_donate_summary"
+		                android:title="@string/preference_donate"
+		                android:key="donatePref" />
+        </PreferenceCategory> 
+</PreferenceScreen>

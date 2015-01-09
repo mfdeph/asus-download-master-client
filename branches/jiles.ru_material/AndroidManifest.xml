@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.insolence.admclient"
+    android:versionCode="32"
+    android:versionName="1.11.2" >
+
+    <uses-sdk android:minSdkVersion="8"  android:targetSdkVersion="19"/>
+	<uses-permission android:name="android.permission.INTERNET" /> 
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="com.android.vending.BILLING" />
+    <application
+        android:icon="@drawable/download_master"
+        android:label="Download Master Client"
+        android:name="com.insolence.admclient.StaticContextApp"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.insolence.admclient.DownloadItemListActivity"
+            android:label="Download Master Client" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+		    <intent-filter>
+		        <action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <category android:name="android.intent.category.BROWSABLE" />
+		        <data android:scheme="file" />
+		        <data android:host="*" />
+		        <data android:mimeType="*/*" />
+        		<data android:pathPattern=".*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.torrent" />
+				<data android:pathPattern=".*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+				<data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.nzb" />
+		    </intent-filter>
+		    <intent-filter>
+		        <action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <category android:name="android.intent.category.BROWSABLE" />
+		        <data android:mimeType="application/x-bittorrent" />
+		    </intent-filter>
+		    <intent-filter>
+		        <action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <category android:name="android.intent.category.BROWSABLE" />
+		        <data android:mimeType="application/x-nzb" />
+		    </intent-filter>
+		    <intent-filter>
+                 <action android:name="android.intent.action.VIEW" />
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <category android:name="android.intent.category.BROWSABLE" />
+                 <data android:scheme="magnet" />
+            </intent-filter>
+        </activity>
+        <activity
+		        android:name="com.insolence.admclient.Preferences"
+		        android:label="Preferences">
+		</activity>
+		<receiver android:name="com.insolence.admclient.service.RefreshItemListBroadcastReceiver">
+		</receiver>
+    </application>
+
+</manifest>
