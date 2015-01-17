@@ -5,6 +5,8 @@
 	    <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar</item>
 	    <item name="actionBarStyle">@style/MyActionBar</item>
 	    <item name="android:windowContentOverlay">@null</item>
+	    <item name="colorAccent">@color/main_blue</item>
+    	<item name="android:textColorSecondary">@color/main_grey</item>
 	</style>
 	
 	<style name="CustomActionBarThemeForMain" parent="@style/CustomActionBarTheme">

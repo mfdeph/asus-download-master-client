@@ -44,16 +44,18 @@ public abstract class ExpandCollapseManagerBase implements IExpandCollapseManage
 			view.findViewById(R.id.download_item_summary).setVisibility(View.GONE);
 			((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(5);
 			
-			view.findViewById(R.id.progress_bar_text_view).setVisibility(View.VISIBLE);
+			//view.findViewById(R.id.progress_bar_text_view).setVisibility(View.VISIBLE);
 			view.findViewById(R.id.download_item_volume).setVisibility(View.VISIBLE);
+			view.findViewById(R.id.download_item_percentage).setVisibility(View.VISIBLE);
 		}
 		else{
 			view.findViewById(R.id.view_additional_info_2).setVisibility(View.GONE);
 			view.findViewById(R.id.download_item_summary).setVisibility(View.VISIBLE);
 			((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(1);
 			
-			view.findViewById(R.id.progress_bar_text_view).setVisibility(View.GONE);
+			//view.findViewById(R.id.progress_bar_text_view).setVisibility(View.GONE);
 			view.findViewById(R.id.download_item_volume).setVisibility(View.GONE);
+			view.findViewById(R.id.download_item_percentage).setVisibility(View.GONE);
 		}
 	}
 	
