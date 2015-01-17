@@ -1,30 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <LinearLayout
+         xmlns:android="http://schemas.android.com/apk/res/android"
+    	xmlns:tools="http://schemas.android.com/tools"
+    	xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+       
+
+<android.support.v4.widget.DrawerLayout
+    android:id = "@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+	android:layout_height="match_parent">
    
-    	    <RelativeLayout 
-				  android:layout_width="match_parent"
-				  android:layout_height="3dp"
-				  android:background="#32536e">
-		</RelativeLayout>
+
+
+<FrameLayout
+        
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"> 
     
-   <uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout
+       <LinearLayout
+           android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:orientation="vertical">
+		    
+           
+           <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="?attr/colorPrimary"/>
+    
+        
+   <android.support.v4.widget.SwipeRefreshLayout
 	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+	    android:id="@+id/refresh"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    tools:context="com.insolence.admclient.DownloadItemListActivity">
+    
+   <!-- <RelativeLayout
 	    android:id="@+id/ptr_layout"
 	    android:layout_width="match_parent"
-	    android:layout_height="match_parent">
+	    android:layout_height="match_parent">  -->
     
 
 	    
-	    <TextView android:id="@+id/no_torrents_label"
+	    <!-- <TextView android:id="@+id/no_torrents_label"
 				  android:layout_width="match_parent"
 				  android:layout_height="wrap_content"
 				  android:paddingTop="20dp"
 				  android:textSize="16sp"
 				  android:gravity="center"
-				  android:text="@string/item_list_no_downloads"/>
+				  android:text="@string/item_list_no_downloads"/> -->
 	    
 	    <GridView android:id="@+id/download_item_list"
 	              android:layout_width="match_parent"
@@ -38,6 +72,218 @@
 				  android:divider="@null"
 				  android:soundEffectsEnabled="false"/>
     
-    </uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout>
+   </android.support.v4.widget.SwipeRefreshLayout>
+   
+
+	    
+    <!-- </RelativeLayout>-->
     
+</LinearLayout>
+
+       <com.faizmalkani.floatingactionbutton.Fab
+        android:id="@+id/fabbutton"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:onClick="onAddButtonClick"/>
+       
+       </FrameLayout>
+       
+
+       
+<LinearLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/background_light"
+        android:orientation="vertical"
+        android:clickable="true">
+       
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/main_blue"
+        android:gravity="start|center_vertical">
+    
+        <RelativeLayout
+            android:layout_width="match_parent"
+        	android:layout_height="78dp">
+        
+		    <View android:layout_width="55dp"
+			    android:layout_height="55dp"
+			    android:layout_marginTop="15dp"
+			    android:layout_marginRight="15dp"
+			    android:layout_marginLeft="15dp"
+			    android:layout_marginBottom="8dp"
+			    android:background="@drawable/circle"/>
+		    
+		     <View android:layout_width="24dp"
+			    android:layout_height="24dp"
+			    android:layout_margin="10dp"
+			    android:layout_alignParentRight="true"
+			    android:clickable="true"
+			    android:onClick="onSettingsClick"
+			    android:background="@drawable/ic_settings_black_48dp"/>
+	    
+	    </RelativeLayout>
+	    
+	    <TextView
+					      android:id="@+id/menu_title"
+						  android:layout_width="wrap_content"
+						  android:layout_height="wrap_content"
+						  android:layout_marginLeft="15dp"
+						  android:layout_marginBottom="10dp"
+						  android:textSize="15sp"			  
+						  android:maxLines="1"
+						  android:ellipsize="end"
+						  android:singleLine="true"
+						  android:textColor="#FFFFFF"						  
+						  android:layout_marginTop="1dp"
+						  android:text="chemistry.asuscomm.com"/>
+        
+	</LinearLayout>
+	
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:gravity="start|center_vertical"
+        android:background="@drawable/left_menu_item"
+        android:clickable="true"
+        android:onClick="onPauseAllClick">
+    
+	    <ImageView 
+	        android:layout_width="32dp"
+		    android:layout_height="32dp"
+		    android:layout_marginTop="4dp"
+		    android:layout_marginBottom="4dp"
+		    android:layout_marginRight="8dp"
+		    android:layout_marginLeft="8dp"
+		    android:background="@drawable/ic_pause_circle_outline_grey600_48dp"/>
+	    <TextView
+					      android:id="@+id/menu_pause_all"
+						  android:layout_width="wrap_content"
+						  android:layout_height="wrap_content"
+						  android:textSize="16sp"			  
+						  android:maxLines="1"
+						  android:ellipsize="end"
+						  android:singleLine="true"
+						  android:textColor="#505050"						  
+						  android:layout_marginTop="1dp"
+						  android:text="@string/menu_item_pause_all"/>
+        
+	</LinearLayout>
+	
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:gravity="start|center_vertical"       
+        android:background="@drawable/left_menu_item"
+        android:clickable="true"
+        android:onClick="onResumeAllClick">
+    
+	    
+	       
+	    <ImageView 
+	        android:layout_width="32dp"
+		    android:layout_height="32dp"
+		    android:layout_marginTop="4dp"
+		    android:layout_marginBottom="4dp"
+		    android:layout_marginRight="8dp"
+		    android:layout_marginLeft="8dp"
+		    android:background="@drawable/ic_play_circle_outline_grey600_48dp"/>
+	    <TextView
+					      android:id="@+id/menu_resume_all"
+						  android:layout_width="wrap_content"
+						  android:layout_height="wrap_content"
+						  android:textSize="16sp"			  
+						  android:maxLines="1"
+						  android:ellipsize="end"
+						  android:singleLine="true"
+						  android:textColor="#505050"						  
+						  android:layout_marginTop="1dp"
+						  android:text="@string/menu_item_resume_all"/>
+        
+	</LinearLayout>
+	
+	<!--<View
+	    android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d0d0d0"/>-->
+	
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:gravity="start|center_vertical"
+        android:background="@drawable/left_menu_item"
+        android:clickable="true"
+        android:onClick="onDeleteFinishedClick">
+    
+	    
+	       
+	    <ImageView 
+	        android:layout_width="32dp"
+		    android:layout_height="32dp"
+		    android:layout_marginTop="4dp"
+		    android:layout_marginBottom="4dp"
+		    android:layout_marginRight="8dp"
+		    android:layout_marginLeft="8dp"
+		    android:background="@drawable/ic_highlight_remove_grey600_48dp"/>
+	    <TextView
+					      android:id="@+id/menu_delete_completed"
+						  android:layout_width="wrap_content"
+						  android:layout_height="wrap_content"
+						  android:textSize="16sp"			  
+						  android:maxLines="1"
+						  android:ellipsize="end"
+						  android:singleLine="true"
+						  android:textColor="#505050"						  
+						  android:layout_marginTop="1dp"
+						  android:text="@string/menu_item_delete_completed"/>
+        
+	</LinearLayout>
+		
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:gravity="start|center_vertical"      
+        android:background="@drawable/left_menu_item"
+        android:clickable="true"
+        android:onClick="onKillExitClick">
+    
+	    
+	       
+	    <ImageView 
+	        android:layout_width="32dp"
+		    android:layout_height="32dp"
+		    android:layout_marginTop="4dp"
+		    android:layout_marginBottom="4dp"
+		    android:layout_marginRight="8dp"
+		    android:layout_marginLeft="8dp"
+		    android:background="@drawable/ic_not_interested_grey600_48dp"/>
+	    <TextView
+					      android:id="@+id/menu_kill_exit"
+						  android:layout_width="wrap_content"
+						  android:layout_height="wrap_content"
+						  android:textSize="16sp"			  
+						  android:maxLines="1"
+						  android:ellipsize="end"
+						  android:singleLine="true"
+						  android:textColor="#505050"						  
+						  android:layout_marginTop="1dp"
+						  android:text="@string/menu_item_kill_exit"/>
+        
+	</LinearLayout>		
+	
+</LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
 </LinearLayout>
