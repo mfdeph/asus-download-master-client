@@ -122,13 +122,19 @@
 			    android:layout_marginBottom="8dp"
 			    android:background="@drawable/circle"/>
 		    
-		     <View android:layout_width="24dp"
-			    android:layout_height="24dp"
-			    android:layout_margin="10dp"
-			    android:layout_alignParentRight="true"
-			    android:clickable="true"
-			    android:onClick="onSettingsClick"
-			    android:background="@drawable/ic_settings_black_48dp"/>
+		    <LinearLayout
+		        android:layout_height="wrap_content"
+		        android:layout_width="wrap_content"
+		        android:background="@drawable/settings_button_background"
+		        android:layout_alignParentRight="true"
+		        android:clickable="true"
+		        android:orientation="vertical"
+			    android:onClick="onSettingsClick">
+			     <View android:layout_width="24dp"
+				    android:layout_height="24dp"
+				    android:layout_margin="10dp"		    
+				    android:background="@drawable/ic_settings_black_48dp"/>
+		     </LinearLayout>
 	    
 	    </RelativeLayout>
 	    
@@ -244,7 +250,7 @@
 						  android:maxLines="1"
 						  android:ellipsize="end"
 						  android:singleLine="true"
-						  android:textColor="#505050"						  
+						  android:textColor="@color/main_grey"						  
 						  android:layout_marginTop="1dp"
 						  android:text="@string/menu_item_delete_completed"/>
         

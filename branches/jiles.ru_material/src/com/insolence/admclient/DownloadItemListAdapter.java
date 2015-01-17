@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.insolence.admclient.asynctasks.SendCommandTask;
 import com.insolence.admclient.entity.DownloadItem;
 import com.insolence.admclient.expandable.IExpandCollapseManager;
+import com.todddavies.components.progressbar.ProgressWheel;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -62,11 +63,11 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         TextView nameHolder = (TextView) v.findViewById(R.id.download_item_name);
         nameHolder.setText(downloadItem.getName());
         
-        ProgressBarTextView advancedTextView = (ProgressBarTextView) v.findViewById(R.id.progress_bar_text_view);
+        /*ProgressBarTextView advancedTextView = (ProgressBarTextView) v.findViewById(R.id.progress_bar_text_view);
         advancedTextView.setValue(
         		Math.round(downloadItem.getPercentage()*100),
         		null
-        		);
+        		);*/
         
         TextView summaryHolder = (TextView) v.findViewById(R.id.download_item_summary);
         
@@ -102,6 +103,12 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
         
         final ImageButton menuButtonHolder = (ImageButton) v.findViewById(R.id.download_item_menu_button);
         menuButtonHolder.setOnClickListener(buildContextMenuOpener(downloadItem));
+        
+        ProgressWheel progress = (ProgressWheel) v.findViewById(R.id.pw_spinner);
+        progress.setProgress(Math.round(downloadItem.getPercentage()*360));
+        
+        TextView percentageHolder = (TextView) v.findViewById(R.id.download_item_percentage);
+        percentageHolder.setText(Math.round(downloadItem.getPercentage()*100) + " %");
         		
         _expandCollapseManager.setItemState(downloadItem, v);
 
