@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">  
+    <item android:drawable="@drawable/asus"/>
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#00FFFFFF"/>
+            <stroke android:width="2dp" android:color="#FFFFFF"/>
+        </shape>
+    </item>
+     
+</layer-list>

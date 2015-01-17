@@ -62,7 +62,7 @@
     <string name="command_info_part_delete">будет удалена</string>
     <string name="confirmation_message_delete">Вы собираетесь удалить из очереди загрузку. Все загруженные на данный момент файлы будут сохранены. Продолжить?</string>
     <string name="command_info_cannot_connect">Не удалось подключиться к серверу Download Master</string>
-    <string name="command_info_pause_all">Отправлена команда на приосановку всех загрузок.</string>
+    <string name="command_info_pause_all">Отправлена команда на приостановку всех загрузок.</string>
     <string name="command_info_resume_all">Отправлена команда на возобновление всех загрузок.</string>
     <string name="command_info_delete_finished">Отправлена команда на удаление всех завершенных загрузок.</string>
     <string name="confirmation_message_delete_finished">Вы собираетесь удалить все завершенные загрузки. Все загруженные файлы будут сохранены. Продолжить?</string>

@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu 
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:yourapp="http://schemas.android.com/apk/res-auto">
 
-     <item android:id="@+id/refresh_list"
+     <!-- <item android:id="@+id/refresh_list"
          android:orderInCategory="100"
           android:icon="@drawable/ic_menu_refresh"
           android:title="@string/menu_item_refresh_list"
            android:showAsAction="always"
-          />
+           yourapp:showAsAction="always"
+          /> 
      
      <item
 	    android:title="@string/menu_group_manage_downloads"
 	    android:showAsAction="always"
+	    yourapp:showAsAction="always"
 	    android:orderInCategory="100"
 	    android:id="@+id/manage_group"
-	    android:icon="@drawable/ic_menu_more">
+	    android:icon="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha">
 	    <menu>
 	        <group>
 			    <item android:id="@+id/add_torrent"
@@ -51,13 +55,14 @@
 	</item>
      
      
-     
+    
     <item android:id="@+id/settings"
         android:orderInCategory="100"
           android:title="@string/menu_item_preferences"
            android:showAsAction="always"
-           android:icon="@drawable/ic_menu_preferences"
-          />
+           yourapp:showAsAction="always"
+           android:icon="@drawable/ic_settings_black_48dp"
+          />  -->
 </menu>
 
 

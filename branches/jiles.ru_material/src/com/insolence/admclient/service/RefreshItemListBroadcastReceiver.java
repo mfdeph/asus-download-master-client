@@ -45,14 +45,16 @@ public class RefreshItemListBroadcastReceiver extends BroadcastReceiver{
 						if (isMainActivityActive())
 							getMainActivity().showErrorMessage(result.getMessage());
 					}
-					if (isMainActivityActive())
+					if (isMainActivityActive()){
 						getMainActivity().switchRefreshAnimation(false);
+					}
 					_currentRefreshTask = null;
 				}
 			};
 			
-			if (isMainActivityActive())
+			if (isMainActivityActive()){
 				getMainActivity().switchRefreshAnimation(true);	
+			}
 			GetItemListTask getItemListTask = new GetItemListTask(context, resultPostProcessor);
 			_currentRefreshTask = getItemListTask;
 			getItemListTask.execute();
