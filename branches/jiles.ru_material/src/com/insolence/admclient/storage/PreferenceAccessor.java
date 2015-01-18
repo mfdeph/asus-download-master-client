@@ -153,4 +153,16 @@ public class PreferenceAccessor {
 		editor.commit();
 	}
 	
+	private static final String isHideCompletedFilterActivePref = "isHideCompletedFilterActivePref";	
+	
+	public boolean isHideCompletedFilterActive(){
+		return getPrefs().getBoolean(isHideCompletedFilterActivePref, false);
+	}
+	
+	public void setHideCompletedFilterActive(boolean value){
+		SharedPreferences.Editor editor = getPrefsToEdit();
+		editor.putBoolean(isHideCompletedFilterActivePref, value);
+		editor.commit();
+	}
+	
 }

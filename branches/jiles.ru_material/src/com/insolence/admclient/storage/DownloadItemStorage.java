@@ -28,7 +28,10 @@ public class DownloadItemStorage {
 	
 	private DownloadItemStorageOpenHelper dbHelper;
 	
+	private Context context;
+	
 	private DownloadItemStorage(Context context){
+		this.context = context;
 		dbHelper = new DownloadItemStorageOpenHelper(context);
 	}
 	
@@ -60,6 +63,12 @@ public class DownloadItemStorage {
 					cursor.getString(cursor.getColumnIndex(DownloadItemStorageOpenHelper.DOWNLOAD_ITEM_SEEDS)),
 					cursor.getString(cursor.getColumnIndex(DownloadItemStorageOpenHelper.DOWNLOAD_ITEM_ADDITIONAL_INFO))
 			);
+			
+			if (PreferenceAccessor.getInstance(context).isHideCompletedFilterActive()){
+				if (item.getPercentage() > 0.99)
+					continue;
+			}
+			
 			items.add(item);			
 		}
         db.close();
