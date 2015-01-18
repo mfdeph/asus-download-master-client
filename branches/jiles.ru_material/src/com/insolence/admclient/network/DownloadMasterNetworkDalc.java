@@ -268,6 +268,9 @@ public class DownloadMasterNetworkDalc {
     	    result.add(item);
     	}
     	
+    	if (result.size() > 0)
+    		 _preferences.setSettingsOk();
+    	
     	return result;
     	
 	}

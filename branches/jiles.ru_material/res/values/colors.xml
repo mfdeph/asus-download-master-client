@@ -6,4 +6,5 @@
     <color name="darker">#18000000</color>
     <color name="lighter">#18FFFFFF</color>
     <color name="main_grey">#505050</color>
+    <color name="warn_red">#bd1b1b</color>
 </resources>

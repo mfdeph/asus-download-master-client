@@ -105,8 +105,9 @@
 					      android:id="@+id/download_item_summary"
 					      android:layout_marginTop="8dp"
 					      android:layout_marginLeft="7dp"
+					      android:layout_marginRight="7dp"
 					      android:textColor="#606060"
-					      android:textSize="16sp"
+					      android:textSize="14sp"
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"/>
 		       <!-- 
@@ -140,13 +141,13 @@
 					<TextView
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"
-						  android:textSize="16sp"
+						  android:textSize="14sp"
 						  android:text="@string/download_item_expanded_status"/>
 			        <TextView
 					      android:id="@+id/download_item_status"
 					      android:layout_marginLeft="2dp"
 					      android:textStyle="bold"
-					      android:textSize="16sp"
+					      android:textSize="14sp"
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"/>			
 	        </LinearLayout>	        
@@ -159,13 +160,13 @@
 					<TextView
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"
-						  android:textSize="16sp"
+						  android:textSize="14sp"
 						  android:text="@string/download_item_expanded_lifetime"/>
 				        <TextView
 						      android:id="@+id/download_item_time_on"
 						      android:layout_marginLeft="2dp"
 						      android:textStyle="bold"
-						      android:textSize="16sp"
+						      android:textSize="14sp"
 							  android:layout_width="wrap_content"
 							  android:layout_height="wrap_content"/>	
 	        </LinearLayout>
@@ -177,13 +178,13 @@
 					<TextView
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"
-						  android:textSize="16sp"
+						  android:textSize="14sp"
 						  android:text="@string/download_item_expanded_upload_speed"/>
 			        <TextView
 					      android:id="@+id/download_item_up_speed"
 					      android:layout_marginLeft="2dp"
 					      android:textStyle="bold"
-					      android:textSize="16sp"
+					      android:textSize="14sp"
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"/>
 	        </LinearLayout>
@@ -195,12 +196,12 @@
 			        <TextView
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"
-						  android:textSize="16sp"
+						  android:textSize="14sp"
 						  android:text="@string/download_item_expanded_download_speed"/>
 			        <TextView
 					      android:id="@+id/download_item_down_speed"
 					      android:layout_marginLeft="2dp"
-					      android:textSize="16sp"
+					      android:textSize="14sp"
 					      android:textStyle="bold"
 						  android:layout_width="wrap_content"
 						  android:layout_height="wrap_content"

@@ -137,4 +137,20 @@ public class PreferenceAccessor {
 	public boolean isDownloadWholeTorrentEnabled(){
 		return getPrefs().getBoolean(downloadWholeTorrentPref, false);
 	}
+	
+	private static final String isSettingsOkPref = "isSettingsOkPref";	
+	
+	public boolean isSettingsOk(){
+		boolean result =  getPrefs().getBoolean(isSettingsOkPref, false);
+		if (result)
+			return result;
+		return !(getWebServerAddress().equalsIgnoreCase("192.168.1.1") && getPassword().equals("admin"));
+	}
+	
+	public void setSettingsOk(){
+		SharedPreferences.Editor editor = getPrefsToEdit();
+		editor.putBoolean(isSettingsOkPref, true);
+		editor.commit();
+	}
+	
 }
