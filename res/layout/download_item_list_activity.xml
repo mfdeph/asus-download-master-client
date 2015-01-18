@@ -81,14 +81,23 @@
 </LinearLayout>
 
        <com.faizmalkani.floatingactionbutton.Fab
-        android:id="@+id/fabbutton"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:onClick="onAddButtonClick"/>
+	        android:id="@+id/add_floating_button"
+	        android:layout_width="72dp"
+	        android:layout_height="72dp"
+	        android:layout_gravity="bottom|right"
+	        android:layout_marginBottom="16dp"
+	        android:layout_marginRight="16dp"
+	        android:onClick="onAddButtonClick"/>
+       
+       <com.faizmalkani.floatingactionbutton.Fab
+	        android:id="@+id/settings_floating_button"
+	        android:layout_width="72dp"
+	        android:layout_height="72dp"
+	        android:layout_gravity="bottom|bottom|right"
+	        android:layout_marginBottom="88dp"
+	        android:layout_marginRight="16dp"
+	        android:onClick="onSettingsClick"
+	        android:visibility="gone"/>
        
        </FrameLayout>
        
@@ -149,8 +158,7 @@
 						  android:ellipsize="end"
 						  android:singleLine="true"
 						  android:textColor="#FFFFFF"						  
-						  android:layout_marginTop="1dp"
-						  android:text="chemistry.asuscomm.com"/>
+						  android:layout_marginTop="1dp"/>
         
 	</LinearLayout>
 	

@@ -49,6 +49,7 @@ import com.insolence.admclient.expandable.ExpandCollapseManagerCreator;
 import com.insolence.admclient.expandable.IExpandCollapseManager;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
+import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.ClipboardUtil;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.FriendlyNameUtil;
@@ -87,6 +88,10 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 		}
 		getListView().setNumColumns(_expandCollapseManager.isMultiColumnsAllowed() ? GridView.AUTO_FIT : 1);
 		updateListView();
+		
+		TextView menuTitle = (TextView) findViewById(R.id.menu_title);
+		menuTitle.setText(PreferenceAccessor.getInstance(this).getWebServerAddress());
+		
 	}
 	
 	@Override
@@ -222,9 +227,19 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
         updateListView();
         getListView().setOnItemClickListener(this);
         
-        Fab fab = (Fab) findViewById(R.id.fabbutton);
-        fab.setFabColor(getResources().getColor(R.color.main_blue));
-        fab.setFabDrawable(getResources().getDrawable(R.drawable.ic_material_add_128/*R.drawable.abc_ic_search_api_mtrl_alpha*/));
+        Fab addFloatingButton = (Fab) findViewById(R.id.add_floating_button);
+        addFloatingButton.setFabColor(getResources().getColor(R.color.main_blue));
+        addFloatingButton.setFabDrawable(getResources().getDrawable(R.drawable.ic_material_add_128));       
+        
+        Fab settingsFloatingButton = (Fab) findViewById(R.id.settings_floating_button);
+        
+        if (PreferenceAccessor.getInstance(this).isSettingsOk()){
+        	settingsFloatingButton.setVisibility(View.GONE);
+        }else{
+        	settingsFloatingButton.setVisibility(View.VISIBLE);
+	        settingsFloatingButton.setFabColor(getResources().getColor(R.color.warn_red));
+	        settingsFloatingButton.setFabDrawable(getResources().getDrawable(R.drawable.ic_settings_black_48dp));
+        }
     }
     
     
@@ -254,6 +269,10 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 		        updateMenuItem.setActionView(iv);*/
     		}else{
     			mSwipeRefreshLayout.setRefreshing(false);
+    			   	        
+    	        if (PreferenceAccessor.getInstance(this).isSettingsOk())
+    	        	findViewById(R.id.settings_floating_button).setVisibility(View.GONE);
+    			
     			/*View actionView = updateMenuItem.getActionView();
         		if (actionView != null)
         			actionView.clearAnimation();

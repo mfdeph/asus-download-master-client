@@ -8,6 +8,7 @@
 		         
 		        <Button
 		            android:id="@+id/cancel_button"
+		            style="@style/Widget.AppCompat.ActionButton"
 		            android:text="@string/basic_cancel"
 		            android:layout_width="match_parent"
 		            android:layout_weight="5"
@@ -15,10 +16,12 @@
 		        
 		        <View
 				    android:layout_height="fill_parent"
+				    android:background="@color/darker"	          
 				    android:layout_width="1dp"/>
 		          
 		        <Button
 		            android:id="@+id/ok_button"
+		            style="@style/Widget.AppCompat.ActionButton"
 		            android:text="@string/basic_yes"
 		            android:layout_width="match_parent"
 		            android:layout_weight="5"
