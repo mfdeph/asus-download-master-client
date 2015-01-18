@@ -322,6 +322,13 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection	
         switch (item.getItemId()) {
+        	case R.id.filter:
+        		MenuBuilder builder = buildFilterMenu();
+    			MenuPopupHelper helper = new MenuPopupHelper(this, builder);
+    			helper.setAnchorView(findViewById(R.id.filter));
+    			helper.setForceShowIcon(true);
+    			
+    			helper.show();
         	/*case R.id.settings:
 	        	Intent settingsActivity = new Intent(getBaseContext(),
                         Preferences.class);
@@ -552,6 +559,39 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 			}
 		});	
 		
+	
+	    return builder;
+	}
+	
+	private MenuBuilder buildFilterMenu(){
+		
+		MenuBuilder builder = new MenuBuilder(this);
+		
+		final PreferenceAccessor preferences = PreferenceAccessor.getInstance(this);
+		
+		if (preferences.isHideCompletedFilterActive()){
+			MenuItem showAllMenuItem = builder.add("Show all");
+			showAllMenuItem.setIcon(R.drawable.ic_filter_list_grey600_48dp);
+			showAllMenuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {		
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					preferences.setHideCompletedFilterActive(false);
+					updateListView();
+					return true;
+				}
+			});
+		}else{
+			MenuItem hideCompletedMenuItem = builder.add("Hide completed");
+			hideCompletedMenuItem.setIcon(R.drawable.ic_filter_list_grey600_48dp);
+			hideCompletedMenuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {		
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					preferences.setHideCompletedFilterActive(true);
+					updateListView();
+					return true;
+				}
+			});
+		}
 	
 	    return builder;
 	}

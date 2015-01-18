@@ -219,7 +219,7 @@ public class DownloadItemListAdapter extends ArrayAdapter<DownloadItem>{
 	
 	
 	private int getResourceForDownloadItemCircle(DownloadItem item){
-		if (item.getStatus().equalsIgnoreCase("downloading"))
+		if (item.getStatus().equalsIgnoreCase("downloading") || item.getStatus().equalsIgnoreCase("hashing"))
 			return R.drawable.download_item_circle_downloading;
 		if (item.getStatus().equalsIgnoreCase("seeding"))
 			return R.drawable.download_item_circle_seeding;

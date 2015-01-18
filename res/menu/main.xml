@@ -52,17 +52,17 @@ xmlns:yourapp="http://schemas.android.com/apk/res-auto">
 			          />
 	        </group>
 	    </menu>
-	</item>
+	</item> -->
      
      
     
-    <item android:id="@+id/settings"
+    <item android:id="@+id/filter"
         android:orderInCategory="100"
-          android:title="@string/menu_item_preferences"
+          android:title="Filter"
            android:showAsAction="always"
            yourapp:showAsAction="always"
-           android:icon="@drawable/ic_settings_black_48dp"
-          />  -->
+           android:icon="@drawable/ic_filter_list_white_48dp"
+          /> 
 </menu>
 
 
