@@ -88,7 +88,6 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 		}
 		getListView().setNumColumns(_expandCollapseManager.isMultiColumnsAllowed() ? GridView.AUTO_FIT : 1);
 		updateListView();
-		
 		TextView menuTitle = (TextView) findViewById(R.id.menu_title);
 		menuTitle.setText(PreferenceAccessor.getInstance(this).getWebServerAddress());
 		
@@ -152,8 +151,8 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 	}
 	
 	public void setDefaultMessageVisibility(){
-		/*TextView textView = (TextView) findViewById(R.id.no_torrents_label);
-		textView.setVisibility(getListView().getCount() == 0 ? View.VISIBLE : View.GONE);*/
+		TextView textView = (TextView) findViewById(R.id.no_torrents_label);
+		textView.setVisibility(getListView().getCount() == 0 ? View.VISIBLE : View.GONE);
 	}
 	
 	SwipeRefreshLayout mSwipeRefreshLayout;
