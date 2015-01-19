@@ -36,7 +36,19 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:background="?attr/colorPrimary"/>
     
-        
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+			   android:layout_height="match_parent">
+           
+           <TextView android:id="@+id/no_torrents_label"
+				  android:layout_width="match_parent"
+				  android:layout_height="wrap_content"
+				  android:paddingTop="20dp"
+				  android:textSize="16sp"
+				  android:gravity="center"
+				  android:text="@string/item_list_no_downloads"/> 
+           
    <android.support.v4.widget.SwipeRefreshLayout
 	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    xmlns:tools="http://schemas.android.com/tools"
@@ -44,39 +56,25 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    tools:context="com.insolence.admclient.DownloadItemListActivity">
-    
-   <!-- <RelativeLayout
-	    android:id="@+id/ptr_layout"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent">  -->
-    
 
-	    
-	    <!-- <TextView android:id="@+id/no_torrents_label"
-				  android:layout_width="match_parent"
-				  android:layout_height="wrap_content"
-				  android:paddingTop="20dp"
-				  android:textSize="16sp"
-				  android:gravity="center"
-				  android:text="@string/item_list_no_downloads"/> -->
-	    
-	    <GridView android:id="@+id/download_item_list"
-	              android:layout_width="match_parent"
-	              android:layout_height="match_parent"          
-	              android:drawSelectorOnTop="false"
-	              android:clickable="false"
-	              android:choiceMode="singleChoice"
-	              android:dividerHeight="0dp"
-	              android:columnWidth="350dp"
-	    		  android:numColumns="1"
-				  android:divider="@null"
-				  android:soundEffectsEnabled="false"/>
+
+		    <GridView android:id="@+id/download_item_list"
+		              android:layout_width="match_parent"
+		              android:layout_height="match_parent"          
+		              android:drawSelectorOnTop="false"
+		              android:clickable="false"
+		              android:choiceMode="singleChoice"
+		              android:dividerHeight="0dp"
+		              android:columnWidth="350dp"
+		    		  android:numColumns="1"
+					  android:divider="@null"
+					  android:soundEffectsEnabled="false"/>
     
    </android.support.v4.widget.SwipeRefreshLayout>
    
 
 	    
-    <!-- </RelativeLayout>-->
+    </RelativeLayout>
     
 </LinearLayout>
 
