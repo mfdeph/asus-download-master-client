@@ -42,9 +42,9 @@ public class DonationHelper {
 	
 	public DonationHelper(Activity context){
 		this.context = context;
-		context.bindService(new 
-		        Intent("com.android.vending.billing.InAppBillingService.BIND"),
-		                mServiceConn, Context.BIND_AUTO_CREATE);
+		Intent billingIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+		billingIntent.setPackage("com.android.vending");
+		context.bindService(billingIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 	}
 	
     public void unbindService()  {

@@ -1,64 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu 
 xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:yourapp="http://schemas.android.com/apk/res-auto">
-
-     <!-- <item android:id="@+id/refresh_list"
-         android:orderInCategory="100"
-          android:icon="@drawable/ic_menu_refresh"
-          android:title="@string/menu_item_refresh_list"
-           android:showAsAction="always"
-           yourapp:showAsAction="always"
-          /> 
-     
-     <item
-	    android:title="@string/menu_group_manage_downloads"
-	    android:showAsAction="always"
-	    yourapp:showAsAction="always"
-	    android:orderInCategory="100"
-	    android:id="@+id/manage_group"
-	    android:icon="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha">
-	    <menu>
-	        <group>
-			    <item android:id="@+id/add_torrent"
-			          android:title="@string/menu_item_add_torrent"
-			          android:icon="@drawable/ic_menu_add_torrent"
-			           android:showAsAction="withText"
-			          />
-			    <item android:id="@+id/add_link"
-			          android:title="@string/menu_item_add_link"
-			          android:icon="@drawable/ic_menu_add_link"
-			           android:showAsAction="withText"
-			          />
-			    <item android:id="@+id/pause_all"
-			          android:title="@string/menu_item_pause_all"
-			          android:icon="@drawable/ic_menu_pause"
-			           android:showAsAction="withText"
-			          />
-			    <item android:id="@+id/resume_all"
-			          android:title="@string/menu_item_resume_all"
-			          android:icon="@drawable/ic_menu_resume"
-			           android:showAsAction="withText"
-			          />
-			    <item android:id="@+id/delete_finished"
-			          android:title="@string/menu_item_delete_completed"
-			          android:icon="@drawable/ic_menu_close_clear_cancel"
-			          android:showAsAction="withText"
-			          />
-			    <item android:id="@+id/kill_exit"
-			          android:title="@string/menu_item_kill_exit"
-			          android:icon="@drawable/ic_menu_block"
-			          android:showAsAction="withText"
-			          />
-	        </group>
-	    </menu>
-	</item> -->
-     
-     
+xmlns:yourapp="http://schemas.android.com/apk/res-auto">   
     
     <item android:id="@+id/filter"
         android:orderInCategory="100"
-          android:title="Filter"
+          android:title="@string/filter_menu_title"
            android:showAsAction="always"
            yourapp:showAsAction="always"
            android:icon="@drawable/ic_filter_list_white_48dp"

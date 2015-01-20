@@ -40,6 +40,26 @@
            <RelativeLayout
                android:layout_width="match_parent"
 			   android:layout_height="match_parent">
+			   
+               
+               <RelativeLayout
+                   android:id="@+id/filter_highlight"
+	               android:layout_width="match_parent"
+				   android:layout_height="match_parent"
+				   android:visibility="gone">
+			   
+	               <RelativeLayout
+		               android:layout_width="match_parent"
+					   android:layout_height="10dp"
+					   android:background="@drawable/filter_marker_background"/>
+				   
+	               <RelativeLayout
+	                   android:layout_alignParentBottom="true"
+		               android:layout_width="match_parent"
+					   android:layout_height="10dp"
+					   android:background="@drawable/filter_marker_background_invert"/>
+               
+               </RelativeLayout>
            
            <TextView android:id="@+id/no_torrents_label"
 				  android:layout_width="match_parent"

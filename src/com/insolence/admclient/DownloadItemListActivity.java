@@ -2,37 +2,27 @@ package com.insolence.admclient;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.internal.view.menu.MenuBuilder;
 import android.support.v7.internal.view.menu.MenuPopupHelper;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View.OnClickListener;
 import android.view.View;
-import android.view.ViewTreeObserver.OnPreDrawListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,6 +80,9 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 		updateListView();
 		TextView menuTitle = (TextView) findViewById(R.id.menu_title);
 		menuTitle.setText(PreferenceAccessor.getInstance(this).getWebServerAddress());
+		
+		if (PreferenceAccessor.getInstance(this).isHideCompletedFilterActive())
+			findViewById(R.id.filter_highlight).setVisibility(View.VISIBLE);
 		
 	}
 	
@@ -159,8 +152,6 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 	
     private MaterialMenuIconToolbar materialMenu;
 
-    private int actionBarMenuState;
-    
     DrawerLayout drawer;
     
     private class MyDrawerListener implements android.support.v4.widget.DrawerLayout.DrawerListener {
@@ -254,30 +245,14 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
         return super.onCreateOptionsMenu(menu);  
     }
     
-    //private MenuItem updateMenuItem;
-    
     public void switchRefreshAnimation(boolean enabled) {   	
-    	//if (updateMenuItem != null){
     		if (enabled){
     			mSwipeRefreshLayout.setRefreshing(true);
-		        /*LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
-		        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh);
-		        rotation.setRepeatCount(Animation.INFINITE);
-		        iv.startAnimation(rotation);	
-		        updateMenuItem.setActionView(iv);*/
     		}else{
-    			mSwipeRefreshLayout.setRefreshing(false);
-    			   	        
+    			mSwipeRefreshLayout.setRefreshing(false);    			   	        
     	        if (PreferenceAccessor.getInstance(this).isSettingsOk())
-    	        	findViewById(R.id.settings_floating_button).setVisibility(View.GONE);
-    			
-    			/*View actionView = updateMenuItem.getActionView();
-        		if (actionView != null)
-        			actionView.clearAnimation();
-    	    	updateMenuItem.setActionView(null);*/   			
+    	        	findViewById(R.id.settings_floating_button).setVisibility(View.GONE);  			
     		}
-    	//}
     }  
     
     private static int fileSelectorRequestCode = 12412;
@@ -318,84 +293,14 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 	}
 		
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection	
+    public boolean onOptionsItemSelected(MenuItem item) {	
         switch (item.getItemId()) {
         	case R.id.filter:
         		MenuBuilder builder = buildFilterMenu();
     			MenuPopupHelper helper = new MenuPopupHelper(this, builder);
     			helper.setAnchorView(findViewById(R.id.filter));
-    			helper.setForceShowIcon(true);
-    			
-    			helper.show();
-        	/*case R.id.settings:
-	        	Intent settingsActivity = new Intent(getBaseContext(),
-                        Preferences.class);
-	        	startActivity(settingsActivity);
-	            return true;
-	        case R.id.add_torrent:
-	            Intent intent = new Intent();
-	            intent.addCategory(Intent.CATEGORY_OPENABLE);
-	            intent.setType("application/*");
-	            intent.setAction(Intent.ACTION_GET_CONTENT);
-	            startActivityForResult(Intent.createChooser(intent, getStr(R.string.add_torrent_alert_title)), fileSelectorRequestCode);	
-	            return true;
-	        case R.id.add_link:
-	        	final EditText txtUrl = new EditText(this);
-	        	txtUrl.setSingleLine();
-	        	txtUrl.setHint(getStr(R.string.add_link_alert_hint));       	
-	        	Holder<String> clipboardText = new Holder<String>("");
-	        	if (ClipboardUtil.TryGetTextFromClipboard(this, clipboardText))
-	        		txtUrl.setText(clipboardText.value);
-	        	new AlertDialog.Builder(this)
-		        	 .setTitle(getStr(R.string.add_link_alert_title))
-		        	 .setMessage(getStr(R.string.add_link_alert_message))
-		        	 .setView(txtUrl)
-		        	 .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
-		        	    public void onClick(DialogInterface dialog, int whichButton) {
-			        	    String link = txtUrl.getText().toString();
-			        	    if (link == null || link.length() == 0)
-			        	    	return;
-			      			final String fileName = FriendlyNameUtil.GetNativeFileNameFromMagnetLink(link);     	
-			    			sendLinkToServer(link, fileName);       	      
-		        	    }
-		        	  })
-		        	 .setNegativeButton(getStr(R.string.basic_cancel), null)
-		        	 .show(); 	        	
-	        	return true;
-	        case R.id.pause_all:
-	        	new SendCommandTask(DownloadItemListActivity.this, "pause_all").execute();
-	     		Toast.makeText(
-	    				   this,
-	    				   getStr(R.string.command_info_pause_all), Toast.LENGTH_SHORT).show();
-	        	return true;
-	        case R.id.resume_all:
-	        	new SendCommandTask(DownloadItemListActivity.this, "start_all").execute();
-	     		Toast.makeText(
-	    				   this,
-	    				   getStr(R.string.command_info_resume_all), Toast.LENGTH_SHORT).show();
-	        	return true;
-	        case R.id.delete_finished:
-				new AlertDialog.Builder(this)
-		           .setMessage(getStr(R.string.confirmation_message_delete_finished))
-		           .setCancelable(false)
-		           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
-		               public void onClick(DialogInterface dialog, int id) {
-		            	   new SendCommandTask(DownloadItemListActivity.this, "clear").execute();	            	   
-		        		   Toast.makeText(
-		        				   DownloadItemListActivity.this,
-		        				   getStr(R.string.command_info_delete_finished), Toast.LENGTH_SHORT).show();
-		               }
-		           })
-		           .setNegativeButton(getStr(R.string.basic_no), null)
-		           .show();        	
-	        	return true;
-	        case R.id.kill_exit:
-	        	stopAppAndService();
-	        	return true;
-	        case R.id.refresh_list:
-	        	sendRefreshRequest();
-	     		return true;*/
+    			helper.setForceShowIcon(true);  			
+    			helper.show();     	
 	        default:
 	            return false;
         }
@@ -482,34 +387,15 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 		getListView().setAdapter(adapter);
 	}
 	
-	/*
-	 * 
-	 * 
-	 * 			    <item android:id="@+id/add_torrent"
-			          android:title="@string/menu_item_add_torrent"
-			          android:icon="@drawable/ic_menu_add_torrent"
-			           android:showAsAction="withText"
-			          />
-			    <item android:id="@+id/add_link"
-			          android:title="@string/menu_item_add_link"
-			          android:icon="@drawable/ic_menu_add_link"
-			           android:showAsAction="withText"
-			          />
-	 * 
-	 */
-	
 	public void onAddButtonClick(View v) {
 			
 			MenuBuilder builder = buildAddMenu();
 			MenuPopupHelper helper = new MenuPopupHelper(this, builder);
 			helper.setAnchorView(v);
-			helper.setForceShowIcon(true);
-			
+			helper.setForceShowIcon(true);		
 			helper.show();				
-
 	}
-	
-	
+		
 	private MenuBuilder buildAddMenu(){
 		
 		MenuBuilder builder = new MenuBuilder(this);
@@ -569,24 +455,26 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 		final PreferenceAccessor preferences = PreferenceAccessor.getInstance(this);
 		
 		if (preferences.isHideCompletedFilterActive()){
-			MenuItem showAllMenuItem = builder.add("Show all");
+			MenuItem showAllMenuItem = builder.add(getStr(R.string.filter_menu_show_all));
 			showAllMenuItem.setIcon(R.drawable.ic_filter_list_grey600_48dp);
 			showAllMenuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {		
 				@Override
 				public boolean onMenuItemClick(MenuItem item) {
 					preferences.setHideCompletedFilterActive(false);
 					updateListView();
+					findViewById(R.id.filter_highlight).setVisibility(View.GONE);
 					return true;
 				}
 			});
 		}else{
-			MenuItem hideCompletedMenuItem = builder.add("Hide completed");
+			MenuItem hideCompletedMenuItem = builder.add(getStr(R.string.filter_menu_hide_completed));
 			hideCompletedMenuItem.setIcon(R.drawable.ic_filter_list_grey600_48dp);
 			hideCompletedMenuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {		
 				@Override
 				public boolean onMenuItemClick(MenuItem item) {
 					preferences.setHideCompletedFilterActive(true);
 					updateListView();
+					findViewById(R.id.filter_highlight).setVisibility(View.VISIBLE);
 					return true;
 				}
 			});
