@@ -107,5 +107,16 @@
 	<string name="dialog_select_files_to_download_title">Выберите файлы для загрузки</string>
 	<string name="preference_download_whole_torrent">Скачивать торрент полностью</string>
 	<string name="preference_download_whole_torrent_summary">При добавлении торрента не показывать перечень файлов, сразу скачивать все</string>
-    
+	<string name="dialog_select_files_to_download_select_all">Выбрать все</string>
+	<string name="dialog_select_files_to_download_select_none">Очистить все</string>
+	
+	<!-- Filters -->
+	<string name="filter_menu_title">Фильтр</string>
+	<string name="filter_menu_hide_completed">Скрыть завершенные</string>
+	<string name="filter_menu_show_all">Показать все</string>
+	
+	<!-- Search -->
+    <string name="search_title">Поиск</string>
+	
+	
 </resources>

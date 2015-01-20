@@ -100,5 +100,15 @@
     <string name="dialog_select_files_to_download_title">Seleziona i files da scaricare</string>
 	<string name="preference_download_whole_torrent">Scarica l\'intero torrent</string>
 	<string name="preference_download_whole_torrent_summary">Non chiedere quali files scaricare, ma scaricali tutti</string>
+	<string name="dialog_select_files_to_download_select_all">Seleziona tutto</string>
+	<string name="dialog_select_files_to_download_select_none">Deseleziona tutto</string>
 	
+	<!-- Filters -->
+	<string name="filter_menu_title">Filtro</string>
+	<string name="filter_menu_hide_completed">Nascondi completati</string>
+	<string name="filter_menu_show_all">Mostra tutto</string>
+	
+	<!-- Search -->
+    <string name="search_title">Cerca</string>
+    
 </resources>

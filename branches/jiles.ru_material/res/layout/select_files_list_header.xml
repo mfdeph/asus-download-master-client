@@ -6,15 +6,10 @@
          		android:layout_height="wrap_content"
          		android:orientation="horizontal">
          		<TextView
-         		    android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="Select"
-					android:layout_margin="4dp"/>
-         		<TextView
          		    android:id="@+id/select_all_hyperlink"
          		    android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="All"
+					android:text="@string/dialog_select_files_to_download_select_all"
 					android:textColor="@color/main_blue"
 					android:layout_margin="4dp"
 					android:clickable="true"/>
@@ -22,7 +17,7 @@
          		    android:id="@+id/select_none_hyperlink"
          		    android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="None"
+					android:text="@string/dialog_select_files_to_download_select_none"
 					android:textColor="@color/main_blue"
 					android:layout_margin="4dp"
 					android:clickable="true"/>

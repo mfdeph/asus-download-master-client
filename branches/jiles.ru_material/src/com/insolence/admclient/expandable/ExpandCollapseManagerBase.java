@@ -42,7 +42,7 @@ public abstract class ExpandCollapseManagerBase implements IExpandCollapseManage
 		if (isItemExpanded(downloadItem)){
 			view.findViewById(R.id.view_additional_info_2).setVisibility(View.VISIBLE);
 			view.findViewById(R.id.download_item_summary).setVisibility(View.GONE);
-			((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(5);
+			((TextView)view.findViewById(R.id.download_item_name)).setMaxLines(2);
 			
 			//view.findViewById(R.id.progress_bar_text_view).setVisibility(View.VISIBLE);
 			view.findViewById(R.id.download_item_volume).setVisibility(View.VISIBLE);
