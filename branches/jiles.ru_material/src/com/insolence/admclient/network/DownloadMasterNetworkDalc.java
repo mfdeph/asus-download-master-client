@@ -234,10 +234,11 @@ public class DownloadMasterNetworkDalc {
 	    	    		item.setName(res2);
 	    	    		break;
 	    	    	case 2:
-	    	    		if (res2.trim().equalsIgnoreCase(""))
-	    	    			item.setPercentage(0);
-	    	    		else
+	    	    		try{
 	    	    			item.setPercentage(Float.parseFloat(res2));
+	    	    		}catch(NumberFormatException e){
+	    	    			item.setPercentage(0);
+	    	    		}
 	    	    		break;
 	    	    	case 3:
 	    	    		item.setVolume(res2);
