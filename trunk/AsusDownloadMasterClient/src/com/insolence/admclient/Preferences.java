@@ -30,6 +30,20 @@ public class Preferences extends ActionBarActivity{
 			  }
 		  });	  
 	 }
+	 
+	 public static Preferences Current;
+	 
+	 @Override
+	 public void onResume(){
+		 super.onResume();
+		 Current = this;
+	 }
+	 
+	 @Override
+	 public void onPause(){
+		 super.onPause();
+		 Current = null;
+	 }
 	
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
