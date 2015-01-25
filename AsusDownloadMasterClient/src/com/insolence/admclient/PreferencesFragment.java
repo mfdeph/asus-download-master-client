@@ -14,7 +14,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.support.v4.preference.PreferenceFragment;
 import android.text.InputType;
 
-public class PreferencesFragment extends PreferenceFragment  implements OnSharedPreferenceChangeListener, OnPreferenceClickListener{
+public class PreferencesFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceClickListener{
 
 	private DonationHelper donationHelper;
 	
@@ -66,9 +66,9 @@ public class PreferencesFragment extends PreferenceFragment  implements OnShared
     }
     
     private void restartApp(){
-    	Intent i = getActivity().getPackageManager().getLaunchIntentForPackage( getActivity().getPackageName() );
+    	Intent i = Preferences.Current.getPackageManager().getLaunchIntentForPackage(Preferences.Current.getPackageName() );
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(i);
+		Preferences.Current.startActivity(i);
     }
     
 	@Override
