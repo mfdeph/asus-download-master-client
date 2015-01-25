@@ -1,65 +1,22 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="@style/Theme.Sherlock.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
-
-    <style name="AppTheme" parent="AppBaseTheme">
-        <item name="actionBarStyle">@style/MyTheme.ActionBar.BlueActionBar</item>
-        <item name="android:listSeparatorTextViewStyle">@style/CustomListSeparator</item>
-        <item name="android:background">#E5E5E5</item>
-    </style>
-    
-    
-    <style name="PreferenceTheme" parent="AppTheme">
-	    <item name="android:listViewStyle">@style/PreferenceListView</item>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+	<style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/main_blue</item>
+        <item name="colorPrimaryDark">@color/main_blue</item>
+	    <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar</item>
+	    <item name="actionBarStyle">@style/MyActionBar</item>
+	    <item name="android:windowContentOverlay">@null</item>
+	    <item name="colorAccent">@color/main_blue</item>
+    	<item name="android:textColorSecondary">@color/main_grey</item>
 	</style>
-    
-     <style name="MyTheme.ActionBar.BlueActionBar" parent="@style/Widget.Sherlock.Light.ActionBar">
-        <item name="background">@drawable/action_bar_background</item>
-        <item name="titleTextStyle">@style/MyTheme.TitleTextStyle</item> 
-    </style>
-    
-    <style name="MyTheme.TitleTextStyle" parent="@android:style/TextAppearance">
-    	<item name="android:textColor">#FFFFFF</item>
-    	<item name="android:textSize">18sp</item>
-  	</style> 
-    
-      <!-- 
-     
-    <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-    	<item name="android:textColor">#FFFFFF</item>
-  	</style>
-
-   -->
-    <style name="CustomListSeparatorWOPaddingTop" parent="@style/CustomListSeparator">
-         <item name="android:background">@drawable/separator_wo_padding_top_background</item>
-        <item name="android:paddingTop">0dip</item>
-    </style>
-    
-    <style name="CustomListSeparator">
-        <item name="android:background">@drawable/separator_background</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">#143959</item>
-        <item name="android:textSize">17sp</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingTop">28dip</item>
-        <item name="android:paddingBottom">12dip</item>
-    </style>
-    
-    <style name="PreferenceListView" parent="@android:style/Widget.ListView">
-        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
-        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+	
+	<style name="CustomActionBarThemeForMain" parent="@style/CustomActionBarTheme">
+	    <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
 	</style>
- 
+
+	<style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+	    <item name="android:background"  tools:ignore="NewApi">@drawable/action_bar_background</item>
+	    <item name="background">@drawable/action_bar_background</item>
+	</style>
+
 </resources>

@@ -2,33 +2,35 @@ package com.insolence.admclient;
 
 import java.util.List;
 
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
-
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.internal.view.menu.MenuBuilder;
+import android.support.v7.internal.view.menu.MenuPopupHelper;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.balysv.materialmenu.MaterialMenuDrawable.IconState;
+import com.balysv.materialmenu.MaterialMenuDrawable.Stroke;
+import com.balysv.materialmenu.extras.toolbar.MaterialMenuIconToolbar;
+import com.faizmalkani.floatingactionbutton.Fab;
 import com.insolence.admclient.asynctasks.SendCommandTask;
 import com.insolence.admclient.asynctasks.SendLinkTask;
 import com.insolence.admclient.asynctasks.SendTorrentTask;
@@ -37,17 +39,15 @@ import com.insolence.admclient.expandable.ExpandCollapseManagerCreator;
 import com.insolence.admclient.expandable.IExpandCollapseManager;
 import com.insolence.admclient.service.RefreshItemListBroadcastReceiver;
 import com.insolence.admclient.storage.DownloadItemStorage;
+import com.insolence.admclient.storage.PreferenceAccessor;
 import com.insolence.admclient.util.ClipboardUtil;
 import com.insolence.admclient.util.Holder;
 import com.insolence.admclient.util.FriendlyNameUtil;
 import com.insolence.admclient.util.LanguageHelper;
-import com.google.analytics.tracking.android.EasyTracker;
 
-public class DownloadItemListActivity extends SherlockActivity implements OnItemClickListener, OnRefreshListener{
+public class DownloadItemListActivity extends ActionBarActivity implements OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
 	
 	private static DownloadItemListActivity _current;
-	
-	private PullToRefreshLayout mPullToRefreshLayout;
 	
 	public static DownloadItemListActivity getCurrent(){
 		return _current;
@@ -56,13 +56,13 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
 	@Override
 	public void onStart() {
 	    super.onStart();
-	    EasyTracker.getInstance(this).activityStart(this);
+	    //TODO: Google Analytics
 	}
 	
 	@Override
 	public void onStop() {
 	    super.onStop();
-	    EasyTracker.getInstance(this).activityStop(this);
+	  //TODO: Google Analytics
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
 		super.onResume();		
 		_current = this;
 		new RefreshItemListBroadcastReceiver().resetAlarm(this);
-		switchRefreshAnimation(false);
+		//switchRefreshAnimation(false);
 		handleIntent(getIntent());
 		if (_adapter != null){
 			_adapter.setExpandCollapseManager(getExpandCollapseManager());
@@ -78,6 +78,12 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
 		}
 		getListView().setNumColumns(_expandCollapseManager.isMultiColumnsAllowed() ? GridView.AUTO_FIT : 1);
 		updateListView();
+		TextView menuTitle = (TextView) findViewById(R.id.menu_title);
+		menuTitle.setText(PreferenceAccessor.getInstance(this).getWebServerAddress());
+		
+		if (PreferenceAccessor.getInstance(this).isHideCompletedFilterActive())
+			findViewById(R.id.filter_highlight).setVisibility(View.VISIBLE);
+		
 	}
 	
 	@Override
@@ -123,7 +129,6 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
         .setCancelable(false)
         .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-         	   //new SendMagnetTask(DownloadItemListActivity.this, link, DownloadItemListActivity.this.getCacheDir()).execute();
          	   new SendLinkTask(DownloadItemListActivity.this, link).execute();
      		   Toast.makeText(
      				   DownloadItemListActivity.this,
@@ -143,123 +148,159 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
 		textView.setVisibility(getListView().getCount() == 0 ? View.VISIBLE : View.GONE);
 	}
 	
+	SwipeRefreshLayout mSwipeRefreshLayout;
+	
+    private MaterialMenuIconToolbar materialMenu;
+
+    DrawerLayout drawer;
+    
+    private class MyDrawerListener implements android.support.v4.widget.DrawerLayout.DrawerListener {
+        @Override
+        public void onDrawerClosed(View view) {
+        	materialMenu.animatePressedState(IconState.BURGER);
+        }
+
+		@Override
+		public void onDrawerOpened(View arg0) {
+			materialMenu.animatePressedState(IconState.ARROW);
+		}
+
+		@Override
+		public void onDrawerSlide(View drawerView, float slideOffset) {
+		}
+
+		@Override
+		public void onDrawerStateChanged(int newState) {
+			if (newState == DrawerLayout.STATE_SETTLING) {
+	            if (!drawer.isDrawerOpen(Gravity.START)) {
+	            	materialMenu.animatePressedState(IconState.ARROW);
+	            } else {
+	            	materialMenu.animatePressedState(IconState.BURGER);
+	            }
+	        }
+		}
+
+    }
+    
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LanguageHelper.setLanguage(this);
         setContentView(R.layout.download_item_list_activity);      
+        
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.setDrawerListener(new MyDrawerListener());
+        
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+            	if (drawer.isDrawerOpen(Gravity.LEFT))
+            		drawer.closeDrawer(Gravity.LEFT);
+            	else
+            		drawer.openDrawer(Gravity.LEFT);
+            }
+        });
+        materialMenu = new MaterialMenuIconToolbar(this, Color.WHITE, Stroke.THIN) {
+            @Override public int getToolbarViewId() {
+                return R.id.toolbar;
+            }
+        };
+        materialMenu.setNeverDrawTouch(true);
+        
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.main_blue);
+       
         updateListView();
         getListView().setOnItemClickListener(this);
         
-        mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
+        Fab addFloatingButton = (Fab) findViewById(R.id.add_floating_button);
+        addFloatingButton.setFabColor(getResources().getColor(R.color.main_blue));
+        addFloatingButton.setFabDrawable(getResources().getDrawable(R.drawable.ic_material_add_128));       
         
-        ActionBarPullToRefresh.from(this)
-                .theseChildrenArePullable(R.id.download_item_list)
-                .listener(this)
-                .setup(mPullToRefreshLayout);
+        Fab settingsFloatingButton = (Fab) findViewById(R.id.settings_floating_button);
+        
+        if (PreferenceAccessor.getInstance(this).isSettingsOk()){
+        	settingsFloatingButton.setVisibility(View.GONE);
+        }else{
+        	settingsFloatingButton.setVisibility(View.VISIBLE);
+	        settingsFloatingButton.setFabColor(getResources().getColor(R.color.warn_red));
+	        settingsFloatingButton.setFabDrawable(getResources().getDrawable(R.drawable.ic_settings_black_48dp));
+        }
+    }
+    
+    
+    @Override
+    public void onRefresh() {
+    	sendRefreshRequest();
     }
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.main, menu);
-        updateMenuItem = menu.findItem(R.id.refresh_list);
+        getMenuInflater().inflate(R.menu.main, menu);
+        //updateMenuItem = menu.findItem(R.id.refresh_list);
         return super.onCreateOptionsMenu(menu);  
     }
     
-    private MenuItem updateMenuItem;
-    
     public void switchRefreshAnimation(boolean enabled) {   	
-    	if (updateMenuItem != null){
     		if (enabled){
-		        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		        ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
-		        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh);
-		        rotation.setRepeatCount(Animation.INFINITE);
-		        iv.startAnimation(rotation);	
-		        updateMenuItem.setActionView(iv);
+    			mSwipeRefreshLayout.setRefreshing(true);
     		}else{
-    			View actionView = updateMenuItem.getActionView();
-        		if (actionView != null)
-        			actionView.clearAnimation();
-    	    	updateMenuItem.setActionView(null);   			
+    			mSwipeRefreshLayout.setRefreshing(false);    			   	        
+    	        if (PreferenceAccessor.getInstance(this).isSettingsOk())
+    	        	findViewById(R.id.settings_floating_button).setVisibility(View.GONE);  			
     		}
-    	}
     }  
     
     private static int fileSelectorRequestCode = 12412;
     
+	public void onSettingsClick(View v) {
+		Intent settingsActivity = new Intent(getBaseContext(), Preferences.class);
+    	startActivity(settingsActivity);
+	}
+	
+	public void onPauseAllClick(View v) {
+		new SendCommandTask(DownloadItemListActivity.this, "pause_all").execute();
+ 		Toast.makeText(this, getStr(R.string.command_info_pause_all), Toast.LENGTH_SHORT).show();
+	}
+	
+	public void onResumeAllClick(View v) {
+		new SendCommandTask(DownloadItemListActivity.this, "start_all").execute();
+ 		Toast.makeText(this, getStr(R.string.command_info_resume_all), Toast.LENGTH_SHORT).show();	
+	}
+	
+	public void onDeleteFinishedClick(View v) {
+		new AlertDialog.Builder(this)
+        .setMessage(getStr(R.string.confirmation_message_delete_finished))
+        .setCancelable(false)
+        .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+         	   new SendCommandTask(DownloadItemListActivity.this, "clear").execute();	            	   
+     		   Toast.makeText(
+     				   DownloadItemListActivity.this,
+     				   getStr(R.string.command_info_delete_finished), Toast.LENGTH_SHORT).show();
+            }
+        })
+        .setNegativeButton(getStr(R.string.basic_no), null)
+        .show();
+	}
+	
+	public void onKillExitClick(View v) {
+		stopAppAndService();
+	}
+		
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection	
+    public boolean onOptionsItemSelected(MenuItem item) {	
         switch (item.getItemId()) {
-	        case R.id.settings:
-	        	Intent settingsActivity = new Intent(getBaseContext(),
-                        Preferences.class);
-	        	startActivity(settingsActivity);
-	            return true;
-	        case R.id.add_torrent:
-	            Intent intent = new Intent();
-	            intent.addCategory(Intent.CATEGORY_OPENABLE);
-	            intent.setType("application/*");
-	            intent.setAction(Intent.ACTION_GET_CONTENT);
-	            startActivityForResult(Intent.createChooser(intent, getStr(R.string.add_torrent_alert_title)), fileSelectorRequestCode);	
-	            return true;
-	        case R.id.add_link:
-	        	final EditText txtUrl = new EditText(this);
-	        	txtUrl.setSingleLine();
-	        	txtUrl.setHint(getStr(R.string.add_link_alert_hint));       	
-	        	Holder<String> clipboardText = new Holder<String>("");
-	        	if (ClipboardUtil.TryGetTextFromClipboard(this, clipboardText))
-	        		txtUrl.setText(clipboardText.value);
-	        	new AlertDialog.Builder(this)
-		        	 .setTitle(getStr(R.string.add_link_alert_title))
-		        	 .setMessage(getStr(R.string.add_link_alert_message))
-		        	 .setView(txtUrl)
-		        	 .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
-		        	    public void onClick(DialogInterface dialog, int whichButton) {
-			        	    String link = txtUrl.getText().toString();
-			        	    if (link == null || link.length() == 0)
-			        	    	return;
-			      			final String fileName = FriendlyNameUtil.GetNativeFileNameFromMagnetLink(link);     	
-			    			sendLinkToServer(link, fileName);       	      
-		        	    }
-		        	  })
-		        	 .setNegativeButton(getStr(R.string.basic_cancel), null)
-		        	 .show(); 	        	
-	        	return true;
-	        case R.id.pause_all:
-	        	new SendCommandTask(DownloadItemListActivity.this, "pause_all").execute();
-	     		Toast.makeText(
-	    				   this,
-	    				   getStr(R.string.command_info_pause_all), Toast.LENGTH_SHORT).show();
-	        	return true;
-	        case R.id.resume_all:
-	        	new SendCommandTask(DownloadItemListActivity.this, "start_all").execute();
-	     		Toast.makeText(
-	    				   this,
-	    				   getStr(R.string.command_info_resume_all), Toast.LENGTH_SHORT).show();
-	        	return true;
-	        case R.id.delete_finished:
-				new AlertDialog.Builder(this)
-		           .setMessage(getStr(R.string.confirmation_message_delete_finished))
-		           .setCancelable(false)
-		           .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
-		               public void onClick(DialogInterface dialog, int id) {
-		            	   new SendCommandTask(DownloadItemListActivity.this, "clear").execute();	            	   
-		        		   Toast.makeText(
-		        				   DownloadItemListActivity.this,
-		        				   getStr(R.string.command_info_delete_finished), Toast.LENGTH_SHORT).show();
-		               }
-		           })
-		           .setNegativeButton(getStr(R.string.basic_no), null)
-		           .show();        	
-	        	return true;
-	        case R.id.kill_exit:
-	        	stopAppAndService();
-	        	return true;
-	        case R.id.refresh_list:
-	        	sendRefreshRequest();
-	     		return true;
+        	case R.id.filter:
+        		MenuBuilder builder = buildFilterMenu();
+    			MenuPopupHelper helper = new MenuPopupHelper(this, builder);
+    			helper.setAnchorView(findViewById(R.id.filter));
+    			helper.setForceShowIcon(true);  			
+    			helper.show();     	
 	        default:
 	            return false;
         }
@@ -323,8 +364,6 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
 
 	    actualizeAdapter(items);
 		setDefaultMessageVisibility();	
-		if (mPullToRefreshLayout != null)
-			mPullToRefreshLayout.setRefreshComplete();
 	}
 	
 	
@@ -339,11 +378,6 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
 	public void sendRefreshRequest(){
 		new RefreshItemListBroadcastReceiver().runAlarmImmidiately(this);
 	}
-
-	@Override
-	public void onRefreshStarted(View view) {	
-		sendRefreshRequest();
-	}
 	
 	private GridView getListView(){
 		return (GridView) findViewById(R.id.download_item_list);
@@ -353,5 +387,100 @@ public class DownloadItemListActivity extends SherlockActivity implements OnItem
 		getListView().setAdapter(adapter);
 	}
 	
+	public void onAddButtonClick(View v) {
+			
+			MenuBuilder builder = buildAddMenu();
+			MenuPopupHelper helper = new MenuPopupHelper(this, builder);
+			helper.setAnchorView(v);
+			helper.setForceShowIcon(true);		
+			helper.show();				
+	}
+		
+	private MenuBuilder buildAddMenu(){
+		
+		MenuBuilder builder = new MenuBuilder(this);
+		
+		MenuItem addTorrentMenuItem = builder.add(getStr(R.string.menu_item_add_torrent));
+		addTorrentMenuItem.setIcon(R.drawable.ic_file_upload_grey600_48dp);
+		addTorrentMenuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {		
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent();
+	            intent.addCategory(Intent.CATEGORY_OPENABLE);
+	            intent.setType("application/*");
+	            intent.setAction(Intent.ACTION_GET_CONTENT);
+	            startActivityForResult(Intent.createChooser(intent, getStr(R.string.add_torrent_alert_title)), fileSelectorRequestCode);	
+	            return true;
+			}
+		});	
+		
+		MenuItem addMagnetMenuItem = builder.add(getStr(R.string.menu_item_add_link));
+		addMagnetMenuItem.setIcon(R.drawable.ic_link_grey600_48dp);
+		addMagnetMenuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {		
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+	        	final EditText txtUrl = new EditText(DownloadItemListActivity.this);
+	        	txtUrl.setSingleLine();
+	        	txtUrl.setHint(getStr(R.string.add_link_alert_hint));       	
+	        	Holder<String> clipboardText = new Holder<String>("");
+	        	if (ClipboardUtil.TryGetTextFromClipboard(DownloadItemListActivity.this, clipboardText))
+	        		txtUrl.setText(clipboardText.value);
+	        	new AlertDialog.Builder(DownloadItemListActivity.this)
+		        	 .setTitle(getStr(R.string.add_link_alert_title))
+		        	 .setMessage(getStr(R.string.add_link_alert_message))
+		        	 .setView(txtUrl)
+		        	 .setPositiveButton(getStr(R.string.basic_yes), new DialogInterface.OnClickListener() {
+		        	    public void onClick(DialogInterface dialog, int whichButton) {
+			        	    String link = txtUrl.getText().toString();
+			        	    if (link == null || link.length() == 0)
+			        	    	return;
+			      			final String fileName = FriendlyNameUtil.GetNativeFileNameFromMagnetLink(link);     	
+			    			sendLinkToServer(link, fileName);       	      
+		        	    }
+		        	  })
+		        	 .setNegativeButton(getStr(R.string.basic_cancel), null)
+		        	 .show(); 	        	
+	        	return true;
+			}
+		});	
+		
+	
+	    return builder;
+	}
+	
+	private MenuBuilder buildFilterMenu(){
+		
+		MenuBuilder builder = new MenuBuilder(this);
+		
+		final PreferenceAccessor preferences = PreferenceAccessor.getInstance(this);
+		
+		if (preferences.isHideCompletedFilterActive()){
+			MenuItem showAllMenuItem = builder.add(getStr(R.string.filter_menu_show_all));
+			showAllMenuItem.setIcon(R.drawable.ic_filter_list_grey600_48dp);
+			showAllMenuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {		
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					preferences.setHideCompletedFilterActive(false);
+					updateListView();
+					findViewById(R.id.filter_highlight).setVisibility(View.GONE);
+					return true;
+				}
+			});
+		}else{
+			MenuItem hideCompletedMenuItem = builder.add(getStr(R.string.filter_menu_hide_completed));
+			hideCompletedMenuItem.setIcon(R.drawable.ic_filter_list_grey600_48dp);
+			hideCompletedMenuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {		
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					preferences.setHideCompletedFilterActive(true);
+					updateListView();
+					findViewById(R.id.filter_highlight).setVisibility(View.VISIBLE);
+					return true;
+				}
+			});
+		}
+	
+	    return builder;
+	}
 
 }
