@@ -12,7 +12,7 @@
 	     	     android:text="@string/dialog_select_files_to_download_title"
 	     	     android:padding="10dp"
 	     	     android:textSize="18dp"
-	     	     android:background="@drawable/action_bar_background"/>
+	     	     android:background="@drawable/action_bar_background"/>  	    
          	<ListView
 		        android:id="@+id/files_list"
 		        android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -233,10 +234,11 @@ public class DownloadMasterNetworkDalc {
 	    	    		item.setName(res2);
 	    	    		break;
 	    	    	case 2:
-	    	    		if (res2.trim().equalsIgnoreCase(""))
-	    	    			item.setPercentage(0);
-	    	    		else
+	    	    		try{
 	    	    			item.setPercentage(Float.parseFloat(res2));
+	    	    		}catch(NumberFormatException e){
+	    	    			item.setPercentage(0);
+	    	    		}
 	    	    		break;
 	    	    	case 3:
 	    	    		item.setVolume(res2);
@@ -267,6 +269,9 @@ public class DownloadMasterNetworkDalc {
     	    }
     	    result.add(item);
     	}
+    	
+    	if (result.size() > 0)
+    		 _preferences.setSettingsOk();
     	
     	return result;
     	

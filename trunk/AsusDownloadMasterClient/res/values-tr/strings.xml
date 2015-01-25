@@ -90,5 +90,15 @@
     <string name="dialog_select_files_to_download_title">Indirilecek dosyaları seçin</string>
 	<string name="preference_download_whole_torrent">Tüm torrent dosyalarını indir</string>
 	<string name="preference_download_whole_torrent_summary">Hangi dosyaların ekleneceğini sorma ve hepsini indir</string>
+	<string name="dialog_select_files_to_download_select_all">Hepsini seç</string>
+	<string name="dialog_select_files_to_download_select_none">Hiçbirini seçme</string>
+	
+	<!-- Filters -->
+	<string name="filter_menu_title">Filtre</string>
+	<string name="filter_menu_hide_completed">Tamamlananları gizle</string>
+	<string name="filter_menu_show_all">Hepsini göster</string>
+	
+	<!-- Search -->
+    <string name="search_title">Ara</string>
 	
 </resources>

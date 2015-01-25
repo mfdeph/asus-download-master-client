@@ -62,7 +62,7 @@
     <string name="command_info_part_delete">будет удалена</string>
     <string name="confirmation_message_delete">Вы собираетесь удалить из очереди загрузку. Все загруженные на данный момент файлы будут сохранены. Продолжить?</string>
     <string name="command_info_cannot_connect">Не удалось подключиться к серверу Download Master</string>
-    <string name="command_info_pause_all">Отправлена команда на приосановку всех загрузок.</string>
+    <string name="command_info_pause_all">Отправлена команда на приостановку всех загрузок.</string>
     <string name="command_info_resume_all">Отправлена команда на возобновление всех загрузок.</string>
     <string name="command_info_delete_finished">Отправлена команда на удаление всех завершенных загрузок.</string>
     <string name="confirmation_message_delete_finished">Вы собираетесь удалить все завершенные загрузки. Все загруженные файлы будут сохранены. Продолжить?</string>
@@ -107,5 +107,16 @@
 	<string name="dialog_select_files_to_download_title">Выберите файлы для загрузки</string>
 	<string name="preference_download_whole_torrent">Скачивать торрент полностью</string>
 	<string name="preference_download_whole_torrent_summary">При добавлении торрента не показывать перечень файлов, сразу скачивать все</string>
-    
+	<string name="dialog_select_files_to_download_select_all">Выбрать все</string>
+	<string name="dialog_select_files_to_download_select_none">Очистить все</string>
+	
+	<!-- Filters -->
+	<string name="filter_menu_title">Фильтр</string>
+	<string name="filter_menu_hide_completed">Скрыть завершенные</string>
+	<string name="filter_menu_show_all">Показать все</string>
+	
+	<!-- Search -->
+    <string name="search_title">Поиск</string>
+	
+	
 </resources>
