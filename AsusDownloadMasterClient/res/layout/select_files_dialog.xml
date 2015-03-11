@@ -11,7 +11,7 @@
 				 android:layout_height="wrap_content"
 	     	     android:text="@string/dialog_select_files_to_download_title"
 	     	     android:padding="10dp"
-	     	     android:textSize="18dp"
+	     	     android:textSize="18sp"
 	     	     android:background="@drawable/action_bar_background"/>  	    
          	<ListView
 		        android:id="@+id/files_list"
