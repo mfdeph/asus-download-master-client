@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         android:background="#FFFFFF"
+         android:layout_margin="3dp"
+         android:layout_gravity="center_horizontal">
+         
+      		<RelativeLayout
+	     	    android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+      
+
+		     	    
+		     	<Spinner
+				    android:id="@+id/search_filter"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_alignParentRight="true"
+				    android:spinnerMode="dropdown"
+				    android:layout_marginTop="8dp" />
+		     	
+		     	<android.support.v7.widget.SearchView
+		     	    android:id="@+id/search_view"
+		     	    android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_alignParentLeft="true"
+		     	    android:layout_toLeftOf="@id/search_filter"/>  
+	     	    
+	     	</RelativeLayout>
+	     	    
+	     	<RelativeLayout
+	     	    android:id="@+id/search_progress_bar"
+	     	    android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="6dp"
+				android:visibility="gone">
+	     	
+			    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+			        android:layout_centerHorizontal="true"
+				    android:layout_width="42dp"
+				    android:layout_height="42dp"/>
+	     	
+	     	</RelativeLayout>
+	     	
+         	<ListView
+		        android:id="@+id/search_result_list"
+		        android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:visibility="gone"
+		        />
+     </LinearLayout>

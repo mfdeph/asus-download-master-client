@@ -3,6 +3,7 @@ package com.insolence.admclient;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -399,6 +402,22 @@ public class DownloadItemListActivity extends ActionBarActivity implements OnIte
 	private MenuBuilder buildAddMenu(){
 		
 		MenuBuilder builder = new MenuBuilder(this);
+		
+		MenuItem searchMenuItem = builder.add(getStr(R.string.search_title));
+		searchMenuItem.setIcon(R.drawable.ic_search_grey600_48dp);
+		searchMenuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {		
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Dialog searchDialog = new SearchDialog(DownloadItemListActivity.this);
+				// Setting dialogview
+			    Window window = searchDialog.getWindow();
+			    window.setGravity(Gravity.TOP);
+
+			    window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				searchDialog.show();
+				return true;
+			}
+		});
 		
 		MenuItem addTorrentMenuItem = builder.add(getStr(R.string.menu_item_add_torrent));
 		addTorrentMenuItem.setIcon(R.drawable.ic_file_upload_grey600_48dp);
