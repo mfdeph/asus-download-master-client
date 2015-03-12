@@ -39,15 +39,15 @@ public class SearchDialog extends Dialog{
 		
 		final SearchView searchView = (SearchView) findViewById(R.id.search_view);
 		searchView.onActionViewExpanded();
-		
-		final TorrentSearchManager searchManager = new TorrentSearchManager(getContext(), searchFilter.getSelectedItem().toString());
-		
+
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
 			
 			   private	String currentText = "";
 
 	           @Override
 	           public boolean onQueryTextSubmit(final String query) {
+	        	   
+	        	   final TorrentSearchManager searchManager = new TorrentSearchManager(getContext(), searchFilter.getSelectedItem().toString());
 	        	   
 	        	   searchView.clearFocus();
 	        	   
