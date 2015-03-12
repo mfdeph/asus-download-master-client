@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.insolence.admclient"
     android:versionCode="35"
-    android:versionName="1.12.1" >
+    android:versionName="1.13.0" >
 
     <uses-sdk android:minSdkVersion="9"  android:targetSdkVersion="21"/>
 	<uses-permission android:name="android.permission.INTERNET" /> 
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="com.android.vending.BILLING" />
     <application
         android:icon="@drawable/download_master"
